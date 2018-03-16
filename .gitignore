@@ -1,0 +1,12 @@
+.vs
+obj
+bin
+out
+target
+.idea
+*.iml
+*.pptx
+*.docx
+*.sln
+*.cs
+*.zip
