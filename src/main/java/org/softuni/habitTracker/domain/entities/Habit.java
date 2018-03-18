@@ -1,7 +1,6 @@
 package org.softuni.habitTracker.domain.entities;
 
-import javafx.scene.layout.Priority;
-import org.softuni.habitTracker.util.enums.HabitFrequency;
+import org.softuni.habitTracker.util.enums.HabitFrequencyEnum;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,7 +18,7 @@ public class Habit {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private HabitFrequency frequency;
+    private HabitFrequencyEnum frequency;
 
     @Column(nullable = false)
     private Date startDate;
@@ -59,11 +58,11 @@ public class Habit {
         this.title = title;
     }
 
-    public HabitFrequency getFrequency() {
+    public HabitFrequencyEnum getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(HabitFrequency frequency) {
+    public void setFrequency(HabitFrequencyEnum frequency) {
         this.frequency = frequency;
     }
 

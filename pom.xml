@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>habitTracker</name>
+	<roleName>habitTracker</roleName>
 	<description>Final Project @ SoftUni</description>
 
 
@@ -74,7 +74,7 @@
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
+			<roleName>Spring Milestones</roleName>
 			<url>https://repo.spring.io/libs-milestone</url>
 			<snapshots>
 				<enabled>false</enabled>

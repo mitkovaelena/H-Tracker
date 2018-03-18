@@ -1,5 +1,5 @@
 package org.softuni.habitTracker.util.enums;
 
-public enum Proirity {
+public enum ProirityEnum {
     LOW, MIDDLE, HIGH
 }

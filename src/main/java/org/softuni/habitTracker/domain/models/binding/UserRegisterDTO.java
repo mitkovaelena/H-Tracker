@@ -16,10 +16,10 @@ public class UserRegisterDTO {
     @NotNull
     @Password(minLength = 6,
             maxLength = 50,
-            containsDigit = true,
-            containsLowerCase = true,
-            containsUpperCase = true,
-            containsSpecialSymbols = true)
+            containsDigit = false,
+            containsLowerCase = false,
+            containsUpperCase = false,
+            containsSpecialSymbols = false)
     private String password;
 
     private String confirmPassword;
