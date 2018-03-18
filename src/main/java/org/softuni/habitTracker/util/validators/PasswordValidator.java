@@ -28,8 +28,13 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
     }
 
     @Override
-    public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
-        if (password.length() <  this.minLength || password.length() > this.maxLength) {
+    public boolean isValid(String password, ConstraintValidatorContext context) {
+        if (password.length() < this.minLength || password.length() > this.maxLength) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                    "Password must be between " + this.maxLength
+                            + " and " + this.maxLength + " characters long.")
+                    .addConstraintViolation();
             return false;
         }
 
@@ -37,6 +42,9 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
         Matcher matcher = pattern.matcher(password);
 
         if (this.containsLowerCase && !matcher.find()) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Password must contain at least one lowercase character.")
+                    .addConstraintViolation();
             return false;
         }
 
@@ -44,6 +52,9 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
         matcher = pattern.matcher(password);
 
         if (this.containsUpperCase && !matcher.find()) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Password must contain at least one uppercase character.")
+                    .addConstraintViolation();
             return false;
         }
 
@@ -51,6 +62,9 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
         matcher = pattern.matcher(password);
 
         if (this.containsSpecialSymbols && !matcher.find()) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Password must contain at least one special symbol.")
+                    .addConstraintViolation();
             return false;
         }
 
@@ -58,6 +72,9 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
         matcher = pattern.matcher(password);
 
         if (this.containsDigit && !matcher.find()) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Password must contain at least one digit.")
+                    .addConstraintViolation();
             return false;
         }
 

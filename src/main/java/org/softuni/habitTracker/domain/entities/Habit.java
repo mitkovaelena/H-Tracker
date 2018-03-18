@@ -37,6 +37,8 @@ public class Habit {
 //    @Enumerated(EnumType.STRING)
 //    private Priority priority;
 
+    // Category category
+
 
     public Habit() {
     }

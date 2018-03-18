@@ -1,21 +1,16 @@
-package org.softuni.habitTracker.domain.models;
+package org.softuni.habitTracker.domain.models.binding;
 
 import org.softuni.habitTracker.util.validators.Email;
 import org.softuni.habitTracker.util.validators.Password;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "users")
-public class UserAddDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class UserRegisterDTO {
     @NotNull
-    @Size(min = 4, max = 30, message = "Username is too long/short")
+    @Size(min = 4, max = 30, message = "Username must be between 4 and 30 characters long.")
     private String username;
 
     @NotNull
@@ -27,37 +22,24 @@ public class UserAddDTO {
             containsSpecialSymbols = true)
     private String password;
 
-    @Email()
+    private String confirmPassword;
+
+    @Email(message = "Invalid email.")
     @NotNull
     private String email;
 
-    @NotNull
     private String firstName;
 
     private String lastName;
 
-   // private Date registeredOn;
+    // private Date registeredOn;
 
-   // private Date lastTimeLoggedIn;
-
-   // private Integer age;
-
-   // private Boolean isDeleted;
+    // private Integer age;
 
     // profile picture?
-//
-//    @ManyToMany
-//    @JoinTable(name = "users_friends",
-//            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "friend_id", referencedColumnName = "id"))
-//    private List<User> friends;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
+    public UserRegisterDTO() {
     }
 
     public String getUsername() {
@@ -98,5 +80,13 @@ public class UserAddDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

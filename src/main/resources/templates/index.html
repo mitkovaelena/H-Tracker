@@ -1,11 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{fragments/head}"></div>
 
+
 <body>
-<div th:replace="~{fragments/header}"></div>
-<div class="container">
-    Home
-</div>
+
+<section id="container">
+    <div th:replace="~{fragments/header}"></div>
+    <div th:replace="~{fragments/sidebar}"></div>
+    <div th:replace="~{fragments/footer}"></div>
+</section>
+<div th:replace="~{fragments/scripts}"></div>
 </body>
 </html>
