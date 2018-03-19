@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <div th:replace="~{fragments/head}"></div>
 <body>
 <section id="container">
@@ -23,9 +26,6 @@
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
                         <input type="password" class="form-control" placeholder="Password" name="password"
                                th:value="*{getPassword()}" id="password">
-                        <div class="help-block has-errors" th:if="${#fields.hasErrors('password')}"
-                             th:each="error : ${#fields.errors('password')}" th:text="${error}">
-                        </div>
                     </div>
                     <!--<label class="checkbox">-->
                     <!--<span class="pull-right">-->

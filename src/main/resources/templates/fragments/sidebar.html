@@ -1,12 +1,9 @@
-<aside>
+<aside xmlns:sec="http://www.thymeleaf.org/extras/spring-security" sec:authorize="isAuthenticated()">
     <div id="sidebar"  class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-
             <p class="centered"><a href="/users/profile"><img src="/assets/img/logo.png" class="img-circle" width="60"></a></p>
-            <h5 class="centered">Elena Nikolova</h5>
-
-
+            <h5 class="centered" sec:authentication="name">Elena Nikolova</h5>
         </ul>
         <!-- sidebar menu end-->
     </div>

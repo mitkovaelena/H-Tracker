@@ -19,9 +19,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/users/register", "/assets/**", "/users/login").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/users/login").permitAll()
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .and().logout().logoutUrl("/users/logout").logoutSuccessUrl("/").permitAll()
+                .failureUrl("/users/login?error=true")
+                .and().logout().logoutUrl("/users/logout").logoutSuccessUrl("/")
                 .and().exceptionHandling().accessDeniedPage("/unauthorized")
                 .and().csrf().csrfTokenRepository(csrfTokenRepository());
     }

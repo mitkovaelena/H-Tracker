@@ -1,20 +1,18 @@
 package org.softuni.habitTracker.domain.models.binding;
 
-import org.softuni.habitTracker.util.validators.Email;
-import org.softuni.habitTracker.util.validators.Password;
+import org.softuni.habitTracker.util.Constants;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class UserLoginDTO {
+
     @NotNull
-    @NotEmpty(message = "Username must not be empty")
+    @NotEmpty(message = Constants.USERNAME_NOT_EMPTY)
     private String username;
 
     @NotNull
-    @NotEmpty(message = "Password must not be empty")
+    @NotEmpty(message = Constants.PASSWORD_NOT_EMPTY)
     private String password;
 
     public UserLoginDTO() {

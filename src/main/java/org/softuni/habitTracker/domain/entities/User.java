@@ -1,14 +1,8 @@
 package org.softuni.habitTracker.domain.entities;
 
-import org.softuni.habitTracker.util.validators.Email;
-import org.softuni.habitTracker.util.validators.Password;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity

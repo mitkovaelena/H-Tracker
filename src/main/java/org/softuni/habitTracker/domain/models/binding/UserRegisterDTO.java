@@ -1,16 +1,19 @@
 package org.softuni.habitTracker.domain.models.binding;
 
-import org.softuni.habitTracker.util.validators.Email;
+import org.softuni.habitTracker.util.Constants;
+import org.softuni.habitTracker.util.validators.EqualFields;
 import org.softuni.habitTracker.util.validators.Password;
+import org.softuni.habitTracker.util.validators.UsernameUnique;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@EqualFields(baseField = "password", matchField = "confirmPassword", message = Constants.PASSWORDS_MISMATCH)
 public class UserRegisterDTO {
     @NotNull
-    @Size(min = 4, max = 30, message = "Username must be between 4 and 30 characters long.")
+    @Size(min = 4, max = 30, message = Constants.USERNAME_LENGTH)
+    @UsernameUnique
     private String username;
 
     @NotNull
@@ -24,7 +27,7 @@ public class UserRegisterDTO {
 
     private String confirmPassword;
 
-    @Email(message = "Invalid email.")
+    @Pattern(regexp = "^[A-Za-z0-9][A-Za-z0-9.-_]*[A-Za-z0-9]@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\w+$", message = Constants.INVALID_EMAIL)
     @NotNull
     private String email;
 

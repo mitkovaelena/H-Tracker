@@ -1,11 +1,13 @@
-<header class="header black-bg">
-    <div class="sidebar-toggle-box">
+<header class="header black-bg" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="sidebar-toggle-box" sec:authorize="isAuthenticated()">
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
     <a href="/" class="logo"><b>HABIT TRACKER</b></a>
     <div class="top-menu">
         <ul class="nav pull-right top-menu">
-            <li><a class="logout" href="/users/logout">Logout</a></li>
+            <li sec:authorize="isAnonymous()"><a class="register" href="/users/register">Register</a></li>
+            <li sec:authorize="isAnonymous()"><a class="login" href="/users/login">Login</a></li>
+            <li sec:authorize="isAuthenticated()"><a class="logout" href="/users/logout">Logout</a></li>
         </ul>
     </div>
 </header>
