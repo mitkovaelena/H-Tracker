@@ -16,4 +16,11 @@ public class Constants {
     public static final String INVALID_EMAIL = "Invalid email.";
     public static final String FIELDS_MISMATCH = "Fields Mismatch.";
     public static final String INCORRECT_USERNAME_OR_PASSWORD = "Incorrect Username or Password.";
+
+    public static final String TITLE_NOT_EMPTY = "Title must not be empty";
+    public static final String FREQUENCY_NOT_EMPTY = "Frequency must not be empty";
+    public static final String DATE_NOT_EMPTY = "Date must not be empty";
+    public static final String INVALID_DATE = "Invalid date.";
+
+
 }

@@ -5,6 +5,7 @@ import org.softuni.habitTracker.domain.entities.User;
 import org.softuni.habitTracker.domain.models.binding.UserRegisterDTO;
 import org.softuni.habitTracker.repositories.RoleRepository;
 import org.softuni.habitTracker.repositories.UserRepository;
+import org.softuni.habitTracker.util.Constants;
 import org.softuni.habitTracker.util.enums.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,6 +50,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        return this.userRepository.findByUsername(username);
+        User user = this.userRepository.findByUsername(username);
+        if(user == null){
+            throw new UsernameNotFoundException(Constants.INCORRECT_USERNAME_OR_PASSWORD);
+        }
+
+        return user;
     }
 }

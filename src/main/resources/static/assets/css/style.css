@@ -215,7 +215,7 @@ hr {
     background-color: #68dff0;
 }
 
-ul.top-menu > li > .logout, ul.top-menu > li > .login, ul.top-menu > li > .register {
+ul.top-menu > li > .nav-button {
     color: #f2f2f2;
     font-size: 13px;
     border-radius: 4px;
@@ -1983,8 +1983,8 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     border-color: #41cac0;
 }
 
-/*LOGIN AND REGISTER CONFIGURATION PAGE*/
-.form-login, .form-register {
+/* FORMS */
+.form-login, .form-register, .form-add-habit {
     max-width: 400px;
     margin: 100px auto 100px;
     background: #fff;
@@ -1992,7 +1992,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     -webkit-border-radius: 5px;
 }
 
-.form-login h2.form-login-heading, .form-register h2.form-register-heading {
+.form-login h2.form-login-heading, .form-register h2.form-register-heading, .form-add-habit-heading {
     margin: 0;
     padding: 25px 20px;
     text-align: center;
@@ -2005,7 +2005,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     font-weight: 300;
 }
 
-.login-wrap, .register-wrap {
+.login-wrap, .register-wrap, .add-habit-wrap {
     padding: 20px;
 }
 
@@ -2021,6 +2021,10 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 
 .help-block {
     margin-bottom: 0;
+}
+
+legend{
+    font-size: 14px;
 }
 
 /*LOCK SCREEN CONF*/

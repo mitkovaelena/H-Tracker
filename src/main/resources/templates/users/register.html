@@ -2,11 +2,11 @@
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><div th:replace="~{fragments/head}"></div>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:replace="~{fragments/head}"></div>
 <body>
 <section id="container">
     <div th:replace="~{fragments/header}"></div>
-    <div th:replace="~{fragments/sidebar}"></div>
 
     <!-- MAIN CONTENT -->
     <div id="register-page">
@@ -14,32 +14,32 @@
             <form class="form-register" th:action="@{/users/register}" th:method="post"
                   th:object="${userRegisterModel}">
                 <h2 class="form-register-heading">register</h2>
-                <div class="register-wrap">
+                <div class="register-wrap container-fluid">
                     <div class="form-group col-md-12"  th:classappend="${#fields.hasErrors('username')} ? 'has-error'">
                         <input type="text" class="form-control" placeholder="Username" name="username" id="username"
                                th:value="*{getUsername()}" autofocus>
-                        <div class="help-block has-errors" th:if="${#fields.hasErrors('username')}"
+                        <div class="help-block has-error" th:if="${#fields.hasErrors('username')}"
                              th:each="error : ${#fields.errors('username')}" th:text="${error}">
                         </div>
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
                         <input type="password" class="form-control" placeholder="Password" name="password"
                                id="password">
-                        <div class="help-block has-errors" th:if="${#fields.hasErrors('password')}"
+                        <div class="help-block has-error" th:if="${#fields.hasErrors('password')}"
                              th:each="error : ${#fields.errors('password')}" th:text="${error}">
                         </div>
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'has-error'">
                         <input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword"
                                id="confirmPassword">
-                        <div class="help-block has-errors" th:if="${#fields.hasErrors('confirmPassword')}"
+                        <div class="help-block has-error" th:if="${#fields.hasErrors('confirmPassword')}"
                              th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}">
                         </div>
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
                         <input type="email" class="form-control" placeholder="Email" name="email" id="email"
                                th:value="*{getEmail()}">
-                        <div class="help-block has-errors" th:if="${#fields.hasErrors('email')}"
+                        <div class="help-block has-error" th:if="${#fields.hasErrors('email')}"
                              th:each="error : ${#fields.errors('email')}" th:text="${error}">
                         </div>
                     </div>
@@ -52,10 +52,10 @@
                                th:value="*{getLastName()}">
                     </div>
                     <div class="form-group col-md-12">
-                        <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> REGISTER
-                        </button>
+                        <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> REGISTER</button>
                     </div>
-                    <div class="login">Already have an account?<br/>
+                    <div class="login">Already have an account?
+                        <br/>
                         <a class="" th:href="@{/users/login}">Log in</a>
                     </div>
                 </div>
@@ -63,8 +63,7 @@
         </div>
     </div>
 </section>
+<div th:replace="~{fragments/footer}"></div>
 <div th:replace="~{fragments/scripts}"></div>
-
-
 </body>
 </html>

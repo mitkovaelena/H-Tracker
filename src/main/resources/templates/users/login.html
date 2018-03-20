@@ -3,23 +3,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <div th:replace="~{fragments/head}"></div>
 <body>
 <section id="container">
     <div th:replace="~{fragments/header}"></div>
-    <div th:replace="~{fragments/sidebar}"></div>
 
     <!-- MAIN CONTENT -->
     <div id="login-page">
         <div class="container">
             <form class="form-login" th:action="@{/users/login}" th:method="post" th:object="${userLoginModel}">
                 <h2 class="form-login-heading">sign in</h2>
-                <div class="login-wrap">
+                <div class="login-wrap container-fluid">
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('username')} ? 'has-error'">
                         <input type="text" class="form-control" placeholder="Username" name="username" id="username"
                                th:value="*{getUsername()}" autofocus>
-                        <div class="help-block has-errors" th:if="${#fields.hasErrors('username')}"
+                        <div class="help-block has-error" th:if="${#fields.hasErrors('username')}"
                              th:each="error : ${#fields.errors('username')}" th:text="${error}">
                         </div>
                     </div>
@@ -33,14 +31,11 @@
                     <!--</span>-->
                     <!--</label>-->
                     <div class="form-group col-md-12">
-                        <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN IN
-                        </button>
+                        <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-arrow-circle-right"></i> SIGN IN</button>
                     </div>
-                    <div class="registration">
-                        Don't have an account yet?<br/>
-                        <a class="" th:href="@{/users/register}">
-                            Create an account
-                        </a>
+                    <div class="registration">Don't have an account yet?
+                        <br/>
+                        <a class="" th:href="@{/users/register}">Create an account</a>
                     </div>
                 </div>
 
@@ -70,7 +65,7 @@
         </div>
     </div>
 </section>
+<div th:replace="~{fragments/footer}"></div>
 <div th:replace="~{fragments/scripts}"></div>
-
 </body>
 </html>

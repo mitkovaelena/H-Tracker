@@ -28,9 +28,9 @@ public class EqualFieldsValidator implements ConstraintValidator<EqualFields, Ob
  
     private Object getFieldValue(Object object, String fieldName) throws Exception {
         Class<?> clazz = object.getClass();
-        Field passwordField = clazz.getDeclaredField(fieldName);
-        passwordField.setAccessible(true);
-        return passwordField.get(object);
+        Field field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(object);
     }
  
 }

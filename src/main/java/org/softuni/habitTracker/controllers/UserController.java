@@ -43,21 +43,25 @@ public class UserController {
 
     @PostMapping(path = "/register")
     @PreAuthorize("isAnonymous()")
-    public String register(@Valid @ModelAttribute("userRegisterModel") UserRegisterDTO userRegisterDTO, BindingResult bindingResult) {
+    public ModelAndView register(ModelAndView modelAndView, @Valid @ModelAttribute("userRegisterModel") UserRegisterDTO userRegisterDTO,
+                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             if(bindingResult.hasGlobalErrors()){
-                bindingResult.rejectValue("confirmPassword", "error.user", Constants.FIELDS_MISMATCH);
+                bindingResult.rejectValue("confirmPassword", "error.user", Constants.PASSWORDS_MISMATCH);
             }
-            return "users/register";
+            modelAndView.setViewName("users/register");
+            return modelAndView;
         }
 
         this.userService.saveUser(userRegisterDTO);
-        return "redirect:/users/login";
+        modelAndView.setViewName("redirect:/users/login");
+        return modelAndView;
     }
 
     @GetMapping(path = "/login")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView login(ModelAndView modelAndView, @ModelAttribute("userLoginModel") UserLoginDTO userLoginDTO, @RequestParam(required = false) String error, BindingResult bindingResult) {
+    public ModelAndView login(ModelAndView modelAndView, @ModelAttribute("userLoginModel") UserLoginDTO userLoginDTO,
+                              @RequestParam(required = false) String error, BindingResult bindingResult) {
         if(error != null){
             bindingResult.rejectValue("username", "error.user", Constants.INCORRECT_USERNAME_OR_PASSWORD);
             bindingResult.rejectValue("password", "error.user",Constants.INCORRECT_USERNAME_OR_PASSWORD);
@@ -70,8 +74,10 @@ public class UserController {
 
     @GetMapping(path = "/logout")
     @PreAuthorize("isAuthenticated()")
-    public String logout(HttpSession session) {
+    public ModelAndView logout(ModelAndView modelAndView, HttpSession session) {
         session.invalidate();
-        return "redirect:/";
+        modelAndView.setViewName("redirect:/");
+
+        return modelAndView;
     }
 }

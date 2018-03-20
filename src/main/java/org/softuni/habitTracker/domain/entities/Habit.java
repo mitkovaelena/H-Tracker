@@ -30,14 +30,13 @@ public class Habit {
     private User user;
 
     @OneToMany(mappedBy = "habit", targetEntity = Log.class)
-    private Set<Habit> logs;
+    private Set<Log> logs;
 
 //    @Column(nullable = false)
 //    @Enumerated(EnumType.STRING)
 //    private Priority priority;
 
     // Category category
-
 
     public Habit() {
     }
@@ -90,11 +89,11 @@ public class Habit {
         this.user = user;
     }
 
-    public Set<Habit> getLogs() {
+    public Set<Log> getLogs() {
         return logs;
     }
 
-    public void setLogs(Set<Habit> logs) {
+    public void setLogs(Set<Log> logs) {
         this.logs = logs;
     }
 }

@@ -5,9 +5,10 @@
     <a href="/" class="logo"><b>HABIT TRACKER</b></a>
     <div class="top-menu">
         <ul class="nav pull-right top-menu">
-            <li sec:authorize="isAnonymous()"><a class="register" href="/users/register">Register</a></li>
-            <li sec:authorize="isAnonymous()"><a class="login" href="/users/login">Login</a></li>
-            <li sec:authorize="isAuthenticated()"><a class="logout" href="/users/logout">Logout</a></li>
+            <li sec:authorize="isAuthenticated()"><a class="nav-button" href="/habits/add">Add Habit</a></li>
+            <li sec:authorize="isAnonymous()"><a class="nav-button" href="/users/register">Register</a></li>
+            <li sec:authorize="isAnonymous()"><a class="nav-button" href="/users/login">Login</a></li>
+            <li sec:authorize="isAuthenticated()"><a class="nav-button" href="/users/logout">Logout</a></li>
         </ul>
     </div>
 </header>

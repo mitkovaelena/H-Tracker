@@ -14,6 +14,8 @@ public class Role implements GrantedAuthority {
     @Column(unique = true)
     private String role;
 
+    //users?
+
     public Role() {
     }
 
