@@ -10,11 +10,11 @@
     <div th:replace="~{fragments/sidebar}"></div>
 
     <!-- MAIN CONTENT -->
-    <div id="add-page">
+    <div id="edit-page">
         <div class="container">
-            <form class="form-add-habit" th:action="@{/habits/add}" th:method="post"
-                  th:object="${habitAddModel}">
-                <h2 class="form-add-habit-heading">Add Habit</h2>
+            <form class="form-add-habit" th:action="@{/habits/edit/{id}(id = ${habitEditModel.getId()})}" th:method="post"
+                  th:object="${habitEditModel}">
+                <h2 class="form-add-habit-heading">Edit Habit</h2>
                 <div class="add-habit-wrap container-fluid">
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('title')} ? 'has-error'">
                         <label for="title">Title</label>
@@ -31,33 +31,29 @@
                                 <input type="radio" class="form-check-input" id="frequency" name="frequency"
                                        th:value="${frequency}"
                                        th:text="${frequency}"
-                                       th:checked="${habitAddModel.getFrequency() == frequency}">
+                                       th:checked="${habitEditModel.getFrequency() == frequency}">
                             </label>
                         </fieldset>
                         <div class="help-block has-error" th:if="${#fields.hasErrors('frequency')}"
                              th:each="error : ${#fields.errors('frequency')}" th:text="${error}" id="startDateHelpBlock">
                         </div>
                     </div>
-                    <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('startDate')} ? 'has-error'">
+                    <div class="form-group col-md-12" >
                         <label for="startDate">Start Date</label>
-                        <input type="date" class="form-control" id="startDate" name="startDate"
-                               th:value="${#dates.format(habitAddModel.getStartDate(), 'yyyy-MM-dd')}"
-                        th:min="${#dates.format(#dates.createToday(), 'yyyy-MM-dd')}" onchange="setEndDateMin(this.value)">
-                        <div class="help-block has-error" th:if="${#fields.hasErrors('startDate')}"
-                             th:each="error : ${#fields.errors('startDate')}" th:text="${error}" id="endDateHelpBlock">
-                        </div>
+                        <input type="date" class="form-control" id="startDate"
+                               th:value="${#dates.format(startDate, 'yyyy-MM-dd')}" disabled>
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('endDate')} ? 'has-error'">
                         <label for="endDate">End Date</label>
                         <input type="date" class="form-control" id="endDate" name="endDate"
-                               th:min="${#dates.format(#dates.createToday(), 'yyyy-MM-dd')}"
-                               th:value="${#dates.format(habitAddModel.getEndDate(), 'yyyy-MM-dd')}">
+                               th:min="${#dates.format(startDate, 'yyyy-MM-dd')}"
+                               th:value="${#dates.format(habitEditModel.getEndDate(), 'yyyy-MM-dd')}">
                         <div class="help-block has-error" th:if="${#fields.hasErrors('endDate')}"
                              th:each="error : ${#fields.errors('endDate')}" th:text="${error}">
                         </div>
                     </div>
                     <div class="form-group col-md-12">
-                        <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-plus"></i> ADD</button>
+                        <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-pencil"></i> EDIT</button>
                     </div>
                 </div>
             </form>
@@ -66,10 +62,5 @@
 </section>
 <div th:replace="~{fragments/footer}"></div>
 <div th:replace="~{fragments/scripts}"></div>
-<script>
-    function setEndDateMin(date) {
-        $('#endDate').attr( 'min', date );
-    }
-</script>
 </body>
 </html>

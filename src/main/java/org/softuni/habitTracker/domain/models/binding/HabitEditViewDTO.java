@@ -12,8 +12,9 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
-@EndDateAfterStartDate(message = Constants.INVALID_DATE)
-public class HabitAddDTO {
+public class HabitEditViewDTO {
+    private Long id;
+
     @NotNull
     @NotEmpty(message = Constants.TITLE_NOT_EMPTY)
     private String title;
@@ -21,17 +22,18 @@ public class HabitAddDTO {
     @NotNull(message = Constants.FREQUENCY_NOT_EMPTY)
     private String frequency;
 
-    @NotNull(message = Constants.DATE_NOT_EMPTY)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @PresentOrFuture
-    private Date startDate;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    private User user;
+    public HabitEditViewDTO() {
+    }
 
-    public HabitAddDTO() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -50,14 +52,6 @@ public class HabitAddDTO {
         this.frequency = frequency;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
     public Date getEndDate() {
         return endDate;
     }
@@ -65,13 +59,4 @@ public class HabitAddDTO {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
 }

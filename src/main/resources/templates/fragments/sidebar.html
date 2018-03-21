@@ -1,9 +1,34 @@
 <aside xmlns:sec="http://www.thymeleaf.org/extras/spring-security" sec:authorize="isAuthenticated()">
-    <div id="sidebar"  class="nav-collapse ">
+    <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="/users/profile"><img src="/assets/img/logo.png" class="img-circle" width="60"></a></p>
+            <p class="centered"><a href="/users/profile"><img src="/assets/img/logo.png" class="img-circle" width="60"></a>
+            </p>
             <a href="/users/profile"><h5 class="centered" sec:authentication="name"></h5></a>
+            <li class="mt">
+                <a class="active" href="/activities/add">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Add Activity</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="/users/profile">
+                    <i class="fa fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="/habits/all">
+                    <i class="fa fa-puzzle-piece"></i>
+                    <span>My Habits</span>
+                </a>
+            </li>
+            <li class="mt">
+                <a href="/activities/all">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>My Activity Log</span>
+                </a>
+            </li>
         </ul>
         <!-- sidebar menu end-->
     </div>
