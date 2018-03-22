@@ -1,7 +1,6 @@
 var Script = function () {
 
     //morris chart
-
     $(function () {
       // data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type
       var tax_data = [
@@ -99,7 +98,6 @@ var Script = function () {
         eval($(el).text());
       });
     });
-
 }();
 
 

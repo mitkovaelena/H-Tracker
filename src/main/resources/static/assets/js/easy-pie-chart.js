@@ -1,7 +1,4 @@
 var Script = function () {
-
-// easy pie chart
-
     $('.percentage').easyPieChart({
         animate: 1000,
         size: 135,
@@ -35,5 +32,4 @@ var Script = function () {
             $('span', this).text(newValue);
         });
     });
-
 }();

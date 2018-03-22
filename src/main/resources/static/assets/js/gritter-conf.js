@@ -1,7 +1,6 @@
 var Gritter = function () {
 
     $('#add-sticky').click(function(){
-
         var unique_id = $.gritter.add({
             // (string | mandatory) the heading of the notification
             title: 'This is a Sticky Notice!',
@@ -25,12 +24,10 @@ var Gritter = function () {
          fade: true,
          speed: 'slow'
          });
-
          }, 6000)
          */
 
         return false;
-
     });
 
     $('#add-regular').click(function(){
@@ -47,9 +44,7 @@ var Gritter = function () {
             // (int | optional) the time you want it to be alive for before fading out
             time: ''
         });
-
         return false;
-
     });
 
     $('#add-max').click(function(){
@@ -72,9 +67,7 @@ var Gritter = function () {
                 }
             }
         });
-
         return false;
-
     });
 
     $('#add-without-image').click(function(){
@@ -85,12 +78,10 @@ var Gritter = function () {
             // (string | mandatory) the text inside the notification
             text: 'This will fade out after a certain amount of time. This note also contains a link example. Thank you so much to try Dashgum. Developed by <a href="#" style="color:#FFD777">Alvarez.is</a>.'
         });
-
         return false;
     });
 
     $('#add-gritter-light').click(function(){
-
         $.gritter.add({
             // (string | mandatory) the heading of the notification
             title: 'This is a Light Notification',
@@ -98,17 +89,11 @@ var Gritter = function () {
             text: 'Just add a "gritter-light" class_name to your $.gritter.add or globally to $.gritter.options.class_name',
             class_name: 'gritter-light'
         });
-
         return false;
     });
 
     $("#remove-all").click(function(){
-
         $.gritter.removeAll();
         return false;
-
     });
-
-
-
 }();

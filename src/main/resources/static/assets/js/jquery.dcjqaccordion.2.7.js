@@ -9,7 +9,6 @@
  */
 
 (function($){
-
 	$.fn.dcAccordion = function(options) {
 
 		//set default options 
@@ -35,7 +34,6 @@
 		var options = $.extend(defaults, options);
 
 		this.each(function(options){
-
 			var obj = this;
 			setUpAccordion();
 //			if(defaults.saveState == true){
@@ -47,7 +45,6 @@
 			resetAccordion();
 
 			if(defaults.eventType == 'hover'){
-
 				var config = {
 					sensitivity: 2, // number = sensitivity threshold (must be 1 or higher)
 					interval: defaults.hoverDelay, // number = milliseconds for onMouseOver polling interval
@@ -64,7 +61,6 @@
 					timeout: 1000, // number = milliseconds delay before onMouseOut
 					out: menuOut // function = onMouseOut callback (REQUIRED)
 				};
-
 				$(obj).hoverIntent(configMenu);
 
 				// Disable parent links
@@ -76,11 +72,8 @@
 						}
 					});
 				}
-
 			} else {
-			
 				$('li a',obj).click(function(e){
-
 					$activeLi = $(this).parent('li');
 					$parentsLi = $activeLi.parents('li');
 					$parentsUl = $activeLi.parents('ul');
@@ -114,7 +107,6 @@
 
 			// Set up accordion
 			function setUpAccordion(){
-
 				$arrow = '<span class="'+defaults.classArrow+'"></span>';
 				var classParentLi = defaults.classParent+'-li';
 				$('> ul',obj).show();
@@ -138,7 +130,6 @@
 			}
 			
 			function linkOver(){
-
 			$activeLi = $(this).parent('li');
 			$parentsLi = $activeLi.parents('li');
 			$parentsUl = $activeLi.parents('ul');
@@ -146,7 +137,6 @@
 			// Auto close sibling menus
 			if(defaults.autoClose == true){
 				autoCloseAccordion($parentsLi, $parentsUl);
-
 			}
 
 			if ($('> ul',$activeLi).is(':visible')){

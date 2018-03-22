@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
-public class HabitEditViewDTO {
+public class HabitEditDTO {
     private Long id;
 
     @NotNull
@@ -25,7 +25,7 @@ public class HabitEditViewDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    public HabitEditViewDTO() {
+    public HabitEditDTO() {
     }
 
     public Long getId() {

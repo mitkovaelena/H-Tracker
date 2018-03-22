@@ -1,7 +1,6 @@
 var TaskList = function () {
 
     return {
-
         initTaskWidget: function () {
 			$('input.list-child').change(function() {
 				if ($(this).is(':checked')) { 
@@ -11,7 +10,5 @@ var TaskList = function () {
 				}
 			}); 
         }
-
     };
-
 }();

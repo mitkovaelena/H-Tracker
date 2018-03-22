@@ -15,7 +15,6 @@
 */
 
 (function($) {
-
 	var delimiter = new Array();
 	var tags_callbacks = new Array();
 	$.fn.doAutosize = function(o){
@@ -129,9 +128,7 @@
 						f.call(this, $(this), tagslist[i-1]);
 					}					
 				}
-		
-			});		
-			
+			});
 			return false;
 		};
 		
@@ -272,8 +269,6 @@
 							return false;
 						});
 					}
-				
-					
 				} else {
 						// if a user tabs out of the field, create a new tag
 						// this is only available if autocomplete is not used.
@@ -328,9 +323,7 @@
 				}
 			} // if settings.interactive
 		});
-			
 		return this;
-	
 	};
 	
 	$.fn.tagsInput.updateTagsField = function(obj,tagslist) { 
@@ -351,5 +344,4 @@
 			f.call(obj, obj, tags[i]);
 		}
 	};
-
 })(jQuery);

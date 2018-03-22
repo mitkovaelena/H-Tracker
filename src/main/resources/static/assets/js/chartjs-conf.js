@@ -1,6 +1,4 @@
 var Script = function () {
-
-
     var doughnutData = [
         {
             value: 30,
@@ -22,7 +20,6 @@ var Script = function () {
             value : 120,
             color : "#34495e"
         }
-
     ];
     var lineChartData = {
         labels : ["","","","","","",""],
@@ -42,7 +39,6 @@ var Script = function () {
                 data : [28,48,40,19,96,27,100]
             }
         ]
-
     };
     var pieData = [
         {
@@ -57,7 +53,6 @@ var Script = function () {
             value : 100,
             color : "#27ae60"
         }
-
     ];
     var barChartData = {
         labels : ["January","February","March","April","May","June","July"],
@@ -73,7 +68,6 @@ var Script = function () {
                 data : [28,48,40,19,96,27,100]
             }
         ]
-
     };
     var chartData = [
         {
@@ -119,7 +113,6 @@ var Script = function () {
                 data : [28,48,40,19,96,27,100]
             }
         ]
-
     };
     new Chart(document.getElementById("doughnut").getContext("2d")).Doughnut(doughnutData);
     new Chart(document.getElementById("line").getContext("2d")).Line(lineChartData);
@@ -127,6 +120,4 @@ var Script = function () {
     new Chart(document.getElementById("polarArea").getContext("2d")).PolarArea(chartData);
     new Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
     new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
-
-
 }();

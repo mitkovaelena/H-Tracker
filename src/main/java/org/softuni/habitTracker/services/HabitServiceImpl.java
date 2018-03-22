@@ -5,7 +5,7 @@ import org.softuni.habitTracker.domain.entities.Habit;
 import org.softuni.habitTracker.domain.entities.Log;
 import org.softuni.habitTracker.domain.entities.User;
 import org.softuni.habitTracker.domain.models.binding.HabitAddDTO;
-import org.softuni.habitTracker.domain.models.binding.HabitEditViewDTO;
+import org.softuni.habitTracker.domain.models.binding.HabitEditDTO;
 import org.softuni.habitTracker.domain.models.binding.HabitViewDTO;
 import org.softuni.habitTracker.repositories.HabitRepository;
 import org.softuni.habitTracker.repositories.LogRepository;
@@ -42,24 +42,24 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public HabitEditViewDTO getHabitById(Long id) {
+    public HabitEditDTO getHabitById(Long id) {
         Optional<Habit> habitOptional = this.habitRepository.findById(id);
-        HabitEditViewDTO habitEditViewDTO = null;
+        HabitEditDTO habitEditDTO = null;
         if (habitOptional.isPresent()) {
-            habitEditViewDTO = modelMapper.map(habitOptional.get(), HabitEditViewDTO.class);
+            habitEditDTO = modelMapper.map(habitOptional.get(), HabitEditDTO.class);
         }
-        return habitEditViewDTO;
+        return habitEditDTO;
     }
 
     @Override
-    public void editHabit(Long id, HabitEditViewDTO habitEditViewDTO) {
-        Habit editedHabit = modelMapper.map(habitEditViewDTO, Habit.class);
+    public void editHabit(Long id, HabitEditDTO habitEditDTO) {
+        Habit editedHabit = modelMapper.map(habitEditDTO, Habit.class);
         Habit habit = this.habitRepository.findById(id).get();
         editedHabit.setUser(habit.getUser());
         editedHabit.setId(id);
         editedHabit.setLogs(habit.getLogs());
         editedHabit.setStartDate(habit.getStartDate());
-        editedHabit.setFrequency(HabitFrequencyEnum.valueOf(habitEditViewDTO.getFrequency().toUpperCase().replace(' ', '_')));
+        editedHabit.setFrequency(HabitFrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
         this.habitRepository.save(editedHabit);
     }
 

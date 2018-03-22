@@ -2,7 +2,7 @@ package org.softuni.habitTracker.controllers;
 
 import org.softuni.habitTracker.domain.entities.User;
 import org.softuni.habitTracker.domain.models.binding.HabitAddDTO;
-import org.softuni.habitTracker.domain.models.binding.HabitEditViewDTO;
+import org.softuni.habitTracker.domain.models.binding.HabitEditDTO;
 import org.softuni.habitTracker.domain.models.binding.HabitViewDTO;
 import org.softuni.habitTracker.services.HabitService;
 import org.softuni.habitTracker.util.Constants;
@@ -76,22 +76,22 @@ public class HabitController {
 
     @GetMapping(path = "/edit/{id}")
     public ModelAndView edit(ModelAndView modelAndView, @PathVariable("id") Long id) {
-        HabitEditViewDTO habitEditViewDTO = this.habitService.getHabitById(id);
+        HabitEditDTO habitEditDTO = this.habitService.getHabitById(id);
         modelAndView.setViewName("habits/edit");
         modelAndView.addObject("startDate", this.habitService.getStartDateById(id));
-        modelAndView.addObject("habitEditModel", habitEditViewDTO);
+        modelAndView.addObject("habitEditModel", habitEditDTO);
         modelAndView.addObject("frequencies", Stream.of(HabitFrequencyEnum.values())
                 .map(HabitFrequencyEnum::getFrequencyName).collect(Collectors.toList()));
         return modelAndView;
     }
 
     @PostMapping(path = "/edit/{id}")
-    public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("habitEditModel") HabitEditViewDTO habitEditViewDTO,
+    public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("habitEditModel") HabitEditDTO habitEditDTO,
                              BindingResult bindingResult, Authentication authentication, @PathVariable("id") Long id) {
 
         Date startDate = this.habitService.getStartDateById(id);
         ;
-        if (habitEditViewDTO.getEndDate().before(startDate) || bindingResult.hasErrors()) {
+        if (habitEditDTO.getEndDate().before(startDate) || bindingResult.hasErrors()) {
             bindingResult.rejectValue("endDate", "error.user", Constants.INVALID_DATE);
             modelAndView.setViewName("habits/edit");
             modelAndView.addObject("startDate", startDate);
@@ -100,7 +100,7 @@ public class HabitController {
             return modelAndView;
         }
 
-        this.habitService.editHabit(id, habitEditViewDTO);
+        this.habitService.editHabit(id, habitEditDTO);
         modelAndView.setViewName("redirect:/habits/all");
         return modelAndView;
     }

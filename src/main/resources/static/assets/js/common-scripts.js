@@ -14,8 +14,6 @@ $(function () {
 });
 
 var Script = function () {
-
-
 //    sidebar dropdown menu auto scrolling
 
     jQuery('#sidebar .sub-menu > a').click(function () {
@@ -29,7 +27,6 @@ var Script = function () {
 
 
 //    sidebar toggle
-
     $(function () {
         function responsiveView() {
             var wSize = $(window).width();
@@ -109,19 +106,14 @@ var Script = function () {
         jQuery(this).parents(".panel").parent().remove();
     });
 
-
 //    tool tips
-
     $('.tooltips').tooltip();
     $('.tooltips').unbind("mouseenter mouseleave");
 
 //    popovers
-
     $('.popovers').popover();
 
-
 // custom bar chart
-
     if ($(".custom-bar-chart")) {
         $(".bar").each(function () {
             var i = $(this).find(".value").html();
@@ -131,6 +123,4 @@ var Script = function () {
             }, 2000)
         })
     }
-
-
 }();

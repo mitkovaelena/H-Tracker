@@ -10,14 +10,9 @@ var Script = function () {
             tooltipFormat: '<span style="display:block; padding:0px 10px 12px 0px;">' +
             '<span style="color: {{color}}">&#9679;</span> {{offset:names}} ({{percent.1}}%)</span>'
         });
-
-
-
-
     });
 
 //sparkline chart
-
     $("#barchart").sparkline([5,3,6,7,5,6,4,2,3,4,6,8,9,10,8,6,5,7,6,5,4,7,4], {
         type: 'bar',
         height: '65',
@@ -62,7 +57,6 @@ var Script = function () {
     });
 
     //work progress bar
-
     $("#work-progress1").sparkline([5,6,7,5,9,6,4], {
         type: 'bar',
         height: '20',
@@ -122,5 +116,4 @@ var Script = function () {
 //    '<span style="color: {{color}}">&#9679;</span> {{offset:names}} ({{percent.1}}%)</span>'});
 
     });
-
 }();
