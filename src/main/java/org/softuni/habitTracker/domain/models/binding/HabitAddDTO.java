@@ -1,6 +1,5 @@
 package org.softuni.habitTracker.domain.models.binding;
 
-import org.softuni.habitTracker.domain.entities.Log;
 import org.softuni.habitTracker.domain.entities.User;
 import org.softuni.habitTracker.util.Constants;
 import org.softuni.habitTracker.util.validators.EndDateAfterStartDate;
@@ -10,7 +9,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.Set;
 
 @EndDateAfterStartDate(message = Constants.INVALID_DATE)
 public class HabitAddDTO {

@@ -29,8 +29,8 @@ public class Habit {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "habit", targetEntity = Log.class)
-    private Set<Log> logs;
+    @OneToMany(mappedBy = "habit", targetEntity = Activity.class)
+    private Set<Activity> activities;
 
 //    @Column(nullable = false)
 //    @Enumerated(EnumType.STRING)
@@ -89,11 +89,11 @@ public class Habit {
         this.user = user;
     }
 
-    public Set<Log> getLogs() {
-        return logs;
+    public Set<Activity> getActivities() {
+        return activities;
     }
 
-    public void setLogs(Set<Log> logs) {
-        this.logs = logs;
+    public void setActivities(Set<Activity> activities) {
+        this.activities = activities;
     }
 }

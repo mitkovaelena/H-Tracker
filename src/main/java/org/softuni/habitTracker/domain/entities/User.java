@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", targetEntity = Habit.class)
     private Set<Habit> habits;
 
-    @OneToMany(mappedBy = "user", targetEntity = Log.class)
+    @OneToMany(mappedBy = "user", targetEntity = Activity.class)
     private Set<Habit> logs;
 //
 //    @ManyToMany

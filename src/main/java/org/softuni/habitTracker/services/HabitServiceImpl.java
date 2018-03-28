@@ -2,13 +2,13 @@ package org.softuni.habitTracker.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.habitTracker.domain.entities.Habit;
-import org.softuni.habitTracker.domain.entities.Log;
+import org.softuni.habitTracker.domain.entities.Activity;
 import org.softuni.habitTracker.domain.entities.User;
 import org.softuni.habitTracker.domain.models.binding.HabitAddDTO;
 import org.softuni.habitTracker.domain.models.binding.HabitEditDTO;
-import org.softuni.habitTracker.domain.models.binding.HabitViewDTO;
+import org.softuni.habitTracker.domain.models.view.HabitViewDTO;
 import org.softuni.habitTracker.repositories.HabitRepository;
-import org.softuni.habitTracker.repositories.LogRepository;
+import org.softuni.habitTracker.repositories.ActivityRepository;
 import org.softuni.habitTracker.repositories.UserRepository;
 import org.softuni.habitTracker.util.enums.HabitFrequencyEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +23,20 @@ import java.util.Optional;
 public class HabitServiceImpl implements HabitService {
     private final HabitRepository habitRepository;
     private final UserRepository userRepository;
-    private final LogRepository logRepository;
+    private final ActivityRepository activityRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HabitServiceImpl(HabitRepository habitRepository, UserRepository userRepository, LogRepository logRepository, ModelMapper modelMapper) {
+    public HabitServiceImpl(HabitRepository habitRepository, UserRepository userRepository, ActivityRepository activityRepository, ModelMapper modelMapper) {
         this.habitRepository = habitRepository;
         this.userRepository = userRepository;
-        this.logRepository = logRepository;
+        this.activityRepository = activityRepository;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public Habit getHabitById(Long id) {
+        return this.habitRepository.findById(id).get();
     }
 
     @Override
@@ -42,7 +47,17 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public HabitEditDTO getHabitById(Long id) {
+    public HabitViewDTO getHabitViewDTOById(Long id) {
+        Optional<Habit> habitOptional = this.habitRepository.findById(id);
+        HabitViewDTO habitViewDTO = null;
+        if (habitOptional.isPresent()) {
+            habitViewDTO = modelMapper.map(habitOptional.get(), HabitViewDTO.class);
+        }
+        return habitViewDTO;
+    }
+
+    @Override
+    public HabitEditDTO getHabitEditDTOById(Long id) {
         Optional<Habit> habitOptional = this.habitRepository.findById(id);
         HabitEditDTO habitEditDTO = null;
         if (habitOptional.isPresent()) {
@@ -57,7 +72,7 @@ public class HabitServiceImpl implements HabitService {
         Habit habit = this.habitRepository.findById(id).get();
         editedHabit.setUser(habit.getUser());
         editedHabit.setId(id);
-        editedHabit.setLogs(habit.getLogs());
+        editedHabit.setActivities(habit.getActivities());
         editedHabit.setStartDate(habit.getStartDate());
         editedHabit.setFrequency(HabitFrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
         this.habitRepository.save(editedHabit);
@@ -71,8 +86,8 @@ public class HabitServiceImpl implements HabitService {
     @Override
     public void deleteHabit(Long id) {
         Habit habit = this.habitRepository.findById(id).get();
-        for (Log log : habit.getLogs()) {
-            this.logRepository.deleteById(log.getId());
+        for (Activity activity : habit.getActivities()) {
+            this.activityRepository.deleteById(activity.getId());
         }
         User user = habit.getUser();
         user.getHabits().remove(habit);

@@ -70,11 +70,15 @@ a, a:hover, a:focus {
     text-decoration: none;
 }
 
-.btn-success{
+.btn-info, .btn-success{
     margin-right: 5px;
 }
 
 .modal-footer {
+    text-align: center;
+}
+
+th, td {
     text-align: center;
 }
 
@@ -1992,7 +1996,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 /* FORMS */
-.form-login, .form-register, .form-add-habit {
+.form-login, .form-register, .form-add-habit, .form-add-activity {
     max-width: 400px;
     margin: 100px auto 100px;
     background: #fff;

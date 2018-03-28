@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class UserLoginDTO {
-
     @NotNull
     @NotEmpty(message = Constants.USERNAME_NOT_EMPTY)
     private String username;

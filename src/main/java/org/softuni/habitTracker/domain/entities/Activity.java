@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "logs")
-public class Log {
+@Table(name = "activities")
+public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +21,7 @@ public class Log {
     @JoinColumn(name = "habit_id", referencedColumnName = "id")
     private Habit habit;
 
-    public Log() {
+    public Activity() {
     }
 
     public Long getId() {

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:replace="~{fragments/head}"></div>
+<body>
+<section id="container">
+    <div th:replace="~{fragments/header}"></div>
+    <div th:replace="~{fragments/sidebar}"></div>
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="row mt">
+
+                <div class="col-md-4 col-sm-4 mb" th:object="${habit}" th:each="habit: ${habitViews}">
+                    <form method="post" th:action="@{/activities/add/{id}(id = *{getId()})}">
+                            <div class="white-panel pn">
+                                <div class="white-header">
+                                    <h5 th:text="*{getTitle()}"></h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 goleft">
+                                        <p><i class="fas fa-trophy"></i> 10</p>
+                                    </div>
+                                </div>
+
+                                <div data-toggle="modal" th:href="'#addActivityModal' + ${habit.getId()}" class="habit-icon-large">
+                                    <i class="fas fa-check fa-10x"></i></div>
+
+                                <!--Modal -->
+                                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+                                     tabindex="-1" th:id="'addActivityModal' + ${habit.getId()}" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" th:text="*{getTitle()}"></h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-success" type="submit">Done Today
+                                                </button>
+                                                <button data-dismiss="modal" class="btn btn-danger"
+                                                        type="button">Failed Today</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--modal -->
+                            </div>
+                    </form>
+                </div><!--/grey-panel -->
+            </div><!-- /col-md-4-->
+            </div><!-- /row -->
+        </section>
+        <!--/wrapper -->
+    </section><!-- /MAIN CONTENT -->
+</section>
+<div th:replace="~{fragments/footer}"></div>
+<div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

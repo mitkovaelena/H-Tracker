@@ -1,4 +1,4 @@
-package org.softuni.habitTracker.domain.models.binding;
+package org.softuni.habitTracker.domain.models.view;
 
 import org.softuni.habitTracker.domain.entities.User;
 import org.softuni.habitTracker.util.Constants;
