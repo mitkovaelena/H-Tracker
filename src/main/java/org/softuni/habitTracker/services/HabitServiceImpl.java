@@ -10,7 +10,8 @@ import org.softuni.habitTracker.domain.models.view.HabitViewDTO;
 import org.softuni.habitTracker.repositories.HabitRepository;
 import org.softuni.habitTracker.repositories.ActivityRepository;
 import org.softuni.habitTracker.repositories.UserRepository;
-import org.softuni.habitTracker.util.enums.HabitFrequencyEnum;
+import org.softuni.habitTracker.util.enums.FrequencyEnum;
+import org.softuni.habitTracker.util.enums.PriorityEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,8 @@ public class HabitServiceImpl implements HabitService {
     @Override
     public void saveHabit(HabitAddDTO habitAddDTO) {
         Habit habit = modelMapper.map(habitAddDTO, Habit.class);
-        habit.setFrequency(HabitFrequencyEnum.valueOf(habitAddDTO.getFrequency().toUpperCase().replace(' ', '_')));
+        habit.setFrequency(FrequencyEnum.valueOf(habitAddDTO.getFrequency().toUpperCase().replace(' ', '_')));
+        habit.setPriority(PriorityEnum.valueOf(habitAddDTO.getPriority().toUpperCase().replace(' ', '_')));
         this.habitRepository.save(habit);
     }
 
@@ -53,6 +55,7 @@ public class HabitServiceImpl implements HabitService {
         if (habitOptional.isPresent()) {
             habitViewDTO = modelMapper.map(habitOptional.get(), HabitViewDTO.class);
         }
+
         return habitViewDTO;
     }
 
@@ -74,7 +77,8 @@ public class HabitServiceImpl implements HabitService {
         editedHabit.setId(id);
         editedHabit.setActivities(habit.getActivities());
         editedHabit.setStartDate(habit.getStartDate());
-        editedHabit.setFrequency(HabitFrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
+        editedHabit.setFrequency(FrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
+        editedHabit.setPriority(PriorityEnum.valueOf(habitEditDTO.getPriority().toUpperCase().replace(' ', '_')));
         this.habitRepository.save(editedHabit);
     }
 

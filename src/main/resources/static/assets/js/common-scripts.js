@@ -45,7 +45,7 @@ var Script = function () {
         $(window).on('resize', responsiveView);
     });
 
-    $('.fa-bars').click(function () {
+    $('.toggle-bars').click(function () {
         if ($('#sidebar > ul').is(":visible") === true) {
             $('#main-content').css({
                 'margin-left': '0px'
@@ -124,3 +124,21 @@ var Script = function () {
         })
     }
 }();
+
+function showEndDateField() {
+    if ($('#endDate').hasClass('hide')) {
+        $('#endDate').removeClass('hide')
+    } else {
+        $('#endDate').addClass('hide')
+    }
+}
+
+function setEndDateMin(date) {
+    $('#endDate').attr('min', date);
+}
+
+$(function () {
+    if ($('#endDateCheckBox').is(':checked')) {
+        $('#endDate').removeClass('hide')
+    }
+});

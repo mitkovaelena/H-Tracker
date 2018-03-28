@@ -19,6 +19,7 @@
                             <thead>
                             <tr>
                                 <th><i class="fas fa-bookmark"></i> Title</th>
+                                <th><i class="fas fa-bolt"></i> Streak</th>
                                 <th><i class="fas fa-check"></i> Frequency</th>
                                 <th><i class="fas fa-calendar"></i> Start Date</th>
                                 <th><i class=" fas fa-bullhorn"></i> Priority</th>
@@ -27,9 +28,16 @@
                             <tbody>
                             <tr th:object="${habit}" th:each="habit: ${habitViews}">
                                 <td th:text="*{getTitle()}"></td>
+                                <td th:text="*{getStreak()}"></td>
                                 <td th:text="${#strings.capitalize(habit.getFrequency())}"></td>
                                 <td th:text="${#dates.format(habit.getStartDate(), 'dd-MM-yyyy')}"></td>
-                                <td><span class="label label-info label-mini">Due</span></td>
+                                <td>
+                                    <th:block th:switch="${habit.getPriority()}">
+                                        <span th:case="Low" class="label label-success label-mini">Low</span>
+                                        <span th:case="Medium" class="label label-warning label-mini">Medium</span>
+                                        <span th:case="High" class="label label-danger label-mini">High</span>
+                                    </th:block>
+                                </td>
                                 <td>
                                     <a class="btn btn-info btn-xs"
                                        th:href="@{/habits/view/{id}(id = ${habit.getId()})}"><i
@@ -39,23 +47,27 @@
                                             class="fas fa-pencil-alt"></i></a>
                                     <form method="post" th:action="@{/habits/delete/{id}(id = ${habit.getId()})}"
                                           class="btn btn-xs">
-                                        <div data-toggle="modal" th:href="'#deleteHabitModal' + ${habit.getId()}" class="btn btn-danger btn-xs">
+                                        <div data-toggle="modal" th:href="'#deleteHabitModal' + ${habit.getId()}"
+                                             class="btn btn-danger btn-xs">
                                             <i class="fas fa-trash-alt"></i></div>
 
                                         <!--Modal -->
                                         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-                                             tabindex="-1"  th:id="'deleteHabitModal' + ${habit.getId()}" class="modal fade">
+                                             tabindex="-1" th:id="'deleteHabitModal' + ${habit.getId()}"
+                                             class="modal fade">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal"
                                                                 aria-hidden="true">&times;
                                                         </button>
-                                                        <h4 class="modal-title">Do you really want to delete this habit?</h4>
+                                                        <h4 class="modal-title">Do you really want to delete this
+                                                            habit?</h4>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button data-dismiss="modal" class="btn btn-default"
-                                                                type="button">Cancel</button>
+                                                                type="button">Cancel
+                                                        </button>
                                                         <button class="btn btn-danger" type="submit">Delete</button>
                                                     </div>
                                                 </div>

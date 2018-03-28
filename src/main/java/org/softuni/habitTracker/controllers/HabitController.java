@@ -6,7 +6,8 @@ import org.softuni.habitTracker.domain.models.binding.HabitEditDTO;
 import org.softuni.habitTracker.domain.models.view.HabitViewDTO;
 import org.softuni.habitTracker.services.HabitService;
 import org.softuni.habitTracker.util.Constants;
-import org.softuni.habitTracker.util.enums.HabitFrequencyEnum;
+import org.softuni.habitTracker.util.enums.FrequencyEnum;
+import org.softuni.habitTracker.util.enums.PriorityEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -48,8 +49,10 @@ public class HabitController {
     public ModelAndView add(ModelAndView modelAndView, @ModelAttribute("habitAddModel") HabitAddDTO habitAddDTO) {
         modelAndView.setViewName("habits/add");
         modelAndView.addObject("habitAddModel", habitAddDTO);
-        modelAndView.addObject("frequencies", Stream.of(HabitFrequencyEnum.values())
-                .map(HabitFrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+        modelAndView.addObject("frequencies", Stream.of(FrequencyEnum.values())
+                .map(FrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+        modelAndView.addObject("priorities", Stream.of(PriorityEnum.values())
+                .map(PriorityEnum::getPriorityName).collect(Collectors.toList()));
         habitAddDTO.setStartDate(new Date());
         return modelAndView;
     }
@@ -62,8 +65,10 @@ public class HabitController {
                 bindingResult.rejectValue("endDate", "error.user", Constants.INVALID_DATE);
             }
             modelAndView.setViewName("habits/add");
-            modelAndView.addObject("frequencies", Stream.of(HabitFrequencyEnum.values())
-                    .map(HabitFrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+            modelAndView.addObject("frequencies", Stream.of(FrequencyEnum.values())
+                    .map(FrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+            modelAndView.addObject("priorities", Stream.of(PriorityEnum.values())
+                    .map(PriorityEnum::getPriorityName).collect(Collectors.toList()));
             return modelAndView;
         }
 
@@ -80,8 +85,10 @@ public class HabitController {
         modelAndView.setViewName("habits/edit");
         modelAndView.addObject("startDate", this.habitService.getStartDateById(id));
         modelAndView.addObject("habitEditModel", habitEditDTO);
-        modelAndView.addObject("frequencies", Stream.of(HabitFrequencyEnum.values())
-                .map(HabitFrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+        modelAndView.addObject("frequencies", Stream.of(FrequencyEnum.values())
+                .map(FrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+        modelAndView.addObject("priorities", Stream.of(PriorityEnum.values())
+                .map(PriorityEnum::getPriorityName).collect(Collectors.toList()));
         return modelAndView;
     }
 
@@ -95,8 +102,10 @@ public class HabitController {
             bindingResult.rejectValue("endDate", "error.user", Constants.INVALID_DATE);
             modelAndView.setViewName("habits/edit");
             modelAndView.addObject("startDate", startDate);
-            modelAndView.addObject("frequencies", Stream.of(HabitFrequencyEnum.values())
-                    .map(HabitFrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+            modelAndView.addObject("frequencies", Stream.of(FrequencyEnum.values())
+                    .map(FrequencyEnum::getFrequencyName).collect(Collectors.toList()));
+            modelAndView.addObject("priorities", Stream.of(PriorityEnum.values())
+                    .map(PriorityEnum::getPriorityName).collect(Collectors.toList()));
             return modelAndView;
         }
 

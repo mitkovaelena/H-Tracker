@@ -1,6 +1,8 @@
 <header class="header black-bg" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="sidebar-toggle-box" sec:authorize="isAuthenticated()">
-        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+        <div class="toggle-bars tooltips" data-placement="right" data-original-title="Toggle Navigation">
+            <i class="fas fa-bars"></i>
+        </div>
     </div>
     <a href="/" class="logo"><b>HABIT TRACKER</b></a>
     <div class="top-menu">

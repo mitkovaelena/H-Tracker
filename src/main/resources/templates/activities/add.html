@@ -15,16 +15,17 @@
                 <div class="col-md-4 col-sm-4 mb" th:object="${habit}" th:each="habit: ${habitViews}">
                     <form method="post" th:action="@{/activities/add/{id}(id = *{getId()})}">
                             <div class="white-panel pn">
-                                <div class="white-header">
+                                <div class="white-header" th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
                                     <h5 th:text="*{getTitle()}"></h5>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6 col-xs-6 goleft">
-                                        <p><i class="fas fa-trophy"></i> 10</p>
+                                        <p><i class="fas fa-trophy"></i><span th:text="*{getStreak()}" ></span></p>
                                     </div>
                                 </div>
 
-                                <div data-toggle="modal" th:href="'#addActivityModal' + ${habit.getId()}" class="habit-icon-large">
+                                <div data-toggle="modal" th:href="'#addActivityModal' + ${habit.getId()}" class="habit-icon-large"
+                                     th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
                                     <i class="fas fa-check fa-10x"></i></div>
 
                                 <!--Modal -->

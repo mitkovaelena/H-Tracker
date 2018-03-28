@@ -20,6 +20,9 @@ public class HabitEditDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
+    @NotNull(message = Constants.PRIORITY_NOT_EMPTY)
+    private String priority;
+
     public HabitEditDTO() {
     }
 
@@ -53,5 +56,13 @@ public class HabitEditDTO {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 }

@@ -1111,6 +1111,33 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
         font-size: 14px;
     }
 
+    .white-header.medium-priority {
+        background: #f0ad4e;
+        color: #FFFFFF;
+    }
+
+    .white-header.low-priority {
+        background: #5cb85c;
+        color: #FFFFFF;
+    }
+
+    .white-header.high-priority {
+        background: #d9534f;
+        color: #FFFFFF;
+    }
+
+    .habit-icon-large.medium-priority {
+        color: #f0ad4e;
+    }
+
+    .habit-icon-large.low-priority {
+        color: #5cb85c;
+    }
+
+    .habit-icon-large.high-priority {
+        color: #d9534f;
+    }
+
     /*STOCK CARD Panel*/
     .card {
         background: white;

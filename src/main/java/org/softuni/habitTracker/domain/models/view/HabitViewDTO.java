@@ -17,6 +17,8 @@ public class HabitViewDTO {
     private String frequency;
     private Date startDate;
     private Date endDate;
+    private String priority;
+    private int streak;
     public HabitViewDTO() {
     }
 
@@ -60,4 +62,19 @@ public class HabitViewDTO {
         this.endDate = endDate;
     }
 
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public int getStreak() {
+        return streak;
+    }
+
+    public void setStreak(int streak) {
+        this.streak = streak;
+    }
 }

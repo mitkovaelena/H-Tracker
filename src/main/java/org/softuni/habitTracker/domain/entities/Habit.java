@@ -1,8 +1,10 @@
 package org.softuni.habitTracker.domain.entities;
 
-import org.softuni.habitTracker.util.enums.HabitFrequencyEnum;
+import org.softuni.habitTracker.util.enums.FrequencyEnum;
+import org.softuni.habitTracker.util.enums.PriorityEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class Habit {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private HabitFrequencyEnum frequency;
+    private FrequencyEnum frequency;
 
     @Column(nullable = false)
     private Date startDate;
@@ -32,9 +34,12 @@ public class Habit {
     @OneToMany(mappedBy = "habit", targetEntity = Activity.class)
     private Set<Activity> activities;
 
-//    @Column(nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private Priority priority;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PriorityEnum priority;
+
+    @Column(columnDefinition = "int default 0")
+    private Integer streak;
 
     // Category category
 
@@ -57,11 +62,11 @@ public class Habit {
         this.title = title;
     }
 
-    public HabitFrequencyEnum getFrequency() {
+    public FrequencyEnum getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(HabitFrequencyEnum frequency) {
+    public void setFrequency(FrequencyEnum frequency) {
         this.frequency = frequency;
     }
 
@@ -95,5 +100,21 @@ public class Habit {
 
     public void setActivities(Set<Activity> activities) {
         this.activities = activities;
+    }
+
+    public PriorityEnum getPriority() {
+        return priority;
+    }
+
+    public void setPriority(PriorityEnum priority) {
+        this.priority = priority;
+    }
+
+    public Integer getStreak() {
+        return streak;
+    }
+
+    public void setStreak(Integer streak) {
+        this.streak = streak;
     }
 }
