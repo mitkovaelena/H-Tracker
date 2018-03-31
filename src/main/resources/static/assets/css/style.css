@@ -27,8 +27,11 @@ a, a:hover, a:focus {
     outline: none;
 }
 
-::selection {
+h3 {
+    color: #FFFFFF;
+}
 
+::selection {
     background: #68dff0;
     color: #fff;
 }
@@ -70,7 +73,7 @@ a, a:hover, a:focus {
     text-decoration: none;
 }
 
-.btn-info, .btn-success{
+.btn-info, .btn-success {
     margin-right: 5px;
 }
 
@@ -237,6 +240,11 @@ ul.top-menu > li > .nav-button {
     margin-right: 15px;
     background: #68dff0;
     margin-top: 15px;
+}
+
+.white-panel.pn:hover {
+    background: rgba(255, 255, 255, 0.75);
+    color: #fff;
 }
 
 /*sidebar navigation*/
@@ -1093,7 +1101,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
         margin-left: 15px;
     }
 
-    .white-panel .white-header {
+    .white-panel .white-header{
         background: #f4f4f4;
         padding: 3px;
         margin-bottom: 15px;
@@ -1102,7 +1110,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 
     .white-panel .small {
         font-size: 10px;
-        color: #ccd1d9;
+        color: #797979;
     }
 
     .white-panel i {
@@ -2062,7 +2070,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     margin-bottom: 0;
 }
 
-legend{
+legend {
     font-size: 14px;
 }
 

@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @EndDateAfterStartDate(message = Constants.INVALID_DATE)
@@ -15,8 +16,9 @@ public class HabitViewDTO {
     private Long id;
     private String title;
     private String frequency;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private LocalDate nextDueDate;
     private String priority;
     private int streak;
     public HabitViewDTO() {
@@ -46,19 +48,19 @@ public class HabitViewDTO {
         this.frequency = frequency;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -76,5 +78,13 @@ public class HabitViewDTO {
 
     public void setStreak(int streak) {
         this.streak = streak;
+    }
+
+    public LocalDate getNextDueDate() {
+        return nextDueDate;
+    }
+
+    public void setNextDueDate(LocalDate nextDueDate) {
+        this.nextDueDate = nextDueDate;
     }
 }

@@ -15,6 +15,10 @@ import org.softuni.habitTracker.util.enums.PriorityEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +49,7 @@ public class HabitServiceImpl implements HabitService {
         Habit habit = modelMapper.map(habitAddDTO, Habit.class);
         habit.setFrequency(FrequencyEnum.valueOf(habitAddDTO.getFrequency().toUpperCase().replace(' ', '_')));
         habit.setPriority(PriorityEnum.valueOf(habitAddDTO.getPriority().toUpperCase().replace(' ', '_')));
+        habit.setNextDueDate(habit.getStartDate());
         this.habitRepository.save(habit);
     }
 
@@ -71,19 +76,16 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public void editHabit(Long id, HabitEditDTO habitEditDTO) {
-        Habit editedHabit = modelMapper.map(habitEditDTO, Habit.class);
         Habit habit = this.habitRepository.findById(id).get();
-        editedHabit.setUser(habit.getUser());
-        editedHabit.setId(id);
-        editedHabit.setActivities(habit.getActivities());
-        editedHabit.setStartDate(habit.getStartDate());
-        editedHabit.setFrequency(FrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
-        editedHabit.setPriority(PriorityEnum.valueOf(habitEditDTO.getPriority().toUpperCase().replace(' ', '_')));
-        this.habitRepository.save(editedHabit);
+        habit.setTitle(habitEditDTO.getTitle());
+        habit.setEndDate(habitEditDTO.getEndDate());
+        habit.setFrequency(FrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
+        habit.setPriority(PriorityEnum.valueOf(habitEditDTO.getPriority().toUpperCase().replace(' ', '_')));
+        this.habitRepository.save(habit);
     }
 
     @Override
-    public Date getStartDateById(Long id) {
+    public LocalDate getStartDateById(Long id) {
         return this.habitRepository.findById(id).get().getStartDate();
     }
 
@@ -103,6 +105,18 @@ public class HabitServiceImpl implements HabitService {
     @Override
     public List<HabitViewDTO> findAllHabits(User user) {
         List<Habit> habits = this.habitRepository.findAllByUser(user);
+        List<HabitViewDTO> habitViewDTOs = new ArrayList<>();
+
+        for (Habit habit : habits) {
+            habitViewDTOs.add(modelMapper.map(habit, HabitViewDTO.class));
+        }
+
+        return habitViewDTOs;
+    }
+
+    @Override
+    public List<HabitViewDTO> findAllHabitsDueToday(User user) throws ParseException {
+        List<Habit> habits = this.habitRepository.findAllByUserAndNextDueDate(user, LocalDate.now());
         List<HabitViewDTO> habitViewDTOs = new ArrayList<>();
 
         for (Habit habit : habits) {

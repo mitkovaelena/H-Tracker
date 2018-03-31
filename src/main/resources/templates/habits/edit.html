@@ -41,7 +41,7 @@
                     <div class="form-group col-md-12" >
                         <legend for="startDate">Start Date</legend>
                         <input type="date" class="form-control" id="startDate"
-                               th:value="${#dates.format(startDate, 'yyyy-MM-dd')}" disabled>
+                               th:value="${#temporals.format(startDate, 'yyyy-MM-dd')}" disabled>
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('endDate')} ? 'has-error'">
                         <legend for="endDate">End Date</legend>
@@ -51,8 +51,8 @@
                                      id="endDateCheckBox" onchange="showEndDateField()">Set End Date?</label>
                         </div>
                         <input type="date" class="form-control hide" id="endDate" name="endDate"
-                               th:min="${#dates.format(startDate, 'yyyy-MM-dd')}"
-                               th:value="${#dates.format(habitEditModel.getEndDate(), 'yyyy-MM-dd')}">
+                               th:min="${#temporals.format(startDate, 'yyyy-MM-dd')}"
+                               th:value="${#temporals.format(habitEditModel.getEndDate(), 'yyyy-MM-dd')}">
                         <div class="help-block has-error" th:if="${#fields.hasErrors('endDate')}"
                              th:each="error : ${#fields.errors('endDate')}" th:text="${error}">
                         </div>

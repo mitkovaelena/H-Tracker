@@ -6,6 +6,8 @@ import org.softuni.habitTracker.domain.models.binding.HabitAddDTO;
 import org.softuni.habitTracker.domain.models.binding.HabitEditDTO;
 import org.softuni.habitTracker.domain.models.view.HabitViewDTO;
 
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +22,11 @@ public interface HabitService {
 
     void editHabit(Long id, HabitEditDTO habitEditDTO);
 
-    Date getStartDateById(Long id);
+    LocalDate getStartDateById(Long id);
 
     void deleteHabit(Long id);
 
     List<HabitViewDTO> findAllHabits(User user);
+
+    List<HabitViewDTO> findAllHabitsDueToday(User user) throws ParseException;
 }

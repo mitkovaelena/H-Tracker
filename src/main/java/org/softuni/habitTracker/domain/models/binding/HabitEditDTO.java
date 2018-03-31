@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class HabitEditDTO {
@@ -18,7 +19,7 @@ public class HabitEditDTO {
     private String frequency;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
+    private LocalDate endDate;
 
     @NotNull(message = Constants.PRIORITY_NOT_EMPTY)
     private String priority;
@@ -50,11 +51,11 @@ public class HabitEditDTO {
         this.frequency = frequency;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

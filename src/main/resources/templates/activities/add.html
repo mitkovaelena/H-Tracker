@@ -10,45 +10,54 @@
     <div th:replace="~{fragments/sidebar}"></div>
     <section id="main-content">
         <section class="wrapper">
+            <h3><i class="fas fa-angle-right"></i> Activities Due Today</h3>
             <div class="row mt">
-
                 <div class="col-md-4 col-sm-4 mb" th:object="${habit}" th:each="habit: ${habitViews}">
-                    <form method="post" th:action="@{/activities/add/{id}(id = *{getId()})}">
-                            <div class="white-panel pn">
-                                <div class="white-header" th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
-                                    <h5 th:text="*{getTitle()}"></h5>
+                    <form method="post" th:action="@{/activities/add/{id}(id = ${habit.getId()})}"
+                          th:object="${activityAddModel}">
+                        <div class="white-panel pn">
+                            <div class="white-header"
+                                 th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
+                                <h5 th:text="${habit.getTitle()}"></h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6 goleft">
+                                    <p><i class="fas fa-trophy"></i><span th:text="${habit.getStreak()}"></span></p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6 col-xs-6 goleft">
-                                        <p><i class="fas fa-trophy"></i><span th:text="*{getStreak()}" ></span></p>
-                                    </div>
-                                </div>
+                            </div>
 
-                                <div data-toggle="modal" th:href="'#addActivityModal' + ${habit.getId()}" class="habit-icon-large"
-                                     th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
-                                    <i class="fas fa-check fa-10x"></i></div>
+                            <div data-toggle="modal" th:href="'#addActivityModal' + ${habit.getId()}"
+                                 class="habit-icon-large"
+                                 th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
+                                <i class="fas fa-check fa-10x"></i></div>
 
-                                <!--Modal -->
-                                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-                                     tabindex="-1" th:id="'addActivityModal' + ${habit.getId()}" class="modal fade">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-hidden="true">&times;
-                                                </button>
-                                                <h4 class="modal-title" th:text="*{getTitle()}"></h4>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-success" type="submit">Done Today
-                                                </button>
-                                                <button data-dismiss="modal" class="btn btn-danger"
-                                                        type="button">Failed Today</button>
-                                            </div>
+                            <!--Modal -->
+                            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+                                 tabindex="-1" th:id="'addActivityModal' + ${habit.getId()}" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;
+                                            </button>
+                                            <h4 class="modal-title" th:text="${habit.getTitle()}"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Add Date</p>
+                                            <input type="date" class="form-control" id="date" name="date"
+                                                   th:value="${#temporals.format(activityAddModel.getDate(), 'yyyy-MM-dd')}"
+                                                   th:max="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-dismiss="modal" class="btn btn-default"
+                                                    type="button">Cancel
+                                            </button>
+                                            <button class="btn btn-success" type="submit">Done</button>
                                         </div>
                                     </div>
-                                </div><!--modal -->
-                            </div>
+                                </div>
+                            </div><!--modal -->
+                        </div>
                     </form>
                 </div><!--/grey-panel -->
             </div><!-- /col-md-4-->

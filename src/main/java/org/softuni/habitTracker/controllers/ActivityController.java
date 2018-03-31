@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +38,7 @@ public class ActivityController {
         modelAndView.setViewName("activities/all");
         User user = (User) authentication.getPrincipal();
 
-        List<ActivityViewDTO> activityViews = this.activityService.findAllActivities(user);
+        List<ActivityViewDTO> activityViews = this.activityService.findAllActivitiesOrderedByDateDesc(user);
         modelAndView.addObject("activityViews", activityViews);
 
         return modelAndView;
@@ -42,22 +46,29 @@ public class ActivityController {
 
 
     @GetMapping(path = "/add")
-    public ModelAndView add(ModelAndView modelAndView, Authentication authentication) {
+    public ModelAndView add(ModelAndView modelAndView, @ModelAttribute("activityAddModel") ActivityAddDTO activityAddDTO,
+                            Authentication authentication) throws ParseException {
         modelAndView.setViewName("activities/add");
         User user = (User) authentication.getPrincipal();
+        activityAddDTO.setDate(LocalDate.now());
 
-        List<HabitViewDTO> habitViews = this.habitService.findAllHabits(user);
+        List<HabitViewDTO> habitViews = this.habitService.findAllHabitsDueToday(user);
         modelAndView.addObject("habitViews", habitViews);
+        modelAndView.addObject("activityAddModel", activityAddDTO);
         return modelAndView;
     }
 
     @PostMapping(path = "/add/{id}")
-    public ModelAndView add(ModelAndView modelAndView, @PathVariable("id") Long id, Authentication authentication) {
-        ActivityAddDTO activityAddDTO = new ActivityAddDTO();
+    public ModelAndView add(ModelAndView modelAndView, @PathVariable("id") Long id,
+                            @Valid @ModelAttribute("activityAddModel") ActivityAddDTO activityAddDTO,
+                            BindingResult bindingResult, Authentication authentication) {
+        if (bindingResult.hasErrors()) {
+            activityAddDTO.setDate(LocalDate.now());
+        }
         User user = (User) authentication.getPrincipal();
         activityAddDTO.setUser(user);
         activityAddDTO.setHabit(this.habitService.getHabitById(id));
-        activityAddDTO.setDate(new Date());  //Todo
+
         this.activityService.saveActivity(activityAddDTO);
         modelAndView.setViewName("redirect:/activities/all");
         return modelAndView;

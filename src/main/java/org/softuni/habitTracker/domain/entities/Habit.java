@@ -5,6 +5,8 @@ import org.softuni.habitTracker.util.enums.PriorityEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -22,10 +24,11 @@ public class Habit {
     @Enumerated(EnumType.STRING)
     private FrequencyEnum frequency;
 
-    @Column(nullable = false)
-    private Date startDate;
+    @Column(nullable = false, columnDefinition = "date")
+    private LocalDate startDate;
 
-    private Date endDate;
+    @Column(columnDefinition = "date")
+    private LocalDate endDate;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -38,12 +41,29 @@ public class Habit {
     @Enumerated(EnumType.STRING)
     private PriorityEnum priority;
 
-    @Column(columnDefinition = "int default 0")
-    private Integer streak;
+    private int streak;
 
-    // Category category
+    @Column(nullable = false, columnDefinition = "date")
+    private LocalDate nextDueDate;
 
     public Habit() {
+    }
+
+    public LocalDate calculateNextDueDate() {
+        switch (this.getFrequency()){
+            case YEARLY:
+                return LocalDate.now().plusYears(this.getFrequency().getInterval());
+            case MONTHLY:
+                return this.getNextDueDate().plusMonths(this.getFrequency().getInterval());
+            case MONDAY_TO_FRIDAY:
+                if(LocalDate.now().getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
+                    return this.getNextDueDate().plusDays(3);
+                } else if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+                    return this.getNextDueDate().plusDays(2);
+                }
+            default:
+                return this.getNextDueDate().plusDays(this.getFrequency().getInterval());
+        }
     }
 
     public Long getId() {
@@ -70,19 +90,19 @@ public class Habit {
         this.frequency = frequency;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -110,11 +130,19 @@ public class Habit {
         this.priority = priority;
     }
 
-    public Integer getStreak() {
+    public int getStreak() {
         return streak;
     }
 
-    public void setStreak(Integer streak) {
+    public void setStreak(int streak) {
         this.streak = streak;
+    }
+
+    public LocalDate getNextDueDate() {
+        return nextDueDate;
+    }
+
+    public void setNextDueDate(LocalDate nextDueDate) {
+        this.nextDueDate = nextDueDate;
     }
 }

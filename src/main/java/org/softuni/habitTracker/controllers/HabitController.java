@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class HabitController {
                 .map(FrequencyEnum::getFrequencyName).collect(Collectors.toList()));
         modelAndView.addObject("priorities", Stream.of(PriorityEnum.values())
                 .map(PriorityEnum::getPriorityName).collect(Collectors.toList()));
-        habitAddDTO.setStartDate(new Date());
+        habitAddDTO.setStartDate(LocalDate.now());
         return modelAndView;
     }
 
@@ -96,9 +97,9 @@ public class HabitController {
     public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("habitEditModel") HabitEditDTO habitEditDTO,
                              BindingResult bindingResult, Authentication authentication, @PathVariable("id") Long id) {
 
-        Date startDate = this.habitService.getStartDateById(id);
+        LocalDate startDate = this.habitService.getStartDateById(id);
 
-        if ((habitEditDTO.getEndDate() != null && habitEditDTO.getEndDate().before(startDate)) || bindingResult.hasErrors()) {
+        if ((habitEditDTO.getEndDate() != null && habitEditDTO.getEndDate().isBefore(startDate)) || bindingResult.hasErrors()) {
             bindingResult.rejectValue("endDate", "error.user", Constants.INVALID_DATE);
             modelAndView.setViewName("habits/edit");
             modelAndView.addObject("startDate", startDate);

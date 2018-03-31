@@ -30,7 +30,7 @@
                                 <td th:text="*{getTitle()}"></td>
                                 <td th:text="*{getStreak()}"></td>
                                 <td th:text="${#strings.capitalize(habit.getFrequency())}"></td>
-                                <td th:text="${#dates.format(habit.getStartDate(), 'dd-MM-yyyy')}"></td>
+                                <td th:text="${#temporals.format(habit.getStartDate(), 'dd-MM-yyyy')}"></td>
                                 <td>
                                     <th:block th:switch="${habit.getPriority()}">
                                         <span th:case="Low" class="label label-success label-mini">Low</span>

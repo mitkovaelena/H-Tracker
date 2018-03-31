@@ -25,7 +25,7 @@
                             <tbody>
                             <tr th:object="${activity}" th:each="activity: ${activityViews}">
                                 <td th:text="${activity.getHabit().getTitle()}"></td>
-                                <td th:text="${#dates.format(activity.getDate(), 'dd-MM-yyyy')}"></td>
+                                <td th:text="${#temporals.format(activity.getDate(), 'dd-MM-yyyy')}"></td>
                             </tr>
                             </tbody>
                         </table>

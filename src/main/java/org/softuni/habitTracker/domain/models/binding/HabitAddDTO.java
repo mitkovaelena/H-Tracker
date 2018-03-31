@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @EndDateAfterStartDate(message = Constants.INVALID_DATE)
@@ -22,10 +23,10 @@ public class HabitAddDTO {
     @NotNull(message = Constants.DATE_NOT_EMPTY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @PresentOrFuture
-    private Date startDate;
+    private LocalDate startDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
+    private LocalDate endDate;
 
     @NotNull(message = Constants.PRIORITY_NOT_EMPTY)
     private String priority;
@@ -51,19 +52,19 @@ public class HabitAddDTO {
         this.frequency = frequency;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
