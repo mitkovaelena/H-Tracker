@@ -26,7 +26,11 @@ public interface HabitService {
 
     void deleteHabit(Long id);
 
-    List<HabitViewDTO> findAllHabits(User user);
+    List<HabitViewDTO> getAllHabitsByUser(User user);
 
-    List<HabitViewDTO> findAllHabitsDueToday(User user) throws ParseException;
+    List<HabitViewDTO> getAllHabitsByUserDueToday(User user) throws ParseException;
+
+    void resetStreak(Long id);
+
+    void calculateNextDueDate(Long id);
 }

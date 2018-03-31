@@ -6,7 +6,7 @@ import org.softuni.habitTracker.domain.models.binding.UserRegisterDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService{
-    User findByUsername(String username);
+    User getByUsername(String username);
 
     void saveUser(UserRegisterDTO userDTO);
 

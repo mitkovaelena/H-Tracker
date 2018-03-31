@@ -90,6 +90,20 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
+    public void resetStreak(Long id){
+        Habit habit = this.habitRepository.findById(id).get();
+        habit.setStreak(0);
+        this.habitRepository.save(habit);
+    }
+
+    @Override
+    public void calculateNextDueDate(Long id) {
+        Habit habit = this.habitRepository.findById(id).get();
+        habit.setNextDueDate(habit.calculateNextDueDate());
+        this.habitRepository.save(habit);
+    }
+
+    @Override
     public void deleteHabit(Long id) {
         Habit habit = this.habitRepository.findById(id).get();
         for (Activity activity : habit.getActivities()) {
@@ -103,7 +117,7 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public List<HabitViewDTO> findAllHabits(User user) {
+    public List<HabitViewDTO> getAllHabitsByUser(User user) {
         List<Habit> habits = this.habitRepository.findAllByUser(user);
         List<HabitViewDTO> habitViewDTOs = new ArrayList<>();
 
@@ -115,7 +129,7 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public List<HabitViewDTO> findAllHabitsDueToday(User user) throws ParseException {
+    public List<HabitViewDTO> getAllHabitsByUserDueToday(User user) throws ParseException {
         List<Habit> habits = this.habitRepository.findAllByUserAndNextDueDate(user, LocalDate.now());
         List<HabitViewDTO> habitViewDTOs = new ArrayList<>();
 

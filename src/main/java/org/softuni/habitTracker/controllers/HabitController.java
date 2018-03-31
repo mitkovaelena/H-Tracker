@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,7 +38,7 @@ public class HabitController {
         modelAndView.setViewName("habits/all");
         User user = (User) authentication.getPrincipal();
 
-        List<HabitViewDTO> habitViews = this.habitService.findAllHabits(user);
+        List<HabitViewDTO> habitViews = this.habitService.getAllHabitsByUser(user);
         modelAndView.addObject("habitViews", habitViews);
 
         return modelAndView;

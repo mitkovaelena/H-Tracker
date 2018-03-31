@@ -26,7 +26,7 @@ public class UsernameUniqueValidator implements ConstraintValidator<UsernameUniq
         if(username == null){
             return false;
         }
-        if (userService.findByUsername(username) != null) {
+        if (userService.getByUsername(username) != null) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(Constants.USERNAME_TAKEN)
                     .addConstraintViolation();

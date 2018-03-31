@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,7 +37,7 @@ public class ActivityController {
         modelAndView.setViewName("activities/all");
         User user = (User) authentication.getPrincipal();
 
-        List<ActivityViewDTO> activityViews = this.activityService.findAllActivitiesOrderedByDateDesc(user);
+        List<ActivityViewDTO> activityViews = this.activityService.getAllActivitiesOrderedByDateDesc(user);
         modelAndView.addObject("activityViews", activityViews);
 
         return modelAndView;
@@ -52,7 +51,7 @@ public class ActivityController {
         User user = (User) authentication.getPrincipal();
         activityAddDTO.setDate(LocalDate.now());
 
-        List<HabitViewDTO> habitViews = this.habitService.findAllHabitsDueToday(user);
+        List<HabitViewDTO> habitViews = this.habitService.getAllHabitsByUserDueToday(user);
         modelAndView.addObject("habitViews", habitViews);
         modelAndView.addObject("activityAddModel", activityAddDTO);
         return modelAndView;

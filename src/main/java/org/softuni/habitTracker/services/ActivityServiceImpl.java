@@ -31,7 +31,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityViewDTO> findAllActivitiesOrderedByDateDesc(User user) {
+    public List<ActivityViewDTO> getAllActivitiesOrderedByDateDesc(User user) {
         List<Activity> activities = this.activityRepository.findAllByUserOrderByDateDesc(user);
         List<ActivityViewDTO> activityViewDTOs = new ArrayList<>();
 
@@ -58,6 +58,4 @@ public class ActivityServiceImpl implements ActivityService {
         this.habitRepository.save(habit);
         this.activityRepository.save(activity);
     }
-
-
 }

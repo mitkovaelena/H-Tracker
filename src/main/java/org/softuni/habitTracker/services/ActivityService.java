@@ -8,7 +8,7 @@ import org.softuni.habitTracker.domain.models.view.HabitViewDTO;
 import java.util.List;
 
 public interface ActivityService {
-    List<ActivityViewDTO> findAllActivitiesOrderedByDateDesc(User user);
+    List<ActivityViewDTO> getAllActivitiesOrderedByDateDesc(User user);
 
     void saveActivity(ActivityAddDTO activityAddDTO);
 }
