@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:replace="~{fragments/head}"></div>
+<body>
+<section id="container">
+    <div th:replace="~{fragments/header}"></div>
+
+    <!-- MAIN CONTENT -->
+    <div id="register-page">
+        <div class="container">
+            <form class="form-register" th:action="@{/users/edit/{id}(id = ${userEditModel.getId()})}" th:method="post"
+                  th:object="${userEditModel}">
+                <h2 class="form-register-heading">Edit user</h2>
+                <div class="register-wrap container-fluid">
+                    <div class="form-group col-md-12">
+                        <legend for="username">Username</legend>
+                        <input type="text" id="username" name="username" class="form-control" th:value="${username}" disabled>
+                    </div>
+                    <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+                        <legend for="email">Email</legend>
+                        <input type="email" class="form-control" placeholder="Email" name="email" id="email"
+                               th:value="*{getEmail()}" autofocus>
+                        <div class="help-block has-error" th:if="${#fields.hasErrors('email')}"
+                             th:each="error : ${#fields.errors('email')}" th:text="${error}">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <legend for="firstName">First Name</legend>
+                        <input type="text" class="form-control" placeholder="First Name" name="firstName"
+                               id="firstName" th:value="*{getFirstName()}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <legend for="lastName">Last Name</legend>
+                        <input type="text" class="form-control" placeholder="Last Name " name="lastName" id="lastName"
+                               th:value="*{getLastName()}">
+                    </div>
+                    <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('authorities')} ? 'has-error'">
+                        <legend for="authorities" >Privileges</legend>
+                        <select multiple class="form-control" id="authorities" name="authorities">
+                            <option th:each="privilege: ${privileges}" id="authority" name="authority"
+                                       th:value="${privilege}"
+                                       th:text="${#strings.capitalize(privilege)}"
+                                       th:selected="${userEditModel.getAuthorities().contains(privilege)}">
+                            </option>
+                        </select>
+                        <div class="help-block has-error" th:if="${#fields.hasErrors('authorities')}"
+                             th:each="error : ${#fields.errors('authorities')}" th:text="${error}">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <button class="btn btn-theme btn-block" type="submit"><i class="fas fa-pencil-alt"></i> EDIT
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div th:replace="~{fragments/footer}"></div>
+<div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

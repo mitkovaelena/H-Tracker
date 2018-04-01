@@ -26,14 +26,14 @@
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('frequency')} ? 'has-error'">
                         <legend>Frequency</legend>
-                        <fieldset class="form-check" th:each="frequency: ${frequencies}">
+                        <div class="radio" th:each="frequency: ${frequencies}">
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" id="frequency" name="frequency"
                                        th:value="${frequency}"
                                        th:text="${frequency}"
                                        th:checked="${habitAddModel.getFrequency() == frequency}">
                             </label>
-                        </fieldset>
+                        </div>
                         <div class="help-block has-error" th:if="${#fields.hasErrors('frequency')}"
                              th:each="error : ${#fields.errors('frequency')}" th:text="${error}">
                         </div>
@@ -65,14 +65,14 @@
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('priority')} ? 'has-error'">
                         <legend>Priority</legend>
-                        <fieldset class="form-check" th:each="priority: ${priorities}">
+                        <div class="radio" th:each="priority: ${priorities}">
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" id="priority" name="priority"
                                        th:value="${priority}"
                                        th:text="${priority}"
                                        th:checked="${habitAddModel.getPriority() == priority}">
                             </label>
-                        </fieldset>
+                        </div>
                         <div class="help-block has-error" th:if="${#fields.hasErrors('priority')}"
                              th:each="error : ${#fields.errors('priority')}" th:text="${error}">
                         </div>

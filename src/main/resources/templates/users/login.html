@@ -12,7 +12,7 @@
     <div id="login-page">
         <div class="container">
             <form class="form-login" th:action="@{/users/login}" th:method="post" th:object="${userLoginModel}">
-                <h2 class="form-login-heading">sign in</h2>
+                <h2 class="form-login-heading">log in</h2>
                 <div class="login-wrap container-fluid">
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('username')} ? 'has-error'">
                         <input type="text" class="form-control" placeholder="Username" name="username" id="username"

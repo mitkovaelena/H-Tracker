@@ -45,7 +45,7 @@ public class User implements UserDetails {
     private Set<Habit> habits;
 
     @OneToMany(mappedBy = "user", targetEntity = Activity.class)
-    private Set<Habit> logs;
+    private Set<Activity> activities;
 //
 //    @ManyToMany
 //    @JoinTable(name = "users_friends",
@@ -109,12 +109,12 @@ public class User implements UserDetails {
         this.habits = habits;
     }
 
-    public Set<Habit> getLogs() {
-        return logs;
+    public Set<Activity> getActivities() {
+        return activities;
     }
 
-    public void setLogs(Set<Habit> logs) {
-        this.logs = logs;
+    public void setActivities(Set<Activity> activities) {
+        this.activities = activities;
     }
 
     @Override

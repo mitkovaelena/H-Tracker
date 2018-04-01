@@ -103,6 +103,10 @@ th, td {
     background-color: #ed5565;
 }
 
+select[multiple]{
+    height: 50px;
+}
+
 /*Theme Buttons*/
 
 .btn-theme {
