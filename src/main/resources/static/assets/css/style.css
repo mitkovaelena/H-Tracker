@@ -103,7 +103,7 @@ th, td {
     background-color: #ed5565;
 }
 
-select[multiple]{
+select[multiple] {
     height: 50px;
 }
 
@@ -1105,7 +1105,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
         margin-left: 15px;
     }
 
-    .white-panel .white-header{
+    .white-panel .white-header {
         background: #f4f4f4;
         padding: 3px;
         margin-bottom: 15px;

@@ -1,12 +1,9 @@
 package org.softuni.habitTracker.interceptors;
 
-import org.softuni.habitTracker.domain.entities.Habit;
-import org.softuni.habitTracker.domain.models.view.HabitViewDTO;
-import org.softuni.habitTracker.services.HabitService;
-import org.softuni.habitTracker.services.UserService;
-import org.springframework.lang.Nullable;
+import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
+import org.softuni.habitTracker.areas.habits.services.HabitService;
+import org.softuni.habitTracker.areas.users.services.UserService;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +31,6 @@ public class StreakInterceptor extends HandlerInterceptorAdapter {
                 this.habitService.calculateNextDueDate(habit.getId());
             }
         }
-        return super.preHandle(request,response,handler);
+        return super.preHandle(request, response, handler);
     }
 }

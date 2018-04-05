@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
 <div th:replace="~{fragments/head}"></div>
 <body>
 <section id="container">
@@ -54,7 +54,7 @@
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" th:checked="${habitAddModel.getEndDate() != null}"
-                                      id="endDateCheckBox" onchange="showEndDateField()">Set End Date?</label>
+                                       id="endDateCheckBox" onchange="showEndDateField()">Set End Date?</label>
                         </div>
                         <input type="date" class="form-control hide" id="endDate" name="endDate"
                                th:min="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"

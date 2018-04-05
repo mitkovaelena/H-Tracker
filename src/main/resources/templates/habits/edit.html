@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
 <div th:replace="~{fragments/head}"></div>
 <body>
 <section id="container">
@@ -60,14 +60,14 @@
                     </div>
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('priority')} ? 'has-error'">
                         <legend>Priority</legend>
-                            <div class="radio" th:each="priority: ${priorities}">
-                                <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" id="priority" name="priority"
-                                           th:value="${priority}"
-                                           th:text="${priority}"
-                                           th:checked="${habitEditModel.getPriority() == priority}">
-                                </label>
-                            </div>
+                        <div class="radio" th:each="priority: ${priorities}">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" id="priority" name="priority"
+                                       th:value="${priority}"
+                                       th:text="${priority}"
+                                       th:checked="${habitEditModel.getPriority() == priority}">
+                            </label>
+                        </div>
                         <div class="help-block has-error" th:if="${#fields.hasErrors('priority')}"
                              th:each="error : ${#fields.errors('priority')}" th:text="${error}">
                         </div>

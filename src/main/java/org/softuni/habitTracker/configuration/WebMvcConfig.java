@@ -18,6 +18,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(this.streakInterceptor)
-        .addPathPatterns("/activities/add");
+                .addPathPatterns("/activities/add");
     }
 }
