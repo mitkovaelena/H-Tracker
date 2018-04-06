@@ -32,40 +32,18 @@
                                 <td th:text="${#strings.setJoin(#strings.setCapitalizeWords(user.getAuthorities()), ', ')}"></td>
                                 <td>
                                     <a class="btn btn-info btn-xs"
-                                       th:href="@{/users/view/{id}(id = ${user.getId()})}"><i
+                                       th:href="@{/users/view/{id}(id = *{getId()})}"><i
                                             class="fas fa-search"></i></a>
                                     <a class="btn btn-primary btn-xs"
-                                       th:href="@{/users/edit/{id}(id = ${user.getId()})}"><i
+                                       th:href="@{/users/edit/{id}(id = *{getId()})}"><i
                                             class="fas fa-pencil-alt"></i></a>
-                                    <form method="post" th:action="@{/users/delete/{id}(id = ${user.getId()})}"
+                                    <form method="post" th:action="@{/users/delete/{id}(id = *{getId()})}"
                                           class="btn btn-xs">
-                                        <div data-toggle="modal" th:href="'#deleteUserModal' + ${user.getId()}"
+                                        <div data-toggle="modal" th:href="'#deleteUserModal' + *{getId()}"
                                              class="btn btn-danger btn-xs">
                                             <i class="fas fa-trash-alt"></i></div>
 
-                                        <!--Modal -->
-                                        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-                                             tabindex="-1" th:id="'deleteUserModal' + ${user.getId()}"
-                                             class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-hidden="true">&times;
-                                                        </button>
-                                                        <h4 class="modal-title">Do you really want to delete this
-                                                            user?</h4>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button data-dismiss="modal" class="btn btn-default"
-                                                                type="button">Cancel
-                                                        </button>
-                                                        <button class="btn btn-danger" type="submit">Delete</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- modal -->
+                                        <div th:replace="~{fragments/modals/delete-user}"></div>
 
                                     </form>
                                 </td>

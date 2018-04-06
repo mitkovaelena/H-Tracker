@@ -69,7 +69,7 @@ public class ActivityController {
         activityAddDTO.setHabit(this.habitService.getHabitById(id));
 
         this.activityService.saveActivity(activityAddDTO);
-        modelAndView.setViewName("redirect:/activities/all");
+        modelAndView.setViewName("redirect:/habits/view/" + id);
         return modelAndView;
     }
 }

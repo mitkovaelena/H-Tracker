@@ -32,4 +32,6 @@ public interface HabitService {
     void resetStreak(Long id);
 
     void calculateNextDueDate(Long id);
+
+    String extractLineChartData(Long id);
 }

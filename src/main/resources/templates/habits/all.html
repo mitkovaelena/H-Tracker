@@ -51,29 +51,7 @@
                                              class="btn btn-danger btn-xs">
                                             <i class="fas fa-trash-alt"></i></div>
 
-                                        <!--Modal -->
-                                        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-                                             tabindex="-1" th:id="'deleteHabitModal' + ${habit.getId()}"
-                                             class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-hidden="true">&times;
-                                                        </button>
-                                                        <h4 class="modal-title">Do you really want to delete this
-                                                            habit?</h4>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button data-dismiss="modal" class="btn btn-default"
-                                                                type="button">Cancel
-                                                        </button>
-                                                        <button class="btn btn-danger" type="submit">Delete</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- modal -->
+                                        <div th:replace="~{fragments/modals/delete-habit}"></div>
 
                                     </form>
                                 </td>

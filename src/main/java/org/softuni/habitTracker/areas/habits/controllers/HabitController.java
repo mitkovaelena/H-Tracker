@@ -82,8 +82,9 @@ public class HabitController {
     @GetMapping(path = "/view/{id}")
     public ModelAndView view(ModelAndView modelAndView, @PathVariable("id") Long id) {
         HabitViewDTO habitViewDTO = this.habitService.getHabitViewDTOById(id);
-        modelAndView.setViewName("habits/edit");
+        modelAndView.setViewName("habits/view");
         modelAndView.addObject("habitViewModel", habitViewDTO);
+        modelAndView.addObject("lineChartData", this.habitService.extractLineChartData(id));
         return modelAndView;
     }
 

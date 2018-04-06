@@ -1,13 +1,17 @@
 package org.softuni.habitTracker.areas.habits.services;
 
+import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.softuni.habitTracker.areas.activities.entities.Activity;
+import org.softuni.habitTracker.areas.activities.models.view.ActivityStatictics;
 import org.softuni.habitTracker.areas.activities.repositories.ActivityRepository;
 import org.softuni.habitTracker.areas.habits.entities.Habit;
 import org.softuni.habitTracker.areas.habits.enums.FrequencyEnum;
 import org.softuni.habitTracker.areas.habits.enums.PriorityEnum;
 import org.softuni.habitTracker.areas.habits.models.binding.HabitAddDTO;
 import org.softuni.habitTracker.areas.habits.models.binding.HabitEditDTO;
+import org.softuni.habitTracker.areas.habits.models.json.DataSet;
+import org.softuni.habitTracker.areas.habits.models.json.LineChartJsonObject;
 import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
 import org.softuni.habitTracker.areas.habits.repositories.HabitRepository;
 import org.softuni.habitTracker.areas.users.entities.User;
@@ -18,8 +22,10 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class HabitServiceImpl implements HabitService {
@@ -98,6 +104,32 @@ public class HabitServiceImpl implements HabitService {
         Habit habit = this.habitRepository.findById(id).get();
         habit.setNextDueDate(habit.calculateNextDueDate());
         this.habitRepository.save(habit);
+    }
+
+    @Override
+    public String extractLineChartData(Long id) {
+        Habit habit = this.habitRepository.findById(id).get();
+        List<ActivityStatictics> activities = this.getLastActivities(habit);
+        DataSet dataset = new DataSet(activities.stream().map(ActivityStatictics::getCount).collect(Collectors.toList()));
+
+        LineChartJsonObject lcjo = new LineChartJsonObject(
+                activities.stream().map(x -> x.getDate()).collect(Collectors.toList()), new DataSet[]{dataset});
+
+        Gson gson = new Gson();
+        return gson.toJson(lcjo);
+    }
+
+    private List<ActivityStatictics> getLastActivities(Habit habit) {
+        LinkedList<ActivityStatictics> lastActivities = new LinkedList<>();
+        LocalDate maxDate = LocalDate.now();
+
+        while (lastActivities.size() < 10) {
+            Long count = this.activityRepository.findActivitiesCountForDate(habit.getUser(), habit, maxDate);
+            lastActivities.addFirst(new ActivityStatictics(maxDate, count == null ? 0L : count));
+            maxDate = maxDate.minusDays(1);
+        }
+
+        return lastActivities;
     }
 
     @Override

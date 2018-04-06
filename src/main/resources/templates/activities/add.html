@@ -13,8 +13,7 @@
             <h3><i class="fas fa-angle-right"></i> Activities Due Today</h3>
             <div class="row mt">
                 <div class="col-md-4 col-sm-4 mb" th:object="${habit}" th:each="habit: ${habitViews}">
-                    <form method="post" th:action="@{/activities/add/{id}(id = ${habit.getId()})}"
-                          th:object="${activityAddModel}">
+                    <form method="post" th:action="@{/activities/add/{id}(id = ${habit.getId()})}">
                         <div class="white-panel pn">
                             <div class="white-header"
                                  th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
@@ -31,32 +30,8 @@
                                  th:classappend="${#strings.toLowerCase(habit.getPriority()) + '-priority'}">
                                 <i class="fas fa-check fa-10x"></i></div>
 
-                            <!--Modal -->
-                            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-                                 tabindex="-1" th:id="'addActivityModal' + ${habit.getId()}" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-hidden="true">&times;
-                                            </button>
-                                            <h4 class="modal-title" th:text="${habit.getTitle()}"></h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Add Date</p>
-                                            <input type="date" class="form-control" id="date" name="date"
-                                                   th:value="${#temporals.format(activityAddModel.getDate(), 'yyyy-MM-dd')}"
-                                                   th:max="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button data-dismiss="modal" class="btn btn-default"
-                                                    type="button">Cancel
-                                            </button>
-                                            <button class="btn btn-success" type="submit">Done</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--modal -->
+                            <div th:replace="~{fragments/modals/add-activity}"></div>
+
                         </div>
                     </form>
                 </div><!--/grey-panel -->

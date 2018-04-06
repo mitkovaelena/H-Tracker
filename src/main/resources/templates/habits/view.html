@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
+<div th:replace="~{fragments/head}"></div>
+<body>
+<section id="container">
+    <div th:replace="~{fragments/header}"></div>
+    <div th:replace="~{fragments/sidebar}"></div>
+    <section id="main-content">
+        <section class="wrapper">
+            <h3><i class="fas fa-angle-right"></i><span th:text="${' ' + habitViewModel.getTitle()}"></span></h3>
+            <div class="tab-pane" id="chartjs">
+                <div class="row mt">
+                    <div class="col-lg-6">
+                        <div class="content-panel">
+                            <h4><i class="fa fa-angle-right"></i> Last 10 Days</h4>
+                            <div class="panel-body text-center">
+                                <canvas id="line" height="300" width="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" th:object="${habitViewModel}">
+                        <p>
+                            <form method="post" th:action="@{/activities/add/{id}(id = *{getId()})}">
+                                <div data-toggle="modal" th:href="'#addActivityModal' + *{getId()}"
+                                     class="btn btn btn-theme btn-lg btn-block">Add Activity
+                                </div>
+                                <div th:replace="~{fragments/modals/add-activity}"></div>
+                            </form>
+                        </p>
+                        <p>
+                            <a type="button" class="btn btn-primary btn-lg btn-block"
+                               th:href="@{/habits/edit/{id}(id = *{getId()})}">Edit Habit</a>
+                        </p>
+                        <p>
+                            <form method="post" th:action="@{/habits/delete/{id}(id = *{getId()})}">
+                                <div data-toggle="modal" th:href="'#deleteHabitModal' + *{getId()}"
+                                     class="btn btn-danger btn-lg btn-block">Delete Habit
+                                </div>
+                                <div th:replace="~{fragments/modals/delete-habit}"></div>
+                            </form>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</section>
+<div th:replace="~{fragments/footer}"></div>
+<div th:replace="~{fragments/scripts}"></div>
+</body>
+<script src="/assets/js/chartjs-conf.js"></script>
+<script th:inline="javascript">
+   seedData([[${lineChartData}]]);
+</script>
+</html>

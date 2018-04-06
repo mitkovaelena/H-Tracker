@@ -58,4 +58,5 @@ public class Activity {
     public void setHabit(Habit habit) {
         this.habit = habit;
     }
+
 }

@@ -26,7 +26,7 @@ public class StreakInterceptor extends HandlerInterceptorAdapter {
         List<HabitViewDTO> habits = this.habitService.getAllHabitsByUser(
                 this.userService.getByUsername(request.getUserPrincipal().getName()));
         for (HabitViewDTO habit : habits) {
-            if (habit.getNextDueDate().isBefore(LocalDate.now())) {
+            if (habit.getNextDueDate() != null && habit.getNextDueDate().isBefore(LocalDate.now())) {
                 this.habitService.resetStreak(habit.getId());
                 this.habitService.calculateNextDueDate(habit.getId());
             }
