@@ -21,10 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -109,7 +107,7 @@ public class HabitServiceImpl implements HabitService {
     @Override
     public String extractLineChartData(Long id) {
         Habit habit = this.habitRepository.findById(id).get();
-        List<ActivityStatictics> activities = this.getLastActivities(habit);
+        List<ActivityStatictics> activities = this.getLastActivities(habit, 10);
         DataSet dataset = new DataSet(activities.stream().map(ActivityStatictics::getCount).collect(Collectors.toList()));
 
         LineChartJsonObject lcjo = new LineChartJsonObject(
@@ -119,11 +117,23 @@ public class HabitServiceImpl implements HabitService {
         return gson.toJson(lcjo);
     }
 
-    private List<ActivityStatictics> getLastActivities(Habit habit) {
+    @Override
+    public String extractHeatmapData(Habit habit) {
+        List<ActivityStatictics> activities = this.activityRepository.findActivitiesStatistics(habit.getUser(), habit);
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        HashMap<String, Long> timestamps = new HashMap<>();
+        activities.forEach(a -> timestamps.put(String.valueOf(a.getDate().atStartOfDay(zoneId).toEpochSecond()), (a.getCount())));
+
+        Gson gson = new Gson();
+        return gson.toJson(timestamps);
+    }
+
+    private List<ActivityStatictics> getLastActivities(Habit habit, int days) {
         LinkedList<ActivityStatictics> lastActivities = new LinkedList<>();
         LocalDate maxDate = LocalDate.now();
 
-        while (lastActivities.size() < 10) {
+        while (lastActivities.size() < days) {
             Long count = this.activityRepository.findActivitiesCountForDate(habit.getUser(), habit, maxDate);
             lastActivities.addFirst(new ActivityStatictics(maxDate, count == null ? 0L : count));
             maxDate = maxDate.minusDays(1);

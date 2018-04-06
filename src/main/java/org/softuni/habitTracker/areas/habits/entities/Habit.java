@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "habits")
-public class Habit {
+public class Habit implements Comparable<Habit> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -144,5 +144,10 @@ public class Habit {
 
     public void setNextDueDate(LocalDate nextDueDate) {
         this.nextDueDate = nextDueDate;
+    }
+
+    @Override
+    public int compareTo(Habit habit) {
+        return this.getTitle().compareTo(habit.getTitle());
     }
 }

@@ -1,5 +1,8 @@
 package org.softuni.habitTracker.areas.users.controllers;
 
+import org.softuni.habitTracker.areas.habits.entities.Habit;
+import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
+import org.softuni.habitTracker.areas.habits.services.HabitService;
 import org.softuni.habitTracker.areas.roles.enums.RoleEnum;
 import org.softuni.habitTracker.areas.users.entities.User;
 import org.softuni.habitTracker.areas.users.models.binding.UserEditDto;
@@ -18,7 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
+import java.security.Principal;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,10 +30,12 @@ import java.util.stream.Stream;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final HabitService habitService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, HabitService habitService) {
         this.userService = userService;
+        this.habitService = habitService;
     }
 
     @GetMapping(path = "/register")
@@ -81,11 +87,26 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/statistics")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView viewStatistics(ModelAndView modelAndView, Principal principal) {
+        modelAndView.setViewName("users/statistics");
+        User user = this.userService.getByUsername(principal.getName());
+
+        Map<Habit, String> habitViewModels =  new TreeMap<>();
+        for (Habit habit : user.getHabits()) {
+            habitViewModels.put(habit, this.habitService.extractHeatmapData(habit));
+        }
+
+        modelAndView.addObject("habitViewModels", habitViewModels);
+
+        return modelAndView;
+    }
+
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView all(ModelAndView modelAndView, Authentication authentication) {
         modelAndView.setViewName("users/all");
-        User user = (User) authentication.getPrincipal();
 
         List<UserViewDto> userViewDtos = this.userService.getAllUsers();
         modelAndView.addObject("userViews", userViewDtos);

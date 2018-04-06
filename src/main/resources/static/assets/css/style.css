@@ -251,6 +251,10 @@ ul.top-menu > li > .nav-button {
     color: #fff;
 }
 
+.panel-body {
+    padding-left: 35px;
+}
+
 /*sidebar navigation*/
 
 #sidebar {

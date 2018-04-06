@@ -34,4 +34,6 @@ public interface HabitService {
     void calculateNextDueDate(Long id);
 
     String extractLineChartData(Long id);
+
+    String extractHeatmapData(Habit habit);
 }
