@@ -50,20 +50,30 @@ public class Habit implements Comparable<Habit> {
     }
 
     public LocalDate calculateNextDueDate() {
+        LocalDate nextDueDate = null;
         switch (this.getFrequency()) {
             case YEARLY:
-                return LocalDate.now().plusYears(this.getFrequency().getInterval());
+                nextDueDate = LocalDate.now().plusYears(this.getFrequency().getInterval());
+                break;
             case MONTHLY:
-                return this.getNextDueDate().plusMonths(this.getFrequency().getInterval());
+                nextDueDate = this.getNextDueDate().plusMonths(this.getFrequency().getInterval());
+                break;
             case MONDAY_TO_FRIDAY:
                 if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
-                    return this.getNextDueDate().plusDays(3);
+                    nextDueDate = this.getNextDueDate().plusDays(3);
                 } else if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
-                    return this.getNextDueDate().plusDays(2);
+                    nextDueDate = this.getNextDueDate().plusDays(2);
+                } else {
+                    nextDueDate = this.getNextDueDate().plusDays(1);
                 }
+                break;
             default:
-                return this.getNextDueDate().plusDays(this.getFrequency().getInterval());
+                nextDueDate = this.getNextDueDate().plusDays(this.getFrequency().getInterval());
         }
+        if(this.getEndDate() != null && this.getNextDueDate().isAfter(this.getEndDate())){
+            nextDueDate = null;
+        }
+        return nextDueDate;
     }
 
     public Long getId() {

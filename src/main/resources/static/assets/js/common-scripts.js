@@ -142,3 +142,15 @@ $(function () {
         $('#endDate').removeClass('hide')
     }
 });
+
+function habitCompleted(habitCompleted) {
+    if(habitCompleted == true){
+        $("#habitCompletedModal").modal()
+    }
+}
+
+function noActivities(noActivities) {
+    if(noActivities.length == 0) {
+        $("#noActivitiesModal").modal()
+    }
+}

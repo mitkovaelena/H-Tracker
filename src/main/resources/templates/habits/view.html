@@ -15,7 +15,7 @@
                     <div class="col-lg-6">
                         <div class="content-panel">
                             <h4><i class="fa fa-angle-right"></i> Last 10 Days</h4>
-                            <div class="panel-body text-center">
+                            <div class="panel-body text-center" id="line-chart-panel">
                                 <canvas id="line" height="300" width="400"></canvas>
                             </div>
                         </div>
@@ -66,12 +66,17 @@
                             </ul>
                         </div>
                         <p>
+                            <th:block th:if="${habitCompleted == null}">
+                                <form method="post" th:action="@{/habits/renew/{id}(id = *{getId()})}">
+                                    <div th:replace="~{fragments/modals/habit-completed}"></div>
+                                </form>
+                            </th:block>
                         <div th:if="${habitViewModel.getNextDueDate() == null}">
                             <form method="post" th:action="@{/habits/renew/{id}(id = *{getId()})}">
-                                <div data-toggle="modal" th:href="'#renewActivityModal' + *{getId()}"
+                                <div data-toggle="modal" th:href="'#renewHabitModal' + *{getId()}"
                                      class="btn btn btn-theme btn-lg btn-block">Renew Activity
                                 </div>
-                                <div th:replace="~{fragments/modals/renew-activity}"></div>
+                                <div th:replace="~{fragments/modals/renew-habit}"></div>
                             </form>
                         </div>
                         <div th:if="${habitViewModel.getNextDueDate() != null}">
@@ -108,5 +113,8 @@
 <script src="/assets/js/chartjs-conf.js"></script>
 <script th:inline="javascript">
     seedData([[${lineChartData}]]);
+    $(function(){
+        habitCompleted([[${habitCompleted == true}]]);
+    });
 </script>
 </html>

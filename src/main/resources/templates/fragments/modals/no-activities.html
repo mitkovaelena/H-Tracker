@@ -1,26 +1,23 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-     tabindex="-1" th:id="'addActivityModal' + *{getId()}" class="modal fade">
+                                                tabindex="-1" id="noActivitiesModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" th:text="*{getTitle()}"></h4>
+                <h4 class="modal-title">You don't have any activities for today</h4>
             </div>
             <div class="modal-body">
-                <p>Add Date</p>
-                <input type="date" class="form-control" id="date" name="date"
-                       th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"
-                       th:max="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
+                <img src="/assets/img/no-activities.jpg">
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" class="btn btn-default"
                         type="button">Cancel
                 </button>
-                <button class="btn btn-success" type="submit">Done</button>
+                <a th:href="@{'/habits/add'}" class="btn btn-success" type="submit">Add Habit</a>
             </div>
         </div>
     </div>

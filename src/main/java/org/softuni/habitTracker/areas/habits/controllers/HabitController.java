@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -82,9 +83,10 @@ public class HabitController {
     }
 
     @GetMapping(path = "/view/{id}")
-    public ModelAndView view(ModelAndView modelAndView, @PathVariable("id") Long id) {
+    public ModelAndView view(ModelAndView modelAndView, @PathVariable("id") Long id, @ModelAttribute("habit-completed") Object habitCompleted) {
         HabitViewDTO habitViewDTO = this.habitService.getHabitViewDTOById(id);
         modelAndView.setViewName("habits/view");
+        modelAndView.addObject("habitCompleted", habitCompleted);
         modelAndView.addObject("habitViewModel", habitViewDTO);
         modelAndView.addObject("lineChartData", this.habitService.extractLineChartData(id));
         return modelAndView;

@@ -31,12 +31,12 @@
                                 <i class="fas fa-check fa-10x"></i></div>
 
                             <div th:replace="~{fragments/modals/add-activity}"></div>
-
                         </div>
                     </form>
                 </div><!--/grey-panel -->
             </div><!-- /col-md-4-->
             </div><!-- /row -->
+            <div th:replace="~{fragments/modals/no-activities}"></div>
         </section>
         <!--/wrapper -->
     </section><!-- /MAIN CONTENT -->
@@ -44,4 +44,9 @@
 <div th:replace="~{fragments/footer}"></div>
 <div th:replace="~{fragments/scripts}"></div>
 </body>
+<script th:inline="javascript">
+    $(function(){
+        noActivities([[${habitViews}]]);
+    });
+</script>
 </html>

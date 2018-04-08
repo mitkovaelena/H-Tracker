@@ -56,8 +56,9 @@ public class ActivityServiceImpl implements ActivityService {
             habit.setNextDueDate(nextDueDate);
         } else {
             habit.setNextDueDate(null);
-            //ToDo: Habit completed!
+            activityAddDTO.setHabit(habit);
         }
+
         this.habitRepository.save(habit);
         this.activityRepository.save(activity);
     }

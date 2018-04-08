@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.text.ParseException;
@@ -44,7 +45,6 @@ public class ActivityController {
     public ModelAndView add(ModelAndView modelAndView, @ModelAttribute("activityAddModel") ActivityAddDTO activityAddDTO,
                             Authentication authentication) throws ParseException {
         modelAndView.setViewName("activities/add");
-        //activityAddDTO.setDate(LocalDate.now());
 
         modelAndView.addObject("habitViews", this.habitService.getAllHabitsByUserDueToday((User) authentication.getPrincipal()));
         modelAndView.addObject("activityAddModel", activityAddDTO);
@@ -55,7 +55,7 @@ public class ActivityController {
     @PostMapping(path = "/add/{id}")
     public ModelAndView add(ModelAndView modelAndView, @PathVariable("id") Long id,
                             @Valid @ModelAttribute("activityAddModel") ActivityAddDTO activityAddDTO,
-                            BindingResult bindingResult, Authentication authentication) {
+                            BindingResult bindingResult, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             activityAddDTO.setDate(LocalDate.now());
         }
@@ -64,7 +64,11 @@ public class ActivityController {
         activityAddDTO.setHabit(this.habitService.getHabitById(id));
 
         this.activityService.saveActivity(activityAddDTO);
-        modelAndView.setViewName("redirect:/habits/view/" + id);
+
+        if(activityAddDTO.getHabit().getNextDueDate() == null){
+            redirectAttributes.addFlashAttribute("habit-completed", true);
+        }
+            modelAndView.setViewName("redirect:/habits/view/" + id);
         return modelAndView;
     }
 }
