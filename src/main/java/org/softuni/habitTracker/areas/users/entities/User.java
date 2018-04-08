@@ -49,12 +49,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", targetEntity = Activity.class)
     private Set<Activity> activities;
-//
-//    @ManyToMany
-//    @JoinTable(name = "users_friends",
-//            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "friend_id", referencedColumnName = "id"))
-//    private List<User> friends;
 
     public Long getId() {
         return id;
@@ -147,5 +141,13 @@ public class User implements UserDetails {
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s (%s)",
+                this.getFirstName(),
+                this.getLastName(),
+                this.getUsername());
     }
 }

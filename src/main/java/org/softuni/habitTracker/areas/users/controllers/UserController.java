@@ -1,8 +1,8 @@
 package org.softuni.habitTracker.areas.users.controllers;
 
 import org.softuni.habitTracker.areas.habits.entities.Habit;
-import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
 import org.softuni.habitTracker.areas.habits.services.HabitService;
+import org.softuni.habitTracker.areas.logs.annotations.Log;
 import org.softuni.habitTracker.areas.roles.enums.RoleEnum;
 import org.softuni.habitTracker.areas.users.entities.User;
 import org.softuni.habitTracker.areas.users.models.binding.UserEditDto;
@@ -47,6 +47,7 @@ public class UserController {
         return modelAndView;
     }
 
+    @Log
     @PostMapping(path = "/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView register(ModelAndView modelAndView, @Valid @ModelAttribute("userRegisterModel") UserRegisterDTO userRegisterDTO,
@@ -125,6 +126,7 @@ public class UserController {
         return modelAndView;
     }
 
+    @Log
     @PostMapping(path = "/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("userEditModel") UserEditDto userEditDto,
@@ -143,6 +145,7 @@ public class UserController {
         return modelAndView;
     }
 
+    @Log
     @PostMapping("delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView delete(ModelAndView modelAndView, @PathVariable("id") Long id) {

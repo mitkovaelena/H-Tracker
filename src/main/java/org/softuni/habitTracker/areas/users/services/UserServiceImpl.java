@@ -95,6 +95,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public UserViewDto getUserViewDtoById(Long id) {
+        Optional<User> userOptional = this.userRepository.findById(id);
+        UserViewDto userViewDto = null;
+        if (userOptional.isPresent()) {
+            userViewDto = modelMapper.map(userOptional.get(), UserViewDto.class);
+        }
+        return userViewDto;
+    }
+
+    @Override
     public void editUser(Long id, UserEditDto userEditDto) {
         User user = this.userRepository.findById(id).get();
         user.setEmail(userEditDto.getEmail());

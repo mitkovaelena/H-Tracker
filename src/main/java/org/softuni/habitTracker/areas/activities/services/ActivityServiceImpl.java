@@ -47,7 +47,11 @@ public class ActivityServiceImpl implements ActivityService {
         Habit habit = activityAddDTO.getHabit();
 
         LocalDate nextDueDate = habit.calculateNextDueDate();
-        habit.setStreak(habit.getStreak() + 1);
+
+        if(habit.getNextDueDate().equals(activity.getDate())) {
+            habit.setStreak(habit.getStreak() + 1);
+        }
+
         if (habit.getEndDate() == null || !nextDueDate.isAfter(habit.getEndDate())) {
             habit.setNextDueDate(nextDueDate);
         } else {

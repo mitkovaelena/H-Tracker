@@ -7,6 +7,7 @@ import org.softuni.habitTracker.areas.habits.models.binding.HabitEditDTO;
 import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
 import org.softuni.habitTracker.areas.habits.services.HabitService;
 import org.softuni.habitTracker.areas.habits.util.Constants;
+import org.softuni.habitTracker.areas.logs.annotations.Log;
 import org.softuni.habitTracker.areas.users.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,6 +58,7 @@ public class HabitController {
         return modelAndView;
     }
 
+    @Log
     @PostMapping(path = "/add")
     public ModelAndView add(ModelAndView modelAndView, @Valid @ModelAttribute("habitAddModel") HabitAddDTO habitAddDTO,
                             BindingResult bindingResult, Authentication authentication) {
@@ -101,6 +103,7 @@ public class HabitController {
         return modelAndView;
     }
 
+    @Log
     @PostMapping(path = "/edit/{id}")
     public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("habitEditModel") HabitEditDTO habitEditDTO,
                              BindingResult bindingResult, Authentication authentication, @PathVariable("id") Long id) {
@@ -123,6 +126,15 @@ public class HabitController {
         return modelAndView;
     }
 
+    @Log
+    @PostMapping(path = "/renew/{id}")
+    public ModelAndView renew(ModelAndView modelAndView, @PathVariable("id") Long id, Authentication authentication) {
+        this.habitService.renewHabit(id);
+        modelAndView.setViewName("redirect:/habits/view/" + id);
+        return modelAndView;
+    }
+
+    @Log
     @PostMapping("delete/{id}")
     public ModelAndView delete(ModelAndView modelAndView, @PathVariable("id") Long id) {
         this.habitService.deleteHabit(id);

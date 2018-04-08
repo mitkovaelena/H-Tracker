@@ -36,4 +36,6 @@ public interface HabitService {
     String extractLineChartData(Long id);
 
     String extractHeatmapData(Habit habit);
+
+    void renewHabit(Long id);
 }

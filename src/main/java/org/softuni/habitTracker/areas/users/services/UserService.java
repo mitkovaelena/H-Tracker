@@ -18,9 +18,12 @@ public interface UserService extends UserDetailsService {
 
     UserEditDto getUserEditDtoById(Long id);
 
+    UserViewDto getUserViewDtoById(Long id);
+
     void editUser(Long id, UserEditDto userEditDto);
 
     void deleteUser(Long id);
 
     String getUsernameById(Long id);
+
 }

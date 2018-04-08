@@ -1,10 +1,9 @@
 package org.softuni.habitTracker.areas.activities.controllers;
 
 import org.softuni.habitTracker.areas.activities.models.binding.ActivityAddDTO;
-import org.softuni.habitTracker.areas.activities.models.view.ActivityViewDTO;
 import org.softuni.habitTracker.areas.activities.services.ActivityService;
-import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
 import org.softuni.habitTracker.areas.habits.services.HabitService;
+import org.softuni.habitTracker.areas.logs.annotations.Log;
 import org.softuni.habitTracker.areas.users.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequestMapping("/activities")
@@ -35,10 +33,8 @@ public class ActivityController {
     @GetMapping("/all")
     public ModelAndView all(ModelAndView modelAndView, Authentication authentication) {
         modelAndView.setViewName("activities/all");
-        User user = (User) authentication.getPrincipal();
-
-        List<ActivityViewDTO> activityViews = this.activityService.getAllActivitiesOrderedByDateDesc(user);
-        modelAndView.addObject("activityViews", activityViews);
+        modelAndView.addObject("activityViews",
+                this.activityService.getAllActivitiesOrderedByDateDesc((User) authentication.getPrincipal()));
 
         return modelAndView;
     }
@@ -48,15 +44,14 @@ public class ActivityController {
     public ModelAndView add(ModelAndView modelAndView, @ModelAttribute("activityAddModel") ActivityAddDTO activityAddDTO,
                             Authentication authentication) throws ParseException {
         modelAndView.setViewName("activities/add");
-        User user = (User) authentication.getPrincipal();
-        activityAddDTO.setDate(LocalDate.now());
+        //activityAddDTO.setDate(LocalDate.now());
 
-        List<HabitViewDTO> habitViews = this.habitService.getAllHabitsByUserDueToday(user);
-        modelAndView.addObject("habitViews", habitViews);
+        modelAndView.addObject("habitViews", this.habitService.getAllHabitsByUserDueToday((User) authentication.getPrincipal()));
         modelAndView.addObject("activityAddModel", activityAddDTO);
         return modelAndView;
     }
 
+    @Log
     @PostMapping(path = "/add/{id}")
     public ModelAndView add(ModelAndView modelAndView, @PathVariable("id") Long id,
                             @Valid @ModelAttribute("activityAddModel") ActivityAddDTO activityAddDTO,
@@ -64,8 +59,8 @@ public class ActivityController {
         if (bindingResult.hasErrors()) {
             activityAddDTO.setDate(LocalDate.now());
         }
-        User user = (User) authentication.getPrincipal();
-        activityAddDTO.setUser(user);
+
+        activityAddDTO.setUser((User) authentication.getPrincipal());
         activityAddDTO.setHabit(this.habitService.getHabitById(id));
 
         this.activityService.saveActivity(activityAddDTO);

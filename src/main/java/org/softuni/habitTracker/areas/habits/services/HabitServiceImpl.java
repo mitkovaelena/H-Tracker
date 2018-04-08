@@ -82,6 +82,7 @@ public class HabitServiceImpl implements HabitService {
         habit.setEndDate(habitEditDTO.getEndDate());
         habit.setFrequency(FrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
         habit.setPriority(PriorityEnum.valueOf(habitEditDTO.getPriority().toUpperCase().replace(' ', '_')));
+        habit.setNextDueDate(habit.calculateNextDueDate());
         this.habitRepository.save(habit);
     }
 
@@ -127,6 +128,13 @@ public class HabitServiceImpl implements HabitService {
 
         Gson gson = new Gson();
         return gson.toJson(timestamps);
+    }
+
+    @Override
+    public void renewHabit(Long id) {
+        Habit habit = this.habitRepository.findById(id).get();
+        habit.setNextDueDate(LocalDate.now());
+        this.habitRepository.save(habit);
     }
 
     private List<ActivityStatictics> getLastActivities(Habit habit, int days) {

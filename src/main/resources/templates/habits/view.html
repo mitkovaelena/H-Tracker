@@ -21,25 +21,79 @@
                         </div>
                     </div>
                     <div class="col-lg-6" th:object="${habitViewModel}">
+                        <div class="content-panel">
+                            <ul>
+                                <li>
+                                    <h4><i class="fas fa-bookmark"></i> Title: <span th:text="*{getTitle()}"></span>
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fas fa-bolt"></i> Streak: <span th:text="*{getStreak()}"></span></h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fa fa-calendar-plus"></i> Next Due Date:
+                                        <th:block th:switch="${habitViewModel.getNextDueDate() == null}">
+                                            <span th:case="${false}"
+                                                  th:text="${#temporals.format(habitViewModel.getNextDueDate(), 'dd-MM-yyyy')}"></span>
+                                            <span th:case="${true}">Habit completed</span>
+                                        </th:block>
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fas fa-clock"></i> Frequency: <span
+                                            th:text="${#strings.capitalize(habitViewModel.getFrequency())}"></span>
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fa fa-bullhorn"></i> Priority: <span
+                                            th:text="*{getPriority()}"></span>
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fa fa-calendar-alt"></i> Start Date: <span
+                                            th:text="${#temporals.format(habitViewModel.getStartDate(), 'dd-MM-yyyy')}"></span>
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fa fa-calendar-check"></i> End Date:
+                                        <th:block th:switch="${habitViewModel.getEndDate() == null}">
+                                        <span th:case="${false}"
+                                              th:text="${#temporals.format(habitViewModel.getEndDate(), 'dd-MM-yyyy')}"></span>
+                                            <span th:case="${true}">No end date specified</span>
+                                        </th:block>
+                                    </h4>
+                                </li>
+                            </ul>
+                        </div>
                         <p>
+                        <div th:if="${habitViewModel.getNextDueDate() == null}">
+                            <form method="post" th:action="@{/habits/renew/{id}(id = *{getId()})}">
+                                <div data-toggle="modal" th:href="'#renewActivityModal' + *{getId()}"
+                                     class="btn btn btn-theme btn-lg btn-block">Renew Activity
+                                </div>
+                                <div th:replace="~{fragments/modals/renew-activity}"></div>
+                            </form>
+                        </div>
+                        <div th:if="${habitViewModel.getNextDueDate() != null}">
                             <form method="post" th:action="@{/activities/add/{id}(id = *{getId()})}">
                                 <div data-toggle="modal" th:href="'#addActivityModal' + *{getId()}"
                                      class="btn btn btn-theme btn-lg btn-block">Add Activity
                                 </div>
                                 <div th:replace="~{fragments/modals/add-activity}"></div>
                             </form>
+                        </div>
                         </p>
                         <p>
                             <a type="button" class="btn btn-primary btn-lg btn-block"
                                th:href="@{/habits/edit/{id}(id = *{getId()})}">Edit Habit</a>
                         </p>
                         <p>
-                            <form method="post" th:action="@{/habits/delete/{id}(id = *{getId()})}">
-                                <div data-toggle="modal" th:href="'#deleteHabitModal' + *{getId()}"
-                                     class="btn btn-danger btn-lg btn-block">Delete Habit
-                                </div>
-                                <div th:replace="~{fragments/modals/delete-habit}"></div>
-                            </form>
+                        <form method="post" th:action="@{/habits/delete/{id}(id = *{getId()})}">
+                            <div data-toggle="modal" th:href="'#deleteHabitModal' + *{getId()}"
+                                 class="btn btn-danger btn-lg btn-block">Delete Habit
+                            </div>
+                            <div th:replace="~{fragments/modals/delete-habit}"></div>
+                        </form>
                         </p>
                     </div>
                 </div>
@@ -53,6 +107,6 @@
 <script src="/assets/js/Chart.js"></script>
 <script src="/assets/js/chartjs-conf.js"></script>
 <script th:inline="javascript">
-   seedData([[${lineChartData}]]);
+    seedData([[${lineChartData}]]);
 </script>
 </html>
