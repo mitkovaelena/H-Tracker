@@ -1,0 +1,121 @@
+/* Bootstrap Modifications */
+.modal-header {
+    background: #68dff0;
+}
+
+.modal-title {
+    color: white;
+}
+
+.btn-round {
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+}
+
+.accordion-heading .accordion-toggle {
+    display: block;
+    cursor: pointer;
+    border-top: 1px solid #F5F5F5;
+    padding: 5px 0;
+    line-height: 28.75px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    outline: none !important;
+    text-decoration: none;
+}
+
+.btn-info, .btn-success {
+    margin-right: 5px;
+}
+
+.modal-footer {
+    text-align: center;
+}
+
+th, td {
+    text-align: center;
+}
+
+.white-panel.pn:hover {
+    background: rgba(255, 255, 255, 0.75);
+    color: #fff;
+}
+
+.panel-body {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
+/* White Panel Modifications */
+
+.white-header.medium-priority {
+    background: #f0ad4e;
+    color: #FFFFFF;
+}
+
+.white-header.low-priority {
+    background: #5cb85c;
+    color: #FFFFFF;
+}
+
+.white-header.high-priority {
+    background: #d9534f;
+    color: #FFFFFF;
+}
+
+.habit-icon-large.medium-priority {
+    color: #f0ad4e;
+}
+
+.habit-icon-large.low-priority {
+    color: #5cb85c;
+}
+
+.habit-icon-large.high-priority {
+    color: #d9534f;
+}
+
+/* FORMS */
+.form-login, .form-register, .form-add-habit, .form-add-activity {
+    max-width: 400px;
+    margin: 100px auto 100px;
+    background: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.form-login h2.form-login-heading, .form-register h2.form-register-heading, .form-add-habit-heading {
+    margin: 0;
+    padding: 25px 20px;
+    text-align: center;
+    background: #68dff0;
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    color: #fff;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+.login-wrap, .register-wrap, .add-habit-wrap {
+    padding: 20px;
+}
+
+.login-wrap .registration, .register-wrap .login {
+    text-align: center;
+}
+
+.login-social-link, .register-social-link {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.help-block {
+    margin-bottom: 0;
+}
+
+legend {
+    font-size: 14px;
+}
