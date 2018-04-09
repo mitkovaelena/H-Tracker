@@ -125,6 +125,11 @@ var Script = function () {
     }
 }();
 
+<!-- This script will stretch the background picture to fit in any screen size.-->
+$(function () {
+    $.backstretch("/assets/img/form-bg.jpg", {speed: 500});
+});
+
 function showEndDateField() {
     if ($('#endDate').hasClass('hide')) {
         $('#endDate').removeClass('hide')
