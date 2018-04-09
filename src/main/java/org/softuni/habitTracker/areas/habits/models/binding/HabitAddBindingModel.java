@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @EndDateAfterStartDate(message = Constants.INVALID_DATE)
-public class HabitAddDTO {
+public class HabitAddBindingModel {
     @NotNull
     @NotEmpty(message = Constants.TITLE_NOT_EMPTY)
     private String title;
@@ -32,7 +32,7 @@ public class HabitAddDTO {
 
     private User user;
 
-    public HabitAddDTO() {
+    public HabitAddBindingModel() {
     }
 
     public String getTitle() {

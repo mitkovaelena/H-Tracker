@@ -2,7 +2,7 @@ package org.softuni.habitTracker.areas.logs.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.habitTracker.areas.logs.entities.ApplicationLog;
-import org.softuni.habitTracker.areas.logs.models.view.ApplicationLogViewDTO;
+import org.softuni.habitTracker.areas.logs.models.view.ApplicationLogViewModel;
 import org.softuni.habitTracker.areas.logs.repositories.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +28,12 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<ApplicationLogViewDTO> getAllLogsOrderedByDateDesc() {
+    public List<ApplicationLogViewModel> getAllLogsOrderedByDateDesc() {
         List<ApplicationLog> logs = this.logRepository.findAllByOrderByTimeDesc();
-        List<ApplicationLogViewDTO> logViewDTOS = new ArrayList<>();
+        List<ApplicationLogViewModel> logViewDTOS = new ArrayList<>();
 
         for (ApplicationLog log : logs) {
-            logViewDTOS.add(modelMapper.map(log, ApplicationLogViewDTO.class));
+            logViewDTOS.add(modelMapper.map(log, ApplicationLogViewModel.class));
         }
 
         return logViewDTOS;

@@ -2,7 +2,7 @@ package org.softuni.habitTracker.areas.habits.models.json;
 
 import java.util.List;
 
-public class DataSet {
+public class DataSetJsonObject {
      private String fillColor;
      private String strokeColor;
      private String pointColor;
@@ -12,7 +12,7 @@ public class DataSet {
      private Integer scaleStepWidth;
      private Integer scaleStartValue;
 
-    public DataSet(List<Long> data) {
+    public DataSetJsonObject(List<Long> data) {
         this.data = data;
         initializeColors();
         this.scaleOverride = true;

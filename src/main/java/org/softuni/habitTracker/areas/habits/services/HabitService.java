@@ -1,9 +1,9 @@
 package org.softuni.habitTracker.areas.habits.services;
 
 import org.softuni.habitTracker.areas.habits.entities.Habit;
-import org.softuni.habitTracker.areas.habits.models.binding.HabitAddDTO;
-import org.softuni.habitTracker.areas.habits.models.binding.HabitEditDTO;
-import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
+import org.softuni.habitTracker.areas.habits.models.binding.HabitAddBindingModel;
+import org.softuni.habitTracker.areas.habits.models.binding.HabitEditBindingModel;
+import org.softuni.habitTracker.areas.habits.models.view.HabitViewModel;
 import org.softuni.habitTracker.areas.users.entities.User;
 
 import java.text.ParseException;
@@ -11,23 +11,23 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface HabitService {
-    void saveHabit(HabitAddDTO habitAddDTO);
+    void saveHabit(HabitAddBindingModel habitAddBindingModel);
 
-    HabitEditDTO getHabitEditDTOById(Long id);
+    HabitEditBindingModel getHabitEditDTOById(Long id);
 
-    HabitViewDTO getHabitViewDTOById(Long id);
+    HabitViewModel getHabitViewDTOById(Long id);
 
     Habit getHabitById(Long id);
 
-    void editHabit(Long id, HabitEditDTO habitEditDTO);
+    void editHabit(Long id, HabitEditBindingModel habitEditBindingModel);
 
     LocalDate getStartDateById(Long id);
 
     void deleteHabit(Long id);
 
-    List<HabitViewDTO> getAllHabitsByUser(User user);
+    List<HabitViewModel> getAllHabitsByUser(User user);
 
-    List<HabitViewDTO> getAllHabitsByUserDueToday(User user) throws ParseException;
+    List<HabitViewModel> getAllHabitsByUserDueToday(User user) throws ParseException;
 
     void resetStreak(Long id);
 

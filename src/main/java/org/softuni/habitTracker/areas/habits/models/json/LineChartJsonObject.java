@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 public class LineChartJsonObject {
     private List<String> labels;
-    private DataSet[] datasets;
+    private DataSetJsonObject[] datasets;
 
-    public LineChartJsonObject(List<LocalDate> labels, DataSet[] datasets) {
+    public LineChartJsonObject(List<LocalDate> labels, DataSetJsonObject[] datasets) {
         this.setLabels(labels);
         this.setDatasets(datasets);
     }
@@ -23,11 +23,11 @@ public class LineChartJsonObject {
         this.labels = labels.stream().map(x->x.format(formatter)).collect(Collectors.toList());
     }
 
-    public DataSet[] getDatasets() {
+    public DataSetJsonObject[] getDatasets() {
         return datasets;
     }
 
-    public void setDatasets(DataSet[] datasets) {
+    public void setDatasets(DataSetJsonObject[] datasets) {
         this.datasets = datasets;
     }
 }

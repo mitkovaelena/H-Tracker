@@ -9,9 +9,9 @@ import org.softuni.habitTracker.areas.roles.entities.Role;
 import org.softuni.habitTracker.areas.roles.enums.RoleEnum;
 import org.softuni.habitTracker.areas.roles.repositories.RoleRepository;
 import org.softuni.habitTracker.areas.users.entities.User;
-import org.softuni.habitTracker.areas.users.models.binding.UserEditDto;
-import org.softuni.habitTracker.areas.users.models.binding.UserRegisterDTO;
-import org.softuni.habitTracker.areas.users.models.view.UserViewDto;
+import org.softuni.habitTracker.areas.users.models.binding.UserEditBindingModel;
+import org.softuni.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
+import org.softuni.habitTracker.areas.users.models.view.UserViewModel;
 import org.softuni.habitTracker.areas.users.repositories.UserRepository;
 import org.softuni.habitTracker.areas.users.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void saveUser(final UserRegisterDTO userDTO) {
+    public void saveUser(final UserRegisterBindingModel userDTO) {
         User user = modelMapper.map(userDTO, User.class);
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setAuthorities(Stream.of(roleRepository.findByRole(RoleEnum.USER.getRoleName())).collect(Collectors.toSet()));
@@ -63,15 +63,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserViewDto> getAllUsers() {
+    public List<UserViewModel> getAllUsers() {
         List<User> users = this.userRepository.findAll();
-        List<UserViewDto> userViewDtos = new ArrayList<>();
+        List<UserViewModel> userViewModels = new ArrayList<>();
 
         for (User user : users) {
-            userViewDtos.add(modelMapper.map(user, UserViewDto.class));
+            userViewModels.add(modelMapper.map(user, UserViewModel.class));
         }
 
-        return userViewDtos;
+        return userViewModels;
     }
 
     @Override
@@ -85,33 +85,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserEditDto getUserEditDtoById(Long id) {
+    public UserEditBindingModel getUserEditDtoById(Long id) {
         Optional<User> userOptional = this.userRepository.findById(id);
-        UserEditDto userEditDto = null;
+        UserEditBindingModel userEditBindingModel = null;
         if (userOptional.isPresent()) {
-            userEditDto = modelMapper.map(userOptional.get(), UserEditDto.class);
+            userEditBindingModel = modelMapper.map(userOptional.get(), UserEditBindingModel.class);
         }
-        return userEditDto;
+        return userEditBindingModel;
     }
 
     @Override
-    public UserViewDto getUserViewDtoById(Long id) {
+    public UserViewModel getUserViewDtoById(Long id) {
         Optional<User> userOptional = this.userRepository.findById(id);
-        UserViewDto userViewDto = null;
+        UserViewModel userViewModel = null;
         if (userOptional.isPresent()) {
-            userViewDto = modelMapper.map(userOptional.get(), UserViewDto.class);
+            userViewModel = modelMapper.map(userOptional.get(), UserViewModel.class);
         }
-        return userViewDto;
+        return userViewModel;
     }
 
     @Override
-    public void editUser(Long id, UserEditDto userEditDto) {
+    public void editUser(Long id, UserEditBindingModel userEditBindingModel) {
         User user = this.userRepository.findById(id).get();
-        user.setEmail(userEditDto.getEmail());
-        user.setFirstName(userEditDto.getFirstName());
-        user.setLastName(userEditDto.getLastName());
+        user.setEmail(userEditBindingModel.getEmail());
+        user.setFirstName(userEditBindingModel.getFirstName());
+        user.setLastName(userEditBindingModel.getLastName());
         Set<Role> roles = new HashSet<>();
-        for (String role : userEditDto.getAuthorities()) {
+        for (String role : userEditBindingModel.getAuthorities()) {
             roles.add(this.roleRepository.findByRole(RoleEnum.valueOf(role.toUpperCase()).getRoleName()));
         }
         user.setAuthorities(roles);

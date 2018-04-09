@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-public class HabitEditDTO {
+public class HabitEditBindingModel {
     private Long id;
 
     @NotNull
@@ -23,7 +23,7 @@ public class HabitEditDTO {
     @NotNull(message = Constants.PRIORITY_NOT_EMPTY)
     private String priority;
 
-    public HabitEditDTO() {
+    public HabitEditBindingModel() {
     }
 
     public Long getId() {

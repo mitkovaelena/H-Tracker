@@ -7,12 +7,12 @@ import org.softuni.habitTracker.areas.habits.validators.EndDateAfterStartDate;
 import java.time.LocalDate;
 
 @EndDateAfterStartDate(message = Constants.INVALID_DATE)
-public class ActivityViewDTO {
+public class ActivityViewModel {
     private Long id;
     private LocalDate date;
     private Habit habit;
 
-    public ActivityViewDTO() {
+    public ActivityViewModel() {
     }
 
     public Long getId() {

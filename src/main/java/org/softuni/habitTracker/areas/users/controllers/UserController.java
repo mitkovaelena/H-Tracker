@@ -5,12 +5,12 @@ import org.softuni.habitTracker.areas.habits.services.HabitService;
 import org.softuni.habitTracker.areas.logs.annotations.Log;
 import org.softuni.habitTracker.areas.roles.enums.RoleEnum;
 import org.softuni.habitTracker.areas.users.entities.User;
-import org.softuni.habitTracker.areas.users.models.binding.UserEditDto;
-import org.softuni.habitTracker.areas.users.models.binding.UserLoginDTO;
-import org.softuni.habitTracker.areas.users.models.binding.UserRegisterDTO;
-import org.softuni.habitTracker.areas.users.models.view.UserViewDto;
+import org.softuni.habitTracker.areas.users.models.binding.UserEditBindingModel;
+import org.softuni.habitTracker.areas.users.models.binding.UserLoginBindingModel;
+import org.softuni.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
 import org.softuni.habitTracker.areas.users.services.UserService;
 import org.softuni.habitTracker.areas.users.util.Constants;
+import org.softuni.habitTracker.controllers.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -22,15 +22,16 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.*;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends BaseController {
     private final UserService userService;
-    private final HabitService habitService;
+    private final HabitService habitService; //ToDo
 
     @Autowired
     public UserController(UserService userService, HabitService habitService) {
@@ -40,118 +41,91 @@ public class UserController {
 
     @GetMapping(path = "/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView register(ModelAndView modelAndView, @ModelAttribute("userRegisterModel") UserRegisterDTO userRegisterDTO) {
-        modelAndView.setViewName("users/register");
-        modelAndView.addObject("userRegisterModel", userRegisterDTO);
-
-        return modelAndView;
+    public ModelAndView register(@ModelAttribute("userRegisterModel") UserRegisterBindingModel userRegisterBindingModel) {
+        return super.view("users/register",
+                "userRegisterModel", userRegisterBindingModel);
     }
 
     @Log
     @PostMapping(path = "/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView register(ModelAndView modelAndView, @Valid @ModelAttribute("userRegisterModel") UserRegisterDTO userRegisterDTO,
+    public ModelAndView register(@Valid @ModelAttribute("userRegisterModel") UserRegisterBindingModel userRegisterBindingModel,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             if (bindingResult.hasGlobalErrors()) {
                 bindingResult.rejectValue("confirmPassword", "error.user", Constants.PASSWORDS_MISMATCH);
             }
-            modelAndView.setViewName("users/register");
-            return modelAndView;
+            return this.register(userRegisterBindingModel);
         }
 
-        this.userService.saveUser(userRegisterDTO);
-        modelAndView.setViewName("redirect:/users/login");
-        return modelAndView;
+        this.userService.saveUser(userRegisterBindingModel);
+        return super.redirect("/users/login");
     }
 
     @GetMapping(path = "/login")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView login(ModelAndView modelAndView, @ModelAttribute("userLoginModel") UserLoginDTO userLoginDTO,
+    public ModelAndView login(@ModelAttribute("userLoginModel") UserLoginBindingModel userLoginBindingModel,
                               @RequestParam(required = false) String error, BindingResult bindingResult) {
         if (error != null) {
             bindingResult.rejectValue("username", "error.user", Constants.INCORRECT_USERNAME_OR_PASSWORD);
             bindingResult.rejectValue("password", "error.user", Constants.INCORRECT_USERNAME_OR_PASSWORD);
         }
-        modelAndView.setViewName("users/login");
-        modelAndView.addObject("userLoginModel", userLoginDTO);
-
-        return modelAndView;
+        return super.view("users/login", "userLoginModel", userLoginBindingModel);
     }
 
     @GetMapping(path = "/logout")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView logout(ModelAndView modelAndView, HttpSession session) {
+    public ModelAndView logout(HttpSession session) {
         session.invalidate();
-        modelAndView.setViewName("redirect:/");
-
-        return modelAndView;
+        return super.redirect("/");
     }
 
     @GetMapping("/statistics")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView viewStatistics(ModelAndView modelAndView, Principal principal) {
-        modelAndView.setViewName("users/statistics");
+    public ModelAndView viewStatistics(Principal principal) {
         User user = this.userService.getByUsername(principal.getName());
-
-        Map<Habit, String> habitViewModels =  new TreeMap<>();
+        Map<Habit, String> habitViewModels = new TreeMap<>();
         for (Habit habit : user.getHabits()) {
             habitViewModels.put(habit, this.habitService.extractHeatmapData(habit));
         }
 
-        modelAndView.addObject("habitViewModels", habitViewModels);
-
-        return modelAndView;
+        return super.view("users/statistics", "habitViewModels", habitViewModels);
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView all(ModelAndView modelAndView, Authentication authentication) {
-        modelAndView.setViewName("users/all");
-
-        List<UserViewDto> userViewDtos = this.userService.getAllUsers();
-        modelAndView.addObject("userViews", userViewDtos);
-
-        return modelAndView;
+    public ModelAndView all() {
+        return super.view("users/all", "userViews", this.userService.getAllUsers());
     }
 
     @GetMapping(path = "/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView edit(ModelAndView modelAndView, @PathVariable("id") Long id) {
-        modelAndView.setViewName("users/edit");
-        modelAndView.addObject("userEditModel", this.userService.getUserEditDtoById(id));
-        modelAndView.addObject("username", this.userService.getUsernameById(id));
-        modelAndView.addObject("privileges", Stream.of(RoleEnum.values())
-                .map(RoleEnum::toString).map(String::toLowerCase).collect(Collectors.toList()));
-        return modelAndView;
+    public ModelAndView edit(@PathVariable("id") Long id) {
+        return super.view("users/edit",
+                "userEditModel", this.userService.getUserEditDtoById(id),
+                "username", this.userService.getUsernameById(id),
+                "privileges", Stream.of(RoleEnum.values())
+                        .map(RoleEnum::toString).map(String::toLowerCase).collect(Collectors.toList()));
     }
 
     @Log
     @PostMapping(path = "/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("userEditModel") UserEditDto userEditDto,
+    public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("userEditModel") UserEditBindingModel userEditBindingModel,
                              BindingResult bindingResult, Authentication authentication, @PathVariable("id") Long id) {
-
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("users/edit");
-            modelAndView.addObject("username", this.userService.getUserEditDtoById(id));
-            modelAndView.addObject("privileges", Stream.of(RoleEnum.values())
-                    .map(RoleEnum::toString).collect(Collectors.toList()));
-            return modelAndView;
+            return this.edit(id);
         }
 
-        this.userService.editUser(id, userEditDto);
-        modelAndView.setViewName("redirect:/users/all");
-        return modelAndView;
+        this.userService.editUser(id, userEditBindingModel);
+        return super.redirect("/users/all");
     }
 
     @Log
     @PostMapping("delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView delete(ModelAndView modelAndView, @PathVariable("id") Long id) {
+    public ModelAndView delete(@PathVariable("id") Long id) {
         this.userService.deleteUser(id);
-
-        modelAndView.setViewName("redirect:/users/all");
-        return modelAndView;
+        return super.redirect("/users/all");
     }
 }

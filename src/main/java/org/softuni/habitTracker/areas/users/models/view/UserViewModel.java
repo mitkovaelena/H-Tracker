@@ -8,7 +8,7 @@ import org.softuni.habitTracker.areas.habits.validators.EndDateAfterStartDate;
 import java.util.Set;
 
 @EndDateAfterStartDate(message = Constants.INVALID_DATE)
-public class UserViewDto {
+public class UserViewModel {
     private Long id;
     private String username;
     private String email;
@@ -18,7 +18,7 @@ public class UserViewDto {
     private Set<Habit> habits;
     private Set<Activity> activities;
 
-    public UserViewDto() {
+    public UserViewModel() {
     }
 
     public Long getId() {

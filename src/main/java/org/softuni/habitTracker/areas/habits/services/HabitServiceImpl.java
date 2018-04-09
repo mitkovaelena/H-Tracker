@@ -3,16 +3,16 @@ package org.softuni.habitTracker.areas.habits.services;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.softuni.habitTracker.areas.activities.entities.Activity;
-import org.softuni.habitTracker.areas.activities.models.view.ActivityStatictics;
+import org.softuni.habitTracker.areas.activities.models.view.ActivityStaticticsViewModel;
 import org.softuni.habitTracker.areas.activities.repositories.ActivityRepository;
 import org.softuni.habitTracker.areas.habits.entities.Habit;
 import org.softuni.habitTracker.areas.habits.enums.FrequencyEnum;
 import org.softuni.habitTracker.areas.habits.enums.PriorityEnum;
-import org.softuni.habitTracker.areas.habits.models.binding.HabitAddDTO;
-import org.softuni.habitTracker.areas.habits.models.binding.HabitEditDTO;
-import org.softuni.habitTracker.areas.habits.models.json.DataSet;
+import org.softuni.habitTracker.areas.habits.models.binding.HabitAddBindingModel;
+import org.softuni.habitTracker.areas.habits.models.binding.HabitEditBindingModel;
+import org.softuni.habitTracker.areas.habits.models.json.DataSetJsonObject;
 import org.softuni.habitTracker.areas.habits.models.json.LineChartJsonObject;
-import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
+import org.softuni.habitTracker.areas.habits.models.view.HabitViewModel;
 import org.softuni.habitTracker.areas.habits.repositories.HabitRepository;
 import org.softuni.habitTracker.areas.users.entities.User;
 import org.softuni.habitTracker.areas.users.repositories.UserRepository;
@@ -46,42 +46,42 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public void saveHabit(HabitAddDTO habitAddDTO) {
-        Habit habit = modelMapper.map(habitAddDTO, Habit.class);
-        habit.setFrequency(FrequencyEnum.valueOf(habitAddDTO.getFrequency().toUpperCase().replace(' ', '_')));
-        habit.setPriority(PriorityEnum.valueOf(habitAddDTO.getPriority().toUpperCase().replace(' ', '_')));
+    public void saveHabit(HabitAddBindingModel habitAddBindingModel) {
+        Habit habit = modelMapper.map(habitAddBindingModel, Habit.class);
+        habit.setFrequency(FrequencyEnum.valueOf(habitAddBindingModel.getFrequency().toUpperCase().replace(' ', '_')));
+        habit.setPriority(PriorityEnum.valueOf(habitAddBindingModel.getPriority().toUpperCase().replace(' ', '_')));
         habit.setNextDueDate(habit.getStartDate());
         this.habitRepository.save(habit);
     }
 
     @Override
-    public HabitViewDTO getHabitViewDTOById(Long id) {
+    public HabitViewModel getHabitViewDTOById(Long id) {
         Optional<Habit> habitOptional = this.habitRepository.findById(id);
-        HabitViewDTO habitViewDTO = null;
+        HabitViewModel habitViewModel = null;
         if (habitOptional.isPresent()) {
-            habitViewDTO = modelMapper.map(habitOptional.get(), HabitViewDTO.class);
+            habitViewModel = modelMapper.map(habitOptional.get(), HabitViewModel.class);
         }
 
-        return habitViewDTO;
+        return habitViewModel;
     }
 
     @Override
-    public HabitEditDTO getHabitEditDTOById(Long id) {
+    public HabitEditBindingModel getHabitEditDTOById(Long id) {
         Optional<Habit> habitOptional = this.habitRepository.findById(id);
-        HabitEditDTO habitEditDTO = null;
+        HabitEditBindingModel habitEditBindingModel = null;
         if (habitOptional.isPresent()) {
-            habitEditDTO = modelMapper.map(habitOptional.get(), HabitEditDTO.class);
+            habitEditBindingModel = modelMapper.map(habitOptional.get(), HabitEditBindingModel.class);
         }
-        return habitEditDTO;
+        return habitEditBindingModel;
     }
 
     @Override
-    public void editHabit(Long id, HabitEditDTO habitEditDTO) {
+    public void editHabit(Long id, HabitEditBindingModel habitEditBindingModel) {
         Habit habit = this.habitRepository.findById(id).get();
-        habit.setTitle(habitEditDTO.getTitle());
-        habit.setEndDate(habitEditDTO.getEndDate());
-        habit.setFrequency(FrequencyEnum.valueOf(habitEditDTO.getFrequency().toUpperCase().replace(' ', '_')));
-        habit.setPriority(PriorityEnum.valueOf(habitEditDTO.getPriority().toUpperCase().replace(' ', '_')));
+        habit.setTitle(habitEditBindingModel.getTitle());
+        habit.setEndDate(habitEditBindingModel.getEndDate());
+        habit.setFrequency(FrequencyEnum.valueOf(habitEditBindingModel.getFrequency().toUpperCase().replace(' ', '_')));
+        habit.setPriority(PriorityEnum.valueOf(habitEditBindingModel.getPriority().toUpperCase().replace(' ', '_')));
         habit.setNextDueDate(habit.calculateNextDueDate());
         this.habitRepository.save(habit);
     }
@@ -108,11 +108,11 @@ public class HabitServiceImpl implements HabitService {
     @Override
     public String extractLineChartData(Long id) {
         Habit habit = this.habitRepository.findById(id).get();
-        List<ActivityStatictics> activities = this.getLastActivities(habit, 10);
-        DataSet dataset = new DataSet(activities.stream().map(ActivityStatictics::getCount).collect(Collectors.toList()));
+        List<ActivityStaticticsViewModel> activities = this.getLastActivities(habit, 10);
+        DataSetJsonObject dataset = new DataSetJsonObject(activities.stream().map(ActivityStaticticsViewModel::getCount).collect(Collectors.toList()));
 
         LineChartJsonObject lcjo = new LineChartJsonObject(
-                activities.stream().map(x -> x.getDate()).collect(Collectors.toList()), new DataSet[]{dataset});
+                activities.stream().map(x -> x.getDate()).collect(Collectors.toList()), new DataSetJsonObject[]{dataset});
 
         Gson gson = new Gson();
         return gson.toJson(lcjo);
@@ -120,7 +120,7 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public String extractHeatmapData(Habit habit) {
-        List<ActivityStatictics> activities = this.activityRepository.findActivitiesStatistics(habit.getUser(), habit);
+        List<ActivityStaticticsViewModel> activities = this.activityRepository.findActivitiesStatistics(habit.getUser(), habit);
         ZoneId zoneId = ZoneId.systemDefault();
 
         HashMap<String, Long> timestamps = new HashMap<>();
@@ -137,13 +137,13 @@ public class HabitServiceImpl implements HabitService {
         this.habitRepository.save(habit);
     }
 
-    private List<ActivityStatictics> getLastActivities(Habit habit, int days) {
-        LinkedList<ActivityStatictics> lastActivities = new LinkedList<>();
+    private List<ActivityStaticticsViewModel> getLastActivities(Habit habit, int days) {
+        LinkedList<ActivityStaticticsViewModel> lastActivities = new LinkedList<>();
         LocalDate maxDate = LocalDate.now();
 
         while (lastActivities.size() < days) {
             Long count = this.activityRepository.findActivitiesCountForDate(habit.getUser(), habit, maxDate);
-            lastActivities.addFirst(new ActivityStatictics(maxDate, count == null ? 0L : count));
+            lastActivities.addFirst(new ActivityStaticticsViewModel(maxDate, count == null ? 0L : count));
             maxDate = maxDate.minusDays(1);
         }
 
@@ -164,26 +164,26 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public List<HabitViewDTO> getAllHabitsByUser(User user) {
+    public List<HabitViewModel> getAllHabitsByUser(User user) {
         List<Habit> habits = this.habitRepository.findAllByUser(user);
-        List<HabitViewDTO> habitViewDTOs = new ArrayList<>();
+        List<HabitViewModel> habitViewModels = new ArrayList<>();
 
         for (Habit habit : habits) {
-            habitViewDTOs.add(modelMapper.map(habit, HabitViewDTO.class));
+            habitViewModels.add(modelMapper.map(habit, HabitViewModel.class));
         }
 
-        return habitViewDTOs;
+        return habitViewModels;
     }
 
     @Override
-    public List<HabitViewDTO> getAllHabitsByUserDueToday(User user) throws ParseException {
+    public List<HabitViewModel> getAllHabitsByUserDueToday(User user) throws ParseException {
         List<Habit> habits = this.habitRepository.findAllByUserAndNextDueDate(user, LocalDate.now());
-        List<HabitViewDTO> habitViewDTOs = new ArrayList<>();
+        List<HabitViewModel> habitViewModels = new ArrayList<>();
 
         for (Habit habit : habits) {
-            habitViewDTOs.add(modelMapper.map(habit, HabitViewDTO.class));
+            habitViewModels.add(modelMapper.map(habit, HabitViewModel.class));
         }
 
-        return habitViewDTOs;
+        return habitViewModels;
     }
 }

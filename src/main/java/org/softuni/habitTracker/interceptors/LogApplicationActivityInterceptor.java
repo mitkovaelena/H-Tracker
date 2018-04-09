@@ -11,11 +11,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
-public class LogApplicationActivityInterceptor  extends HandlerInterceptorAdapter {
+public class LogApplicationActivityInterceptor extends HandlerInterceptorAdapter {
     private LogService logService;
     private UserService userService;
 
@@ -31,10 +30,14 @@ public class LogApplicationActivityInterceptor  extends HandlerInterceptorAdapte
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             if (handlerMethod.hasMethodAnnotation(Log.class)) {
-                String message = String.format("%s - %s (id: %s)",
+                String message = String.format("%s - %s",
                         handlerMethod.getMethod().getName(),
-                        handlerMethod.getBeanType().getSimpleName().toLowerCase().replace("controller", ""),
-                        request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/')+1));
+                        handlerMethod.getBeanType().getSimpleName().toLowerCase().replace("controller", ""));
+                String id = request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1);
+
+                if (id.matches("\\d+")) {
+                    message += String.format("(id: %s)", id);
+                }
 
                 ApplicationLog log = new ApplicationLog(LocalDateTime.now(), message);
                 if (request.getUserPrincipal() != null) {

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Set;
 
-public class UserEditDto {
+public class UserEditBindingModel {
     private Long id;
 
     @Pattern(regexp = "^[A-Za-z0-9][A-Za-z0-9.-_]*[A-Za-z0-9]@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\w+$", message = Constants.INVALID_EMAIL)
@@ -19,7 +19,7 @@ public class UserEditDto {
 
     private Set<String> authorities;
 
-    public UserEditDto() {
+    public UserEditBindingModel() {
     }
 
     public Long getId() {

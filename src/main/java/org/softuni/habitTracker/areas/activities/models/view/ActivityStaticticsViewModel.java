@@ -2,11 +2,11 @@ package org.softuni.habitTracker.areas.activities.models.view;
 
 import java.time.LocalDate;
 
-public class ActivityStatictics {
+public class ActivityStaticticsViewModel {
     private LocalDate date;
     private long count;
 
-    public ActivityStatictics(LocalDate date, long count) {
+    public ActivityStaticticsViewModel(LocalDate date, long count) {
         this.date = date;
         this.count = count;
     }

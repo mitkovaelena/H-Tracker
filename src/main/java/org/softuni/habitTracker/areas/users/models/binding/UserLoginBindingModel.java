@@ -5,7 +5,7 @@ import org.softuni.habitTracker.areas.users.util.Constants;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class UserLoginDTO {
+public class UserLoginBindingModel {
     @NotNull
     @NotEmpty(message = Constants.USERNAME_NOT_EMPTY)
     private String username;
@@ -14,7 +14,7 @@ public class UserLoginDTO {
     @NotEmpty(message = Constants.PASSWORD_NOT_EMPTY)
     private String password;
 
-    public UserLoginDTO() {
+    public UserLoginBindingModel() {
     }
 
     public String getUsername() {

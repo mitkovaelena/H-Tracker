@@ -26,9 +26,10 @@
                             </thead>
                             <tbody>
                             <tr th:object="${log}" th:each="log: ${logViews}">
-                                <td th:text="${#temporals.format(log.getTime(), 'hh:mm:ss')}"></td>
+                                <td th:text="${#temporals.format(log.getTime(), 'HH:mm:ss')}"></td>
                                 <td th:text="${#temporals.format(log.getTime(), 'dd-MM-yyyy')}"></td>
-                                <td th:text="*{getUser()}"></td>
+                                <td th:if="${log.getUser() == null}">Anonymous</td>
+                                <td th:if="${log.getUser() != null}" th:text="*{getUser()}"></td>
                                 <td th:text="*{getMessage()}"></td>
                             </tr>
                             </tbody>

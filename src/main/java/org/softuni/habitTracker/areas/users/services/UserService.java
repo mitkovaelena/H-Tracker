@@ -2,9 +2,9 @@ package org.softuni.habitTracker.areas.users.services;
 
 
 import org.softuni.habitTracker.areas.users.entities.User;
-import org.softuni.habitTracker.areas.users.models.binding.UserEditDto;
-import org.softuni.habitTracker.areas.users.models.binding.UserRegisterDTO;
-import org.softuni.habitTracker.areas.users.models.view.UserViewDto;
+import org.softuni.habitTracker.areas.users.models.binding.UserEditBindingModel;
+import org.softuni.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
+import org.softuni.habitTracker.areas.users.models.view.UserViewModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -12,15 +12,15 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     User getByUsername(String username);
 
-    void saveUser(UserRegisterDTO userDTO);
+    void saveUser(UserRegisterBindingModel userDTO);
 
-    List<UserViewDto> getAllUsers();
+    List<UserViewModel> getAllUsers();
 
-    UserEditDto getUserEditDtoById(Long id);
+    UserEditBindingModel getUserEditDtoById(Long id);
 
-    UserViewDto getUserViewDtoById(Long id);
+    UserViewModel getUserViewDtoById(Long id);
 
-    void editUser(Long id, UserEditDto userEditDto);
+    void editUser(Long id, UserEditBindingModel userEditBindingModel);
 
     void deleteUser(Long id);
 

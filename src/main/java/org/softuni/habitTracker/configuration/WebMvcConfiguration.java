@@ -8,12 +8,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfiguration implements WebMvcConfigurer {
     private final StreakInterceptor streakInterceptor;
     private final LogApplicationActivityInterceptor logInterceptor;
 
     @Autowired
-    public WebMvcConfig(StreakInterceptor streakInterceptor, LogApplicationActivityInterceptor logInterceptor) {
+    public WebMvcConfiguration(StreakInterceptor streakInterceptor, LogApplicationActivityInterceptor logInterceptor) {
         this.streakInterceptor = streakInterceptor;
         this.logInterceptor = logInterceptor;
     }

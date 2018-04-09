@@ -2,8 +2,8 @@ package org.softuni.habitTracker.areas.activities.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.habitTracker.areas.activities.entities.Activity;
-import org.softuni.habitTracker.areas.activities.models.binding.ActivityAddDTO;
-import org.softuni.habitTracker.areas.activities.models.view.ActivityViewDTO;
+import org.softuni.habitTracker.areas.activities.models.binding.ActivityAddBindingModel;
+import org.softuni.habitTracker.areas.activities.models.view.ActivityViewModel;
 import org.softuni.habitTracker.areas.activities.repositories.ActivityRepository;
 import org.softuni.habitTracker.areas.habits.entities.Habit;
 import org.softuni.habitTracker.areas.habits.repositories.HabitRepository;
@@ -30,21 +30,21 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityViewDTO> getAllActivitiesOrderedByDateDesc(User user) {
+    public List<ActivityViewModel> getAllActivitiesOrderedByDateDesc(User user) {
         List<Activity> activities = this.activityRepository.findAllByUserOrderByDateDesc(user);
-        List<ActivityViewDTO> activityViewDTOs = new ArrayList<>();
+        List<ActivityViewModel> activityViewModels = new ArrayList<>();
 
         for (Activity activity : activities) {
-            activityViewDTOs.add(modelMapper.map(activity, ActivityViewDTO.class));
+            activityViewModels.add(modelMapper.map(activity, ActivityViewModel.class));
         }
 
-        return activityViewDTOs;
+        return activityViewModels;
     }
 
     @Override
-    public void saveActivity(ActivityAddDTO activityAddDTO) {
-        Activity activity = modelMapper.map(activityAddDTO, Activity.class);
-        Habit habit = activityAddDTO.getHabit();
+    public void saveActivity(ActivityAddBindingModel activityAddBindingModel) {
+        Activity activity = modelMapper.map(activityAddBindingModel, Activity.class);
+        Habit habit = activityAddBindingModel.getHabit();
 
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
@@ -56,7 +56,7 @@ public class ActivityServiceImpl implements ActivityService {
             habit.setNextDueDate(nextDueDate);
         } else {
             habit.setNextDueDate(null);
-            activityAddDTO.setHabit(habit);
+            activityAddBindingModel.setHabit(habit);
         }
 
         this.habitRepository.save(habit);

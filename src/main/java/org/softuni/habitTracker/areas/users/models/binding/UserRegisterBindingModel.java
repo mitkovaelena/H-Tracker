@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @EqualFields(baseField = "password", matchField = "confirmPassword", message = Constants.PASSWORDS_MISMATCH)
-public class UserRegisterDTO {
+public class UserRegisterBindingModel {
     @NotNull
     @Size(min = 4, max = 30, message = Constants.USERNAME_LENGTH)
     @UsernameUnique
@@ -42,7 +42,7 @@ public class UserRegisterDTO {
     // profile picture?
 
 
-    public UserRegisterDTO() {
+    public UserRegisterBindingModel() {
     }
 
     public String getUsername() {

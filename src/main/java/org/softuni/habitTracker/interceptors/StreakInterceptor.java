@@ -1,6 +1,6 @@
 package org.softuni.habitTracker.interceptors;
 
-import org.softuni.habitTracker.areas.habits.models.view.HabitViewDTO;
+import org.softuni.habitTracker.areas.habits.models.view.HabitViewModel;
 import org.softuni.habitTracker.areas.habits.services.HabitService;
 import org.softuni.habitTracker.areas.users.services.UserService;
 import org.springframework.stereotype.Component;
@@ -23,9 +23,9 @@ public class StreakInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        List<HabitViewDTO> habits = this.habitService.getAllHabitsByUser(
+        List<HabitViewModel> habits = this.habitService.getAllHabitsByUser(
                 this.userService.getByUsername(request.getUserPrincipal().getName()));
-        for (HabitViewDTO habit : habits) {
+        for (HabitViewModel habit : habits) {
             if (habit.getNextDueDate() != null && habit.getNextDueDate().isBefore(LocalDate.now())) {
                 this.habitService.resetStreak(habit.getId());
                 this.habitService.calculateNextDueDate(habit.getId());

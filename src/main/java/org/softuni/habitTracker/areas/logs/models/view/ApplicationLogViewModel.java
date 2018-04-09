@@ -8,12 +8,12 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class ApplicationLogViewDTO {
+public class ApplicationLogViewModel {
     private LocalDateTime time;
     private String message;
     private String user;
 
-    public ApplicationLogViewDTO() {
+    public ApplicationLogViewModel() {
     }
 
     public LocalDateTime getTime() {

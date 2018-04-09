@@ -40,7 +40,7 @@
                     <div class="form-group col-md-12" th:classappend="${#fields.hasErrors('startDate')} ? 'has-error'">
                         <legend for="startDate">Start Date</legend>
                         <input type="date" class="form-control" id="startDate" name="startDate"
-                               th:value="${#temporals.format(habitAddModel.getStartDate(), 'yyyy-MM-dd')}"
+                               th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"
                                th:min="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"
                                onchange="setEndDateMin(this.value)">
                         <div class="help-block has-error" th:if="${#fields.hasErrors('startDate')}"
