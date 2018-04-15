@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LogController extends BaseController{
-    private LogService logService;
+    private final LogService logService;
 
     @Autowired
     public LogController(LogService logService) {

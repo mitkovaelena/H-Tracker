@@ -9,8 +9,8 @@
     <div th:replace="~{fragments/header}"></div>
 
     <!-- MAIN CONTENT -->
-    <div id="login-page">
-        <div class="container">
+    <section id="login-page">
+        <section class="container">
             <form class="form-login" th:action="@{/users/login}" th:method="post" th:object="${userLoginModel}">
                 <h2 class="form-login-heading">log in</h2>
                 <div class="login-wrap container-fluid">
@@ -36,8 +36,8 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
+        </cla>
+    </section>
 </section>
 <div th:replace="~{fragments/footer}"></div>
 <div th:replace="~{fragments/scripts}"></div>

@@ -49,6 +49,7 @@ public class ActivityController extends BaseController {
 
     @Log
     @PostMapping(path = "/add/{id}")
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     public ModelAndView add(@PathVariable("id") Long id,
                             @Valid @ModelAttribute("activityAddModel") ActivityAddBindingModel activityAddBindingModel,
                             BindingResult bindingResult, Authentication authentication, RedirectAttributes redirectAttributes) {

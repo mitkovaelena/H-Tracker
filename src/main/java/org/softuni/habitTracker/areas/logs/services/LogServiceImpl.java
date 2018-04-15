@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class LogServiceImpl implements LogService {
-    private LogRepository logRepository;
+    private final LogRepository logRepository;
     private final ModelMapper modelMapper;
 
     @Autowired

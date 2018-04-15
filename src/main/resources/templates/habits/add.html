@@ -9,8 +9,8 @@
     <div th:replace="~{fragments/sidebar}"></div>
 
     <!-- MAIN CONTENT -->
-    <div id="add-page">
-        <div class="container">
+    <section id="main-content">
+        <section class="wrapper">
             <form class="form-add-habit" th:action="@{/habits/add}" th:method="post"
                   th:object="${habitAddModel}">
                 <h2 class="form-add-habit-heading">Add Habit</h2>
@@ -81,8 +81,8 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
+        </section>
+    </section>
 </section>
 <div th:replace="~{fragments/footer}"></div>
 <div th:replace="~{fragments/scripts}"></div>

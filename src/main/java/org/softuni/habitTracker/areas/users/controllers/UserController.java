@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(path = "/register")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("!isAuthenticated()")
     public ModelAndView register(@ModelAttribute("userRegisterModel") UserRegisterBindingModel userRegisterBindingModel) {
         return super.view("users/register",
                 "userRegisterModel", userRegisterBindingModel);
@@ -45,7 +45,7 @@ public class UserController extends BaseController {
 
     @Log
     @PostMapping(path = "/register")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("!isAuthenticated()")
     public ModelAndView register(@Valid @ModelAttribute("userRegisterModel") UserRegisterBindingModel userRegisterBindingModel,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -60,7 +60,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(path = "/login")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("!isAuthenticated()")
     public ModelAndView login(@ModelAttribute("userLoginModel") UserLoginBindingModel userLoginBindingModel,
                               @RequestParam(required = false) String error, BindingResult bindingResult) {
         if (error != null) {
@@ -86,6 +86,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(value = "/statistics/{id}", produces = "application/json")
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public String viewStatistics(@PathVariable Long id) {

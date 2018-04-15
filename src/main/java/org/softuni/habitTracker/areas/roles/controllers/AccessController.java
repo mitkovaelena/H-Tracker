@@ -1,4 +1,4 @@
-package org.softuni.habitTracker.controllers;
+package org.softuni.habitTracker.areas.roles.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -12,4 +12,5 @@ public class AccessController {
     public String unauthorized() {
         return "unauthorized";
     }
+
 }

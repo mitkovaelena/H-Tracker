@@ -67,6 +67,7 @@ public class HabitController extends BaseController {
         return super.redirect("/habits/all");
     }
 
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     @GetMapping(path = "/view/{id}")
     public ModelAndView view(@PathVariable("id") Long id, @ModelAttribute("habitCompleted") Object habitCompleted) {
         return super.view("habits/view",
@@ -75,12 +76,14 @@ public class HabitController extends BaseController {
     }
 
     @GetMapping(value = "/view/{id}/statistics", produces = "application/json")
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public String viewStatistics(@PathVariable Long id) {
         return this.habitService.extractLineChartData(id);
     }
 
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     @GetMapping(path = "/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
         return super.view("habits/edit",
@@ -93,6 +96,7 @@ public class HabitController extends BaseController {
     }
 
     @Log
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     @PostMapping(path = "/edit/{id}")
     public ModelAndView edit(@Valid @ModelAttribute("habitEditModel") HabitEditBindingModel habitEditBindingModel,
                              BindingResult bindingResult, @PathVariable("id") Long id) {
@@ -108,6 +112,7 @@ public class HabitController extends BaseController {
     }
 
     @Log
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     @PostMapping(path = "/renew/{id}")
     public ModelAndView renew(@PathVariable("id") Long id) {
         this.habitService.renewHabit(id);
@@ -115,6 +120,7 @@ public class HabitController extends BaseController {
     }
 
     @Log
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
     @PostMapping("/delete")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
