@@ -93,12 +93,10 @@
                                th:href="@{/habits/edit/{id}(id = *{getId()})}">Edit Habit</a>
                         </p>
                         <p>
-                        <form method="post" th:action="@{/habits/delete/{id}(id = *{getId()})}">
-                            <div data-toggle="modal" th:href="'#deleteHabitModal' + *{getId()}"
-                                 class="btn btn-danger btn-lg btn-block">Delete Habit
-                            </div>
-                            <div th:replace="~{fragments/modals/delete-habit}"></div>
-                        </form>
+                            <a type="button" class="btn btn-danger btn-lg btn-block"
+                               data-toggle="modal"
+                               th:href="'#deleteHabitModal' + ${habitViewModel.getId()}">Delete Habit</a>
+                        <div th:replace="~{fragments/modals/delete-habit}"></div>
                         </p>
                     </div>
                 </div>

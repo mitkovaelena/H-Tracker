@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml"
->
+      xmlns="http://www.w3.org/1999/xhtml">
+
 <div th:replace="~{fragments/head}"></div>
+<div th:replace="~{fragments/scripts}"></div>
 <body>
 <section id="container">
     <div th:replace="~{fragments/header}"></div>
@@ -26,13 +27,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:object="${habit}" th:each="habit: ${habitViews}">
+                            <tr th:object="${habitViewModel}" th:each="habitViewModel: ${habitViews}">
                                 <td th:text="*{getTitle()}"></td>
                                 <td th:text="*{getStreak()}"></td>
-                                <td th:text="${#strings.capitalize(habit.getFrequency())}"></td>
-                                <td th:text="${#temporals.format(habit.getStartDate(), 'dd-MM-yyyy')}"></td>
+                                <td th:text="${#strings.capitalize(habitViewModel.getFrequency())}"></td>
+                                <td th:text="${#temporals.format(habitViewModel.getStartDate(), 'dd-MM-yyyy')}"></td>
                                 <td>
-                                    <th:block th:switch="${habit.getPriority()}">
+                                    <th:block th:switch="*{getPriority()}">
                                         <span th:case="Low" class="label label-success label-mini">Low</span>
                                         <span th:case="Medium" class="label label-warning label-mini">Medium</span>
                                         <span th:case="High" class="label label-danger label-mini">High</span>
@@ -40,20 +41,15 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-info btn-xs"
-                                       th:href="@{/habits/view/{id}(id = ${habit.getId()})}"><i
+                                       th:href="@{/habits/view/{id}(id = *{getId()})}"><i
                                             class="fas fa-search"></i></a>
                                     <a class="btn btn-primary btn-xs"
-                                       th:href="@{/habits/edit/{id}(id = ${habit.getId()})}"><i
+                                       th:href="@{/habits/edit/{id}(id = *{getId()})}"><i
                                             class="fas fa-pencil-alt"></i></a>
-                                    <form method="post" th:action="@{/habits/delete/{id}(id = ${habit.getId()})}"
-                                          class="btn btn-xs">
-                                        <div data-toggle="modal" th:href="'#deleteHabitModal' + ${habit.getId()}"
-                                             class="btn btn-danger btn-xs">
-                                            <i class="fas fa-trash-alt"></i></div>
-
-                                        <div th:replace="~{fragments/modals/delete-habit}"></div>
-
-                                    </form>
+                                    <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                       th:href="'#deleteHabitModal' + *{getId()}">
+                                        <i class="fas fa-trash-alt"></i></a>
+                                    <div th:replace="~{fragments/modals/delete-habit}"></div>
                                 </td>
                             </tr>
                             </tbody>

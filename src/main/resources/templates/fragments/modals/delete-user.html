@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
+
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
      tabindex="-1" th:id="'deleteUserModal' + *{getId()}"
      class="modal fade">
@@ -16,7 +17,8 @@
                 <button data-dismiss="modal" class="btn btn-default"
                         type="button">Cancel
                 </button>
-                <button class="btn btn-danger" type="submit">Delete</button>
+                <button class="btn btn-danger" type="submit" th:id="'deleteBtn' + *{getId()}"
+                        onclick="deleteById(this, '/users/delete')">Delete</button>
             </div>
         </div>
     </div>

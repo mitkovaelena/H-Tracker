@@ -122,10 +122,12 @@ public class UserController extends BaseController {
     }
 
     @Log
-    @PostMapping("delete/{id}")
+    @PostMapping("/delete")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView delete(@PathVariable("id") Long id) {
+    public String delete(@RequestParam("id") Long id) {
         this.userService.deleteUser(id);
-        return super.redirect("/users/all");
+        return "/users/all";
     }
 }

@@ -159,3 +159,26 @@ function noActivities(noActivities) {
         $("#noActivitiesModal").modal()
     }
 }
+
+function deleteById(element, url) {
+    let token = $("meta[name='_csrf']").attr("content");
+    let header = $("meta[name='_csrf_header']").attr("content");
+
+    let id = element.id;
+    id = id.replace("deleteBtn", '');
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            id: id
+        },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+
+        success: function(redirect) {
+            window.location.replace(redirect)
+        }
+    });
+}

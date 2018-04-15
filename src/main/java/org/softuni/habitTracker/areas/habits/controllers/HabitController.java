@@ -115,9 +115,11 @@ public class HabitController extends BaseController {
     }
 
     @Log
-    @PostMapping("delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) {
+    @PostMapping("/delete")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String delete(@RequestParam Long id) {
         this.habitService.deleteHabit(id);
-        return super.redirect("/habits/all");
+        return "/habits/all";
     }
 }

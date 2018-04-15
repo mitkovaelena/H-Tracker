@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml"
->
+      xmlns="http://www.w3.org/1999/xhtml">
 <div th:replace="~{fragments/head}"></div>
+<div th:replace="~{fragments/scripts}"></div>
+
 <body>
 <section id="container">
     <div th:replace="~{fragments/header}"></div>
@@ -37,15 +38,10 @@
                                     <a class="btn btn-primary btn-xs"
                                        th:href="@{/users/edit/{id}(id = *{getId()})}"><i
                                             class="fas fa-pencil-alt"></i></a>
-                                    <form method="post" th:action="@{/users/delete/{id}(id = *{getId()})}"
-                                          class="btn btn-xs">
-                                        <div data-toggle="modal" th:href="'#deleteUserModal' + *{getId()}"
-                                             class="btn btn-danger btn-xs">
-                                            <i class="fas fa-trash-alt"></i></div>
-
-                                        <div th:replace="~{fragments/modals/delete-user}"></div>
-
-                                    </form>
+                                    <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                       th:href="'#deleteUserModal' + *{getId()}">
+                                        <i class="fas fa-trash-alt"></i></a>
+                                    <div th:replace="~{fragments/modals/delete-user}"></div>
                                 </td>
                             </tr>
                             </tbody>
