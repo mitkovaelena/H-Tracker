@@ -8,6 +8,8 @@
 <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css"/>
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery-1.8.3.min.js"></script>
 <script src="/assets/js/cal-heatmap-conf.js"></script>
 
 <div th:replace="~{fragments/head}"></div>
@@ -23,13 +25,13 @@
                     <div class="col-lg-12">
                         <div class="content-panel heatmap">
                             <h4><i class="fa fa-angle-right"></i>
-                                <a th:href="@{/habits/view/{id}(id = ${habitViewModel.key.getId()})}">
-                                    <span th:text="${habitViewModel.key.getTitle()}"></span>
+                                <a th:href="@{/habits/view/{id}(id = ${habitViewModel.getId()})}">
+                                    <span th:text="${habitViewModel.getTitle()}"></span>
                                 </a>
                             </h4>
-                            <div class="panel-body text-center" th:id="${habitViewModel.key.getTitle()}">
+                            <div class="panel-body text-center" th:id="${habitViewModel.getTitle()}">
                                 <script th:inline="javascript">
-                                    seedHeadMapData([[${habitViewModel.value}]], [[${habitViewModel.key.getTitle()}]]);
+                                    seedHeadMapData([[${habitViewModel.getTitle()}]], [[${habitViewModel.getId()}]]);
                                 </script>
                             </div>
                         </div>

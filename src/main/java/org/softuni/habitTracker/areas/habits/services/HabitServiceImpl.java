@@ -82,6 +82,7 @@ public class HabitServiceImpl implements HabitService {
         habit.setEndDate(habitEditBindingModel.getEndDate());
         habit.setFrequency(FrequencyEnum.valueOf(habitEditBindingModel.getFrequency().toUpperCase().replace(' ', '_')));
         habit.setPriority(PriorityEnum.valueOf(habitEditBindingModel.getPriority().toUpperCase().replace(' ', '_')));
+        habit.setNextDueDate(habit.getStartDate());
         habit.setNextDueDate(habit.calculateNextDueDate());
         this.habitRepository.save(habit);
     }
@@ -114,26 +115,28 @@ public class HabitServiceImpl implements HabitService {
         LineChartJsonObject lcjo = new LineChartJsonObject(
                 activities.stream().map(x -> x.getDate()).collect(Collectors.toList()), new DataSetJsonObject[]{dataset});
 
-        Gson gson = new Gson();
-        return gson.toJson(lcjo);
+        return new Gson().toJson(lcjo);
     }
 
     @Override
-    public String extractHeatmapData(Habit habit) {
+    public String extractHeatmapData(Long id) {
+        Habit habit = this.habitRepository.findById(id).get();
+
         List<ActivityStaticticsViewModel> activities = this.activityRepository.findActivitiesStatistics(habit.getUser(), habit);
         ZoneId zoneId = ZoneId.systemDefault();
 
         HashMap<String, Long> timestamps = new HashMap<>();
         activities.forEach(a -> timestamps.put(String.valueOf(a.getDate().atStartOfDay(zoneId).toEpochSecond()), (a.getCount())));
 
-        Gson gson = new Gson();
-        return gson.toJson(timestamps);
+        return new Gson().toJson(timestamps);
     }
 
     @Override
     public void renewHabit(Long id) {
         Habit habit = this.habitRepository.findById(id).get();
         habit.setNextDueDate(LocalDate.now());
+        habit.setEndDate(null);
+        habit.setStreak(0);
         this.habitRepository.save(habit);
     }
 

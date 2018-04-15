@@ -10,6 +10,7 @@ import org.softuni.habitTracker.areas.logs.annotations.Log;
 import org.softuni.habitTracker.areas.users.entities.User;
 import org.softuni.habitTracker.controllers.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -70,8 +71,14 @@ public class HabitController extends BaseController {
     public ModelAndView view(@PathVariable("id") Long id, @ModelAttribute("habitCompleted") Object habitCompleted) {
         return super.view("habits/view",
                 "habitCompleted", habitCompleted,
-                "habitViewModel", this.habitService.getHabitViewDTOById(id),
-                "lineChartData", this.habitService.extractLineChartData(id));
+                "habitViewModel", this.habitService.getHabitViewDTOById(id));
+    }
+
+    @GetMapping(value = "/view/{id}/statistics", produces = "application/json")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String viewStatistics(@PathVariable Long id) {
+        return this.habitService.extractLineChartData(id);
     }
 
     @GetMapping(path = "/edit/{id}")

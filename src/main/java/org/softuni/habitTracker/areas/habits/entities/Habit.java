@@ -6,6 +6,7 @@ import org.softuni.habitTracker.areas.habits.enums.PriorityEnum;
 import org.softuni.habitTracker.areas.users.entities.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Set;
@@ -50,27 +51,29 @@ public class Habit implements Comparable<Habit> {
     }
 
     public LocalDate calculateNextDueDate() {
-        LocalDate nextDueDate = null;
-        switch (this.getFrequency()) {
-            case YEARLY:
-                nextDueDate = LocalDate.now().plusYears(this.getFrequency().getInterval());
-                break;
-            case MONTHLY:
-                nextDueDate = this.getNextDueDate().plusMonths(this.getFrequency().getInterval());
-                break;
-            case MONDAY_TO_FRIDAY:
-                if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
-                    nextDueDate = this.getNextDueDate().plusDays(3);
-                } else if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
-                    nextDueDate = this.getNextDueDate().plusDays(2);
-                } else {
-                    nextDueDate = this.getNextDueDate().plusDays(1);
-                }
-                break;
-            default:
-                nextDueDate = this.getNextDueDate().plusDays(this.getFrequency().getInterval());
-        }
-        if(this.getEndDate() != null && this.getNextDueDate().isAfter(this.getEndDate())){
+        LocalDate nextDueDate = this.getNextDueDate();
+        do {
+            switch (this.getFrequency()) {
+                case YEARLY:
+                    nextDueDate = nextDueDate.plusYears(this.getFrequency().getInterval());
+                    break;
+                case MONTHLY:
+                    nextDueDate = nextDueDate.plusMonths(this.getFrequency().getInterval());
+                    break;
+                case MONDAY_TO_FRIDAY:
+                    if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
+                        nextDueDate = LocalDate.now().plusDays(3);
+                    } else if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+                        nextDueDate = LocalDate.now().plusDays(2);
+                    } else {
+                        nextDueDate = LocalDate.now().plusDays(1);
+                    }
+                    break;
+                default:
+                    nextDueDate = nextDueDate.plusDays(this.getFrequency().getInterval());
+            }
+        } while (nextDueDate.isBefore(LocalDate.now()));
+        if(this.getEndDate() != null && nextDueDate.isAfter(this.getEndDate())){
             nextDueDate = null;
         }
         return nextDueDate;
@@ -158,6 +161,6 @@ public class Habit implements Comparable<Habit> {
 
     @Override
     public int compareTo(Habit habit) {
-        return this.getTitle().compareTo(habit.getTitle());
+        return this.getId().compareTo(habit.getId());
     }
 }

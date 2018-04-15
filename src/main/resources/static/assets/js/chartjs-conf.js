@@ -1,27 +1,28 @@
-function seedData(data) {
-    let lineChartData = JSON.parse(data);
+function seedData(id) {
+    let url = "/habits/view/" + id + "/statistics";
 
-    if (isChartEmpty(lineChartData)) {
-        let ctx = document.getElementById('line').getContext('2d');
-        let image = new Image();
-        image.src = "/assets/img/not-enough-data.jpg";
+    $.getJSON(url).done(function (lineChartData) {
+        if (isChartEmpty(lineChartData)) {
+            let ctx = document.getElementById('line').getContext('2d');
+            let image = new Image();
+            image.src = "/assets/img/not-enough-data.jpg";
 
-        image.onload = function () {
-            ctx.drawImage(image, 0, 0, 400, 300);
-        };
-        return;
-    }
-    console.log(lineChartData);
+            image.onload = function () {
+                ctx.drawImage(image, 0, 0, 400, 300);
+            };
+            return;
+        }
 
-    let maxValue = Math.max(...lineChartData.datasets[0].data);
-    new Chart(document.getElementById("line").getContext("2d"))
-        .Line(lineChartData, {
-            responsive: true,
-            scaleOverride: 1,
-            scaleSteps: maxValue,
-            scaleStartValue: 0,
-            scaleStepWidth: 1
-        });
+        let maxValue = Math.max(...lineChartData.datasets[0].data);
+        new Chart(document.getElementById("line").getContext("2d"))
+            .Line(lineChartData, {
+                responsive: true,
+                scaleOverride: 1,
+                scaleSteps: maxValue,
+                scaleStartValue: 0,
+                scaleStepWidth: 1
+            });
+    });
 }
 
 function isChartEmpty(data) {

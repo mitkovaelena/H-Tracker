@@ -46,6 +46,7 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = modelMapper.map(activityAddBindingModel, Activity.class);
         Habit habit = activityAddBindingModel.getHabit();
 
+        habit.setNextDueDate(habit.getStartDate());
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         if(habit.getNextDueDate().equals(activity.getDate())) {

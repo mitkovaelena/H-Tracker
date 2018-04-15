@@ -1,10 +1,8 @@
 package org.softuni.habitTracker.areas.users.controllers;
 
-import org.softuni.habitTracker.areas.habits.entities.Habit;
 import org.softuni.habitTracker.areas.habits.services.HabitService;
 import org.softuni.habitTracker.areas.logs.annotations.Log;
 import org.softuni.habitTracker.areas.roles.enums.RoleEnum;
-import org.softuni.habitTracker.areas.users.entities.User;
 import org.softuni.habitTracker.areas.users.models.binding.UserEditBindingModel;
 import org.softuni.habitTracker.areas.users.models.binding.UserLoginBindingModel;
 import org.softuni.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
@@ -12,6 +10,7 @@ import org.softuni.habitTracker.areas.users.services.UserService;
 import org.softuni.habitTracker.areas.users.util.Constants;
 import org.softuni.habitTracker.controllers.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,13 +80,16 @@ public class UserController extends BaseController {
     @GetMapping("/statistics")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView viewStatistics(Principal principal) {
-        User user = this.userService.getByUsername(principal.getName());
-        Map<Habit, String> habitViewModels = new TreeMap<>();
-        for (Habit habit : user.getHabits()) {
-            habitViewModels.put(habit, this.habitService.extractHeatmapData(habit));
-        }
+        return super.view("users/statistics", "habitViewModels",
+                this.userService.getByUsername(principal.getName()).getHabits()
+                        .stream().sorted().collect(Collectors.toList()));
+    }
 
-        return super.view("users/statistics", "habitViewModels", habitViewModels);
+    @GetMapping(value = "/statistics/{id}", produces = "application/json")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String viewStatistics(@PathVariable Long id) {
+        return this.habitService.extractHeatmapData(id);
     }
 
     @GetMapping("/all")

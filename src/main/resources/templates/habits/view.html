@@ -112,7 +112,7 @@
 <script src="/assets/js/Chart.js"></script>
 <script src="/assets/js/chartjs-conf.js"></script>
 <script th:inline="javascript">
-    seedData([[${lineChartData}]]);
+    seedData([[${habitViewModel.getId()}]]);
     $(function(){
         habitCompleted([[${habitCompleted == true}]]);
     });
