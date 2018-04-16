@@ -87,6 +87,7 @@ public class UserController extends BaseController {
                                        @PageableDefault(size = ApplicationConstants.DEFAULT_STATISTICS_COUNT_PER_PAGE) Pageable pageable) {
         return super.view("users/statistics", "habitsPageModel",
                 this.habitService.getHabitsPageByUser( this.userService.getUserById(id), pageable),
+                "userViewModel", this.userService.getUserById(id),
                 "page", pageable.getPageNumber());
     }
 

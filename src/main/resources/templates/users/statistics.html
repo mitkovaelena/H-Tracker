@@ -18,9 +18,37 @@
     <div th:replace="~{fragments/sidebar}"></div>
     <section id="main-content">
         <section class="wrapper">
-            <h3><i class="fas fa-angle-right"></i> My Statistics</h3>
+            <h3><i class="fas fa-angle-right"></i> Statistics</h3>
             <div class="tab-pane" id="chartjs">
-                <div class="row mt">
+                <div class="row">
+                    <div class="col-lg-1 btn-col"></div>
+                    <div class="col-lg-9 statistics-col">
+                        <div class="showback centered">
+                            <ul th:object="${userViewModel}">
+                                <li>
+                                    <h4><i class="fas fa-user"></i> Username: <span
+                                            th:text="*{getUsername()}"></span>
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fas fa-at"></i> Email: <span th:text="*{getEmail()}"></span></h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fa fa-id-card"></i> Full Name:
+                                        <span th:text="${#strings.concat(userViewModel.getFirstName(),' ', userViewModel.getLastName())}"></span>
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4><i class="fas fa-shield-alt"></i> Privileges:
+                                        <span th:text="${#strings.setJoin(#strings.setCapitalizeWords(userViewModel.getAuthorities()), ', ')}"></span>
+                                    </h4>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 btn-col"></div>
+                </div>
+                <div class="row">
                     <div class="col-lg-1 btn-col">
                         <a class="btn btn-md col-md-15 btn-theme pull-left"
                            th:if="${page > 0}"
@@ -48,7 +76,7 @@
                             Next <i class="fas fa-angle-right"></i></a>
                     </div>
                 </div>
-                <div class="row mt"  sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="row" th:if="${#authentication.name != userViewModel.getUsername() and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                     <div class="col-lg-1 btn-col"></div>
                     <div class="col-lg-9 statistics-col">
                         <div class="showback centered">
