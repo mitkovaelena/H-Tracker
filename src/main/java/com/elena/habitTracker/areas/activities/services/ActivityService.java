@@ -9,11 +9,5 @@ import org.springframework.data.domain.Pageable;
 public interface ActivityService {
     ActivitiesPageViewModel getAllActivitiesOrderedByDateDesc(User user, Pageable pageable);
 
-    default long getTotalPages() {
-        return getTotalPages(ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE);
-    }
-
-    long getTotalPages(int size);
-
     void saveActivity(ActivityAddBindingModel activityAddBindingModel);
 }

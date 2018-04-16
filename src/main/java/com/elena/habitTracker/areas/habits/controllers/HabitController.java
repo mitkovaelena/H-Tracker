@@ -37,11 +37,10 @@ public class HabitController extends BaseController {
     }
 
     @GetMapping("/all")
-    public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE)
-                                    Pageable pageable, Authentication authentication) {
+    public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable, Authentication authentication) {
         return super.view("habits/all",
                 "habitsPageModel",
-                this.habitService.getAllHabitsByUser((User) authentication.getPrincipal(), pageable),
+                this.habitService.getHabitsPageByUser((User) authentication.getPrincipal(), pageable),
                 "page", pageable.getPageNumber());
     }
 

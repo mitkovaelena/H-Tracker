@@ -15,6 +15,7 @@ import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.users.repositories.UserRepository;
+import com.elena.habitTracker.util.ApplicationConstants;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,8 +183,7 @@ public class HabitServiceImpl implements HabitService {
         return habitViewModels;
     }
 
-    @Override
-    public HabitsPageViewModel getAllHabitsByUser(User user, Pageable pageable) {
+    public HabitsPageViewModel getHabitsPageByUser(User user, Pageable pageable) {
         Page<Habit> habitsPage = this.habitRepository.findAllByUser(user, pageable);
         int totalElements = (int) habitsPage.getTotalElements();
 
@@ -194,7 +194,7 @@ public class HabitServiceImpl implements HabitService {
 
         HabitsPageViewModel habitsPageViewModel = new HabitsPageViewModel();
         habitsPageViewModel.setHabits(habitViewModelsPage);
-        habitsPageViewModel.setTotalPagesCount(this.getTotalPages());
+        habitsPageViewModel.setTotalPagesCount(habitViewModelsPage.getTotalPages());
 
         return habitsPageViewModel;
     }
@@ -211,8 +211,4 @@ public class HabitServiceImpl implements HabitService {
         return habitViewModels;
     }
 
-    @Override
-    public long getTotalPages(int size) {
-        return this.habitRepository.count() / size;
-    }
 }

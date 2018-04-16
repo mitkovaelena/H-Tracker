@@ -1,11 +1,12 @@
-function seedHeadMapData(selector, id) {
+function seedHeatmapData(selector, id) {
     let url = "/users/statistics/" + id;
+    selector = "#" + selector;
 
     $.getJSON(url).done(function (heatmapData) {
 
         let cal = new CalHeatMap();
         cal.init({
-            itemSelector: "#" + selector,
+            itemSelector: selector,
             domain: "year",
             subDomain: "day",
             data: heatmapData,

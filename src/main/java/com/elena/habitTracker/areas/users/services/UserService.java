@@ -26,11 +26,4 @@ public interface UserService extends UserDetailsService {
     void deleteUser(Long id);
 
     String getUsernameById(Long id);
-
-    default long getTotalPages() {
-        return getTotalPages(ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE);
-    }
-
-    long getTotalPages(int size);
-
 }

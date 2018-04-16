@@ -43,21 +43,28 @@ th, td {
     padding-right: 35px;
 }
 
+.btn.btn-md.col-md-15{
+    width: 100px;
+}
+
 /* White Panel Modifications */
 
 .white-header.medium-priority {
     background: #f0ad4e;
     color: #FFFFFF;
+    margin-bottom: 0;
 }
 
 .white-header.low-priority {
     background: #5cb85c;
     color: #FFFFFF;
+    margin-bottom: 0;
 }
 
 .white-header.high-priority {
     background: #d9534f;
     color: #FFFFFF;
+    margin-bottom: 0;
 }
 
 .habit-icon-large.medium-priority {
@@ -144,4 +151,26 @@ body {
     width: auto;
     max-width: 680px;
     padding: 0 15px;
+}
+
+.cal-heatmap-container, #line-chart-panel{
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.graph {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+.btn-col{
+    margin: 9% 2% 8% 2%;
+}
+
+#tack-img{
+    max-height: 50px;
 }

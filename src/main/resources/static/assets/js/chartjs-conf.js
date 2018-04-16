@@ -39,3 +39,4 @@ function isChartEmpty(data) {
 
     return true;
 }
+

@@ -28,7 +28,7 @@ public interface HabitService {
 
     void deleteHabit(Long id);
 
-    HabitsPageViewModel getAllHabitsByUser(User user, Pageable pageable);
+    HabitsPageViewModel getHabitsPageByUser(User user, Pageable pageable);
 
     List<HabitViewModel> getAllHabitsByUser(User user);
 
@@ -43,11 +43,4 @@ public interface HabitService {
     String extractHeatmapData(Long id);
 
     void renewHabit(Long id);
-
-    default long getTotalPages() {
-        return getTotalPages(ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE);
-    }
-
-    long getTotalPages(int size);
-
 }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns="http://www.w3.org/1999/xhtml">
 
 <!-- HeatMap -->
@@ -18,22 +17,35 @@
     <div th:replace="~{fragments/sidebar}"></div>
     <section id="main-content">
         <section class="wrapper">
-            <h3><i class="fas fa-angle-right"></i> <span sec:authentication="name"></span></h3>
+            <h3><i class="fas fa-angle-right"></i> My Statistics</h3>
             <div class="tab-pane" id="chartjs">
-                <div class="row mt" th:object="${habitViewModel}" th:each="habitViewModel: ${habitViewModels}">
-                    <div class="col-lg-12">
-                        <div class="content-panel heatmap">
-                            <h4><i class="fa fa-angle-right"></i>
+                <div class="row mt" th:object="${habitViewModel}">
+                    <div class="col-lg-1 btn-col">
+                        <a class="btn btn-md col-md-15 btn-theme pull-left"
+                            th:if="${page > 0}"
+                            th:href="@{/users/statistics(page=${page - 1})}">
+
+                            <i class="fas fa-angle-left"></i> Previous</a>
+                    </div>
+                    <div class="col-lg-9 statistics-col" th:each="habitViewModel: ${habitsPageModel.getHabits()}">
+                        <div class="content-panel centered">
+                            <h2>
                                 <a th:href="@{/habits/view/{id}(id = ${habitViewModel.getId()})}">
                                     <span th:text="${habitViewModel.getTitle()}"></span>
                                 </a>
-                            </h4>
+                            </h2>
                             <div class="panel-body text-center" th:id="${habitViewModel.getTitle()}">
                                 <script th:inline="javascript">
-                                    seedHeadMapData([[${habitViewModel.getTitle()}]], [[${habitViewModel.getId()}]]);
+                                    seedHeatmapData([[${habitViewModel.getTitle()}]], [[${habitViewModel.getId()}]]);
                                 </script>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-lg-1 btn-col">
+                        <a class="btn btn-md col-md-15 btn-theme pull-right"
+                            th:if="${(page + 1) < habitsPageModel.getTotalPagesCount()}"
+                            th:href="@{/users/statistics(page=${page + 1})}">
+                            Next <i class="fas fa-angle-right"></i></a>
                     </div>
                 </div>
             </div>

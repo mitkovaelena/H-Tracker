@@ -42,13 +42,8 @@ public class LogServiceImpl implements LogService {
 
         LogsPageViewModel logsPageViewModel = new LogsPageViewModel();
         logsPageViewModel.setLogs(applicationLogViewModelPage);
-        logsPageViewModel.setTotalPagesCount(this.getTotalPages());
+        logsPageViewModel.setTotalPagesCount(applicationLogViewModelPage.getTotalPages());
 
         return logsPageViewModel;
-    }
-
-    @Override
-    public long getTotalPages(int size) {
-        return this.logRepository.count() / size;
     }
 }

@@ -3,6 +3,7 @@ package com.elena.habitTracker.areas.users.controllers;
 import com.elena.habitTracker.areas.habits.services.HabitService;
 import com.elena.habitTracker.areas.logs.annotations.Log;
 import com.elena.habitTracker.areas.roles.enums.RoleEnum;
+import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.users.models.binding.UserEditBindingModel;
 import com.elena.habitTracker.areas.users.models.binding.UserLoginBindingModel;
 import com.elena.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
@@ -82,10 +83,11 @@ public class UserController extends BaseController {
 
     @GetMapping("/statistics")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView viewStatistics(Principal principal) {
-        return super.view("users/statistics", "habitViewModels",
-                this.userService.getByUsername(principal.getName()).getHabits()
-                        .stream().sorted().collect(Collectors.toList()));
+    public ModelAndView viewStatistics(@PageableDefault(size = ApplicationConstants.DEFAULT_STATISTICS_COUNT_PER_PAGE) Pageable pageable,
+                                       Authentication authentication) {
+        return super.view("users/statistics", "habitsPageModel",
+                this.habitService.getHabitsPageByUser((User) authentication.getPrincipal(), pageable),
+                "page", pageable.getPageNumber());
     }
 
     @GetMapping(value = "/statistics/{id}", produces = "application/json")

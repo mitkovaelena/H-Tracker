@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         UsersPageViewModel usersPageViewModel = new UsersPageViewModel();
         usersPageViewModel.setUsers(usersViewModelPage);
-        usersPageViewModel.setTotalPagesCount(this.getTotalPages());
+        usersPageViewModel.setTotalPagesCount(usersViewModelPage.getTotalPages());
 
         return usersPageViewModel;
     }
@@ -145,10 +145,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public String getUsernameById(Long id) {
         return this.userRepository.findById(id).get().getUsername();
-    }
-
-    @Override
-    public long getTotalPages(int size) {
-        return this.userRepository.count() / size;
     }
 }

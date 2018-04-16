@@ -32,11 +32,11 @@
                             </tbody>
                         </table>
                         <div class="container">
-                            <a class="btn btn-md col-md-2 btn-theme pull-left" th:if="${(page - 1) >= 0}"
+                            <a class="btn btn-md col-md-2 btn-theme pull-left" th:if="${page > 0}"
                                th:href="@{/activities/all(page=${page - 1})}">
                                 <i class="fas fa-angle-left"></i> Previous</a>
                             <a class="btn btn-md col-md-2 btn-theme pull-right"
-                               th:if="${(page + 1) < activityPageModel.getTotalPagesCount()}"
+                               th:if="${page + 1 < activityPageModel.getTotalPagesCount()}"
                                th:href="@{/activities/all(page=${page + 1})}">
                                 Next <i class="fas fa-angle-right"></i></a>
                         </div>

@@ -9,10 +9,4 @@ public interface LogService {
     void saveLog(ApplicationLog log);
 
     LogsPageViewModel getAllByPage(Pageable pageable);
-
-    default long getTotalPages() {
-        return getTotalPages(ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE);
-    }
-
-    long getTotalPages(int size);
 }

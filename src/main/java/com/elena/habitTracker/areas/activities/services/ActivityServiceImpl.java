@@ -44,7 +44,7 @@ public class ActivityServiceImpl implements ActivityService {
 
         ActivitiesPageViewModel activitiesPageViewModel = new ActivitiesPageViewModel();
         activitiesPageViewModel.setActivities(applicationLogViewModelPage);
-        activitiesPageViewModel.setTotalPagesCount(this.getTotalPages());
+        activitiesPageViewModel.setTotalPagesCount(applicationLogViewModelPage.getTotalPages());
 
         return activitiesPageViewModel;
     }
@@ -72,8 +72,4 @@ public class ActivityServiceImpl implements ActivityService {
         this.activityRepository.save(activity);
     }
 
-    @Override
-    public long getTotalPages(int size) {
-        return this.activityRepository.count() / size;
-    }
 }
