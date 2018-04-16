@@ -2,6 +2,7 @@ package com.elena.habitTracker.areas.habits.models.view;
 
 import com.elena.habitTracker.areas.habits.util.Constants;
 import com.elena.habitTracker.areas.habits.validators.EndDateAfterStartDate;
+import com.elena.habitTracker.areas.users.entities.User;
 
 import java.time.LocalDate;
 
@@ -15,6 +16,7 @@ public class HabitViewModel {
     private LocalDate nextDueDate;
     private String priority;
     private int streak;
+    private Long userId;
 
     public HabitViewModel() {
     }
@@ -81,5 +83,13 @@ public class HabitViewModel {
 
     public void setNextDueDate(LocalDate nextDueDate) {
         this.nextDueDate = nextDueDate;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

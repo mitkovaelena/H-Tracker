@@ -19,7 +19,7 @@ public interface UserService extends UserDetailsService {
 
     UserEditBindingModel getUserEditDtoById(Long id);
 
-    UserViewModel getUserViewDtoById(Long id);
+    User getUserById(Long id);
 
     void editUser(Long id, UserEditBindingModel userEditBindingModel);
 

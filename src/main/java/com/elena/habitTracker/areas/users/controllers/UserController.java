@@ -81,13 +81,21 @@ public class UserController extends BaseController {
         return super.redirect("/");
     }
 
+    @GetMapping("/{id}/statistics")
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
+    public ModelAndView viewStatistics(@PathVariable Long id,
+                                       @PageableDefault(size = ApplicationConstants.DEFAULT_STATISTICS_COUNT_PER_PAGE) Pageable pageable) {
+        return super.view("users/statistics", "habitsPageModel",
+                this.habitService.getHabitsPageByUser( this.userService.getUserById(id), pageable),
+                "page", pageable.getPageNumber());
+    }
+
     @GetMapping("/statistics")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView viewStatistics(@PageableDefault(size = ApplicationConstants.DEFAULT_STATISTICS_COUNT_PER_PAGE) Pageable pageable,
                                        Authentication authentication) {
-        return super.view("users/statistics", "habitsPageModel",
-                this.habitService.getHabitsPageByUser((User) authentication.getPrincipal(), pageable),
-                "page", pageable.getPageNumber());
+        User user = (User) authentication.getPrincipal();
+        return this.viewStatistics(user.getId(), pageable);
     }
 
     @GetMapping(value = "/statistics/{id}", produces = "application/json")

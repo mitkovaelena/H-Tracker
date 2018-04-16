@@ -106,13 +106,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserViewModel getUserViewDtoById(Long id) {
-        Optional<User> userOptional = this.userRepository.findById(id);
-        UserViewModel userViewModel = null;
-        if (userOptional.isPresent()) {
-            userViewModel = modelMapper.map(userOptional.get(), UserViewModel.class);
-        }
-        return userViewModel;
+    public User getUserById(Long id) {
+        return this.userRepository.findById(id).get();
     }
 
     @Override

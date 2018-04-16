@@ -5,6 +5,7 @@ import com.elena.habitTracker.areas.activities.services.ActivityService;
 import com.elena.habitTracker.areas.habits.services.HabitService;
 import com.elena.habitTracker.areas.logs.annotations.Log;
 import com.elena.habitTracker.areas.users.entities.User;
+import com.elena.habitTracker.areas.users.services.UserService;
 import com.elena.habitTracker.controllers.BaseController;
 import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +28,30 @@ import java.time.LocalDate;
 @PreAuthorize("isAuthenticated()")
 public class ActivityController extends BaseController {
     private final ActivityService activityService;
+    private final UserService userService;
     private final HabitService habitService;
 
     @Autowired
-    public ActivityController(ActivityService activityService, HabitService habitService) {
+    public ActivityController(ActivityService activityService, UserService userService, HabitService habitService) {
         this.activityService = activityService;
+        this.userService = userService;
         this.habitService = habitService;
     }
 
     @GetMapping("/all")
     public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable,
                             Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return this.all(user.getId(), pageable);
+    }
+
+    @GetMapping("/all/{id}")
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
+    public ModelAndView all(@PathVariable Long id,
+                            @PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable) {
         return super.view("activities/all",
                 "activityPageModel",
-                this.activityService.getAllActivitiesOrderedByDateDesc((User) authentication.getPrincipal(), pageable),
+                this.activityService.getAllActivitiesOrderedByDateDesc(this.userService.getUserById(id), pageable),
                 "page", pageable.getPageNumber());
     }
 

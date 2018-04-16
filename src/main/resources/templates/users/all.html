@@ -35,7 +35,7 @@
                                 <td th:text="${#strings.setJoin(#strings.setCapitalizeWords(user.getAuthorities()), ', ')}"></td>
                                 <td>
                                     <a class="btn btn-info btn-xs"
-                                       th:href="@{/users/view/{id}(id = *{getId()})}"><i
+                                       th:href="@{/users/{id}/statistics(id = *{getId()})}"><i
                                             class="fas fa-search"></i></a>
                                     <a class="btn btn-primary btn-xs"
                                        th:href="@{/users/edit/{id}(id = *{getId()})}"><i

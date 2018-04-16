@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!-- HeatMap -->
 <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
@@ -19,12 +20,11 @@
         <section class="wrapper">
             <h3><i class="fas fa-angle-right"></i> My Statistics</h3>
             <div class="tab-pane" id="chartjs">
-                <div class="row mt" th:object="${habitViewModel}">
+                <div class="row mt">
                     <div class="col-lg-1 btn-col">
                         <a class="btn btn-md col-md-15 btn-theme pull-left"
-                            th:if="${page > 0}"
-                            th:href="@{/users/statistics(page=${page - 1})}">
-
+                           th:if="${page > 0}"
+                           th:href="@{/users/{id}/statistics(id=${habitsPageModel.getHabits().getContent().get(0).getUserId()}, page=${page - 1})}">
                             <i class="fas fa-angle-left"></i> Previous</a>
                     </div>
                     <div class="col-lg-9 statistics-col" th:each="habitViewModel: ${habitsPageModel.getHabits()}">
@@ -43,10 +43,26 @@
                     </div>
                     <div class="col-lg-1 btn-col">
                         <a class="btn btn-md col-md-15 btn-theme pull-right"
-                            th:if="${(page + 1) < habitsPageModel.getTotalPagesCount()}"
-                            th:href="@{/users/statistics(page=${page + 1})}">
+                           th:if="${(page + 1) < habitsPageModel.getTotalPagesCount()}"
+                           th:href="@{/users/{id}/statistics(id=${habitsPageModel.getHabits().getContent().get(0).getUserId()}, page=${page + 1})}">
                             Next <i class="fas fa-angle-right"></i></a>
                     </div>
+                </div>
+                <div class="row mt"  sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="col-lg-1 btn-col"></div>
+                    <div class="col-lg-9 statistics-col">
+                        <div class="showback centered">
+                            <div class="btn-group btn-group-justified">
+                                <a class="btn btn-theme"
+                                   th:href="@{/habits/all/{id}(id=${habitsPageModel.getHabits().getContent().get(0).getUserId()})}">
+                                    <i class="fas fa-puzzle-piece"></i> Habits</a>
+                                <a class="btn btn-theme"
+                                   th:href="@{/activities/all/{id}(id=${habitsPageModel.getHabits().getContent().get(0).getUserId()})}">
+                                    <i class="fas fa-chart-bar"></i> Activity Log</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 btn-col"></div>
                 </div>
             </div>
         </section>

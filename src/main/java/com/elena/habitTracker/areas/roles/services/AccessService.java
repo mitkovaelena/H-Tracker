@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class AccessService {
     private final HabitService habitService;
@@ -17,6 +19,8 @@ public class AccessService {
 
     public boolean hasAccess(Authentication authentication, Long id) {
         User user = (User) authentication.getPrincipal();
-        return this.habitService.getHabitById(id).getUser().getId().equals(user.getId());
+
+        return authentication.getAuthorities().stream().anyMatch(ga -> ga.getAuthority().equals("ROLE_ADMIN"))
+         || this.habitService.getHabitById(id).getUser().getId().equals(user.getId());
     }
 }

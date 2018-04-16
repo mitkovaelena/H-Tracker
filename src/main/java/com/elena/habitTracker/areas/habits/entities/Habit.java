@@ -71,7 +71,7 @@ public class Habit implements Comparable<Habit> {
                 default:
                     nextDueDate = nextDueDate.plusDays(this.getFrequency().getInterval());
             }
-        } while (nextDueDate.isBefore(LocalDate.now()));
+        } while (!nextDueDate.isAfter(LocalDate.now()));
         if (this.getEndDate() != null && nextDueDate.isAfter(this.getEndDate())) {
             nextDueDate = null;
         }

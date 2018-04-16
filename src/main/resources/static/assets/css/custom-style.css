@@ -47,6 +47,11 @@ th, td {
     width: 100px;
 }
 
+.btn-group-justified{
+    padding-left: 25%;
+    padding-right: 25%
+}
+
 /* White Panel Modifications */
 
 .white-header.medium-priority {

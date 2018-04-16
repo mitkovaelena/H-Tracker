@@ -8,6 +8,7 @@ import com.elena.habitTracker.areas.habits.services.HabitService;
 import com.elena.habitTracker.areas.habits.util.Constants;
 import com.elena.habitTracker.areas.logs.annotations.Log;
 import com.elena.habitTracker.areas.users.entities.User;
+import com.elena.habitTracker.areas.users.services.UserService;
 import com.elena.habitTracker.controllers.BaseController;
 import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +31,29 @@ import java.util.stream.Stream;
 @PreAuthorize("isAuthenticated()")
 public class HabitController extends BaseController {
     private final HabitService habitService;
+    private final UserService userService;
 
     @Autowired
-    public HabitController(HabitService habitService) {
+    public HabitController(HabitService habitService, UserService userService) {
         this.habitService = habitService;
+        this.userService = userService;
     }
 
     @GetMapping("/all")
     public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable, Authentication authentication) {
-        return super.view("habits/all",
-                "habitsPageModel",
-                this.habitService.getHabitsPageByUser((User) authentication.getPrincipal(), pageable),
-                "page", pageable.getPageNumber());
+        User user = (User) authentication.getPrincipal();
+        return this.all(user.getId(), pageable);
     }
 
+    @GetMapping("/all/{id}")
+    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
+    public ModelAndView all(@PathVariable Long id,
+                            @PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable) {
+        return super.view("habits/all",
+                "habitsPageModel",
+                this.habitService.getHabitsPageByUser(this.userService.getUserById(id), pageable),
+                "page", pageable.getPageNumber());
+    }
 
     @GetMapping(path = "/add")
     public ModelAndView add(@ModelAttribute("habitAddModel") HabitAddBindingModel habitAddBindingModel) {

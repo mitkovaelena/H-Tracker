@@ -65,6 +65,7 @@ public class HabitServiceImpl implements HabitService {
         HabitViewModel habitViewModel = null;
         if (habitOptional.isPresent()) {
             habitViewModel = modelMapper.map(habitOptional.get(), HabitViewModel.class);
+            habitViewModel.setUserId(habitOptional.get().getUser().getId());
         }
 
         return habitViewModel;
