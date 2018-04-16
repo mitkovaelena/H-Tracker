@@ -9,7 +9,10 @@ import com.elena.habitTracker.areas.users.models.binding.UserEditBindingModel;
 import com.elena.habitTracker.areas.users.models.binding.UserLoginBindingModel;
 import com.elena.habitTracker.areas.users.services.UserService;
 import com.elena.habitTracker.areas.users.util.Constants;
+import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -28,7 +31,7 @@ import java.util.stream.Stream;
 @RequestMapping("/users")
 public class UserController extends BaseController {
     private final UserService userService;
-    private final HabitService habitService; //ToDo
+    private final HabitService habitService;
 
     @Autowired
     public UserController(UserService userService, HabitService habitService) {
@@ -95,8 +98,9 @@ public class UserController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView all() {
-        return super.view("users/all", "userViews", this.userService.getAllUsers());
+    public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE)Pageable pageable) {
+        return super.view("users/all", "usersPageModel", this.userService.getAllUsers(pageable),
+                "page", pageable.getPageNumber());
     }
 
     @GetMapping(path = "/edit/{id}")

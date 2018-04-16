@@ -1,5 +1,6 @@
 package com.elena.habitTracker.areas.habits.services;
 
+import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
 import com.google.gson.Gson;
 import com.elena.habitTracker.areas.habits.models.binding.HabitAddBindingModel;
 import com.elena.habitTracker.areas.habits.models.binding.HabitEditBindingModel;
@@ -17,6 +18,9 @@ import com.elena.habitTracker.areas.habits.models.view.HabitViewModel;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -179,6 +183,23 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
+    public HabitsPageViewModel getAllHabitsByUser(User user, Pageable pageable) {
+        Page<Habit> habitsPage = this.habitRepository.findAllByUser(user, pageable);
+        int totalElements = (int) habitsPage.getTotalElements();
+
+        Page<HabitViewModel> habitViewModelsPage= new PageImpl<>(
+                habitsPage.stream()
+                        .map(log -> this.modelMapper.map(log, HabitViewModel.class))
+                        .collect(Collectors.toList()), pageable, totalElements);
+
+        HabitsPageViewModel habitsPageViewModel = new HabitsPageViewModel();
+        habitsPageViewModel.setHabits(habitViewModelsPage);
+        habitsPageViewModel.setTotalPagesCount(this.getTotalPages());
+
+        return habitsPageViewModel;
+    }
+
+    @Override
     public List<HabitViewModel> getAllHabitsByUserDueToday(User user) throws ParseException {
         List<Habit> habits = this.habitRepository.findAllByUserAndNextDueDate(user, LocalDate.now());
         List<HabitViewModel> habitViewModels = new ArrayList<>();
@@ -188,5 +209,10 @@ public class HabitServiceImpl implements HabitService {
         }
 
         return habitViewModels;
+    }
+
+    @Override
+    public long getTotalPages(int size) {
+        return this.habitRepository.count() / size;
     }
 }

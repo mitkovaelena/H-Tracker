@@ -6,11 +6,14 @@ import com.elena.habitTracker.areas.logs.entities.ApplicationLog;
 import com.elena.habitTracker.areas.logs.models.view.ApplicationLogViewModel;
 import com.elena.habitTracker.areas.logs.repositories.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,22 +33,17 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<ApplicationLogViewModel> getAllLogsOrderedByDateDesc() {
-        List<ApplicationLog> logs = this.logRepository.findAllByOrderByTimeDesc();
-        List<ApplicationLogViewModel> logViewDTOS = new ArrayList<>();
-
-        for (ApplicationLog log : logs) {
-            logViewDTOS.add(modelMapper.map(log, ApplicationLogViewModel.class));
-        }
-
-        return logViewDTOS;
-    }
-
-    @Override
     public LogsPageViewModel getAllByPage(Pageable pageable){
-        LogsPageViewModel logsPageViewModel = new LogsPageViewModel();
+        Page<ApplicationLog> applicationLogsPage = this.logRepository.findAllByOrderByTimeDesc(pageable);
+        int totalElements = (int) applicationLogsPage.getTotalElements();
 
-        logsPageViewModel.setLogs(this.logRepository.findAllByOrderByTimeDesc(pageable));
+        Page<ApplicationLogViewModel> applicationLogViewModelPage= new PageImpl<>(
+                applicationLogsPage.stream()
+                .map(log -> this.modelMapper.map(log, ApplicationLogViewModel.class))
+                .collect(Collectors.toList()), pageable, totalElements);
+
+        LogsPageViewModel logsPageViewModel = new LogsPageViewModel();
+        logsPageViewModel.setLogs(applicationLogViewModelPage);
         logsPageViewModel.setTotalPagesCount(this.getTotalPages());
 
         return logsPageViewModel;

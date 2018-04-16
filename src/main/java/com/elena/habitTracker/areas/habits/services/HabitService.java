@@ -3,8 +3,11 @@ package com.elena.habitTracker.areas.habits.services;
 import com.elena.habitTracker.areas.habits.models.binding.HabitAddBindingModel;
 import com.elena.habitTracker.areas.habits.models.binding.HabitEditBindingModel;
 import com.elena.habitTracker.areas.habits.models.view.HabitViewModel;
+import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
+import com.elena.habitTracker.util.ApplicationConstants;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.habits.entities.Habit;
+import org.springframework.data.domain.Pageable;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -25,6 +28,8 @@ public interface HabitService {
 
     void deleteHabit(Long id);
 
+    HabitsPageViewModel getAllHabitsByUser(User user, Pageable pageable);
+
     List<HabitViewModel> getAllHabitsByUser(User user);
 
     List<HabitViewModel> getAllHabitsByUserDueToday(User user) throws ParseException;
@@ -38,4 +43,11 @@ public interface HabitService {
     String extractHeatmapData(Long id);
 
     void renewHabit(Long id);
+
+    default long getTotalPages() {
+        return getTotalPages(ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE);
+    }
+
+    long getTotalPages(int size);
+
 }

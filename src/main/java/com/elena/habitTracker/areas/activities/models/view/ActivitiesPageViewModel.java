@@ -1,19 +1,19 @@
-package com.elena.habitTracker.areas.logs.models.view;
+package com.elena.habitTracker.areas.activities.models.view;
 
 import com.elena.habitTracker.areas.logs.entities.ApplicationLog;
 import org.springframework.data.domain.Page;
 
-public class LogsPageViewModel {
-    private Page<ApplicationLogViewModel> logs;
+public class ActivitiesPageViewModel {
+    private Page<ActivityViewModel> activities;
 
     private long totalPagesCount;
 
-    public Page<ApplicationLogViewModel> getLogs() {
-        return logs;
+    public Page<ActivityViewModel> getActivities() {
+        return activities;
     }
 
-    public void setLogs(Page<ApplicationLogViewModel> logs) {
-        this.logs = logs;
+    public void setActivities(Page<ActivityViewModel> activities) {
+        this.activities = activities;
     }
 
     public long getTotalPagesCount() {

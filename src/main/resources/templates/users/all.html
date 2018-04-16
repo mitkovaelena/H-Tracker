@@ -19,6 +19,7 @@
                             <hr>
                             <thead>
                             <tr>
+                                <th><i class="fas fa-hashtag"></i></th>
                                 <th><i class="fas fa-user"></i> Username</th>
                                 <th><i class="fas fa-at"></i> Email</th>
                                 <th><i class="fas fa-id-card"></i> Full Name</th>
@@ -26,7 +27,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:object="${user}" th:each="user: ${userViews}">
+                            <tr th:object="${user}" th:each="user, iter: ${usersPageModel.getUsers()}">
+                                <th th:text="${(page * T(com.elena.habitTracker.util.ApplicationConstants).DEFAULT_VIEWS_COUNT_PER_PAGE) + iter.index + 1}"></th>
                                 <td th:text="*{getUsername()}"></td>
                                 <td th:text="*{getEmail()}"></td>
                                 <td th:text="${#strings.concat(user.getFirstName(),' ', user.getLastName())}"></td>
@@ -46,6 +48,15 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div class="container">
+                            <a class="btn btn-md col-md-2 btn-theme pull-left" th:if="${(page - 1) >= 0}"
+                               th:href="@{/users/all(page=${page - 1})}">
+                                <i class="fas fa-angle-left"></i> Previous</a>
+                            <a class="btn btn-md col-md-2 btn-theme pull-right"
+                               th:if="${(page + 1) < usersPageModel.getTotalPagesCount()}"
+                               th:href="@{/users/all(page=${page + 1})}">
+                                Next <i class="fas fa-angle-right"></i></a>
+                        </div>
                     </div><!-- /content-panel -->
                 </div><!-- /col-md-12 -->
             </div><!-- /row -->

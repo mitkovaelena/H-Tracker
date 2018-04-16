@@ -2,6 +2,7 @@ package com.elena.habitTracker.areas.activities.services;
 
 import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.activities.models.binding.ActivityAddBindingModel;
+import com.elena.habitTracker.areas.activities.models.view.ActivitiesPageViewModel;
 import com.elena.habitTracker.areas.activities.models.view.ActivityViewModel;
 import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
 import com.elena.habitTracker.areas.users.entities.User;
@@ -9,11 +10,13 @@ import org.modelmapper.ModelMapper;
 import com.elena.habitTracker.areas.habits.entities.Habit;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {
@@ -30,15 +33,20 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityViewModel> getAllActivitiesOrderedByDateDesc(User user) {
-        List<Activity> activities = this.activityRepository.findAllByUserOrderByDateDesc(user);
-        List<ActivityViewModel> activityViewModels = new ArrayList<>();
+    public ActivitiesPageViewModel getAllActivitiesOrderedByDateDesc(User user, Pageable pageable) {
+        Page<Activity> activitiesPage = this.activityRepository.findAllByUserOrderByDateDesc(user, pageable);
+        int totalElements = (int) activitiesPage.getTotalElements();
 
-        for (Activity activity : activities) {
-            activityViewModels.add(modelMapper.map(activity, ActivityViewModel.class));
-        }
+        Page<ActivityViewModel> applicationLogViewModelPage= new PageImpl<>(
+                activitiesPage.stream()
+                        .map(log -> this.modelMapper.map(log, ActivityViewModel.class))
+                        .collect(Collectors.toList()), pageable, totalElements);
 
-        return activityViewModels;
+        ActivitiesPageViewModel activitiesPageViewModel = new ActivitiesPageViewModel();
+        activitiesPageViewModel.setActivities(applicationLogViewModelPage);
+        activitiesPageViewModel.setTotalPagesCount(this.getTotalPages());
+
+        return activitiesPageViewModel;
     }
 
     @Override
@@ -62,5 +70,10 @@ public class ActivityServiceImpl implements ActivityService {
 
         this.habitRepository.save(habit);
         this.activityRepository.save(activity);
+    }
+
+    @Override
+    public long getTotalPages(int size) {
+        return this.activityRepository.count() / size;
     }
 }

@@ -4,6 +4,8 @@ import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.activities.models.view.ActivityStaticticsViewModel;
 import com.elena.habitTracker.areas.habits.entities.Habit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,9 +15,8 @@ import java.util.List;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
-    List<Activity> findAllByUserOrderByDateDesc(User user);
 
-    List<Activity> findAllByUserAndHabitOrderByDateAsc(User user, Habit habit);
+    Page<Activity> findAllByUserOrderByDateDesc(User user, Pageable pageable);
 
     @Query("SELECT new com.elena.habitTracker.areas.activities.models.view.ActivityStaticticsViewModel(a.date, count(a)) " +
             "FROM Activity a " +

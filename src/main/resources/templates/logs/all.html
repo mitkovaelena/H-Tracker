@@ -27,7 +27,7 @@
                             </thead>
                             <tbody>
                             <tr th:object="${log}" th:each="log, iter: ${logsPageModel.getLogs()}">
-                                <th th:text="${(page * 20) + iter.index + 1}"></th>
+                                <th th:text="${(page * T(com.elena.habitTracker.util.ApplicationConstants).DEFAULT_VIEWS_COUNT_PER_PAGE) + iter.index + 1}"></th>
                                 <td th:text="${#temporals.format(log.getTime(), 'HH:mm:ss')}"></td>
                                 <td th:text="${#temporals.format(log.getTime(), 'dd-MM-yyyy')}"></td>
                                 <td th:if="${log.getUser() == null}">Anonymous</td>
@@ -36,18 +36,14 @@
                             </tr>
                             </tbody>
                         </table>
-
                         <div class="container">
-                            <div class="btn-group btn-group-justified">
-                                <div class="btn-group" th:if="${(page - 1) >= 0}">
-                                    <a class="btn btn-theme"
-                                       th:href="@{/logs(page=${page - 1})}">Previous</a>
-                                </div>
-                                <div class="btn-group" th:if="${(page + 1) <= logsPageModel.getTotalPagesCount()}">
-                                    <a class="btn btn-theme"
-                                       th:href="@{/logs(page=${page + 1})}">Next</a>
-                                </div>
-                            </div>
+                            <a class="btn btn-md col-md-2 btn-theme pull-left" th:if="${(page - 1) >= 0}"
+                               th:href="@{/logs/all(page=${page - 1})}">
+                                <i class="fas fa-angle-left"></i> Previous</a>
+                            <a class="btn btn-md col-md-2 btn-theme pull-right"
+                               th:if="${(page + 1) < logsPageModel.getTotalPagesCount()}"
+                               th:href="@{/logs/all(page=${page + 1})}">
+                               Next <i class="fas fa-angle-right"></i></a>
                         </div>
                     </div><!-- /content-panel -->
                 </div><!-- /col-md-12 -->

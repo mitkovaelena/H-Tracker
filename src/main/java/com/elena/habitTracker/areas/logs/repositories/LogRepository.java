@@ -10,6 +10,5 @@ import java.util.List;
 
 @Repository
 public interface LogRepository extends JpaRepository<ApplicationLog, Long>{
-    List<ApplicationLog> findAllByOrderByTimeDesc();
     Page<ApplicationLog> findAllByOrderByTimeDesc(Pageable pageable);
 }

@@ -7,6 +7,7 @@ import com.elena.habitTracker.areas.roles.repositories.RoleRepository;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
 import com.elena.habitTracker.areas.users.models.view.UserViewModel;
+import com.elena.habitTracker.areas.users.models.view.UsersPageViewModel;
 import com.elena.habitTracker.areas.users.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import com.elena.habitTracker.areas.habits.entities.Habit;
@@ -15,6 +16,9 @@ import com.elena.habitTracker.areas.roles.enums.RoleEnum;
 import com.elena.habitTracker.areas.users.models.binding.UserEditBindingModel;
 import com.elena.habitTracker.areas.users.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -63,15 +67,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserViewModel> getAllUsers() {
-        List<User> users = this.userRepository.findAll();
-        List<UserViewModel> userViewModels = new ArrayList<>();
+    public UsersPageViewModel getAllUsers(Pageable pageable) {
+        Page<User> usersPage = this.userRepository.findAll(pageable);
+        int totalElements = (int) usersPage.getTotalElements();
 
-        for (User user : users) {
-            userViewModels.add(modelMapper.map(user, UserViewModel.class));
-        }
+        Page<UserViewModel> usersViewModelPage= new PageImpl<>(
+                usersPage.stream()
+                        .map(log -> this.modelMapper.map(log, UserViewModel.class))
+                        .collect(Collectors.toList()), pageable, totalElements);
 
-        return userViewModels;
+        UsersPageViewModel usersPageViewModel = new UsersPageViewModel();
+        usersPageViewModel.setUsers(usersViewModelPage);
+        usersPageViewModel.setTotalPagesCount(this.getTotalPages());
+
+        return usersPageViewModel;
     }
 
     @Override
@@ -134,5 +143,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public String getUsernameById(Long id) {
         return this.userRepository.findById(id).get().getUsername();
+    }
+
+    @Override
+    public long getTotalPages(int size) {
+        return this.userRepository.count() / size;
     }
 }

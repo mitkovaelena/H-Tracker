@@ -1,12 +1,15 @@
 package com.elena.habitTracker.areas.activities.controllers;
 
-import com.elena.habitTracker.controllers.BaseController;
 import com.elena.habitTracker.areas.activities.models.binding.ActivityAddBindingModel;
 import com.elena.habitTracker.areas.activities.services.ActivityService;
 import com.elena.habitTracker.areas.habits.services.HabitService;
 import com.elena.habitTracker.areas.logs.annotations.Log;
+import com.elena.habitTracker.util.ApplicationConstants;
 import com.elena.habitTracker.areas.users.entities.User;
+import com.elena.habitTracker.controllers.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -33,10 +36,12 @@ public class ActivityController extends BaseController {
     }
 
     @GetMapping("/all")
-    public ModelAndView all(Authentication authentication) {
+    public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable,
+                            Authentication authentication) {
         return super.view("activities/all",
-                "activityViews",
-                this.activityService.getAllActivitiesOrderedByDateDesc((User) authentication.getPrincipal()));
+                "activityPageModel",
+                this.activityService.getAllActivitiesOrderedByDateDesc((User) authentication.getPrincipal(), pageable),
+                "page", pageable.getPageNumber());
     }
 
     @GetMapping(path = "/add")

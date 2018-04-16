@@ -9,7 +9,10 @@ import com.elena.habitTracker.areas.habits.util.Constants;
 import com.elena.habitTracker.areas.logs.annotations.Log;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.controllers.BaseController;
+import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -34,10 +37,12 @@ public class HabitController extends BaseController {
     }
 
     @GetMapping("/all")
-    public ModelAndView all(Authentication authentication) {
+    public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE)
+                                    Pageable pageable, Authentication authentication) {
         return super.view("habits/all",
-                "habitViews",
-                this.habitService.getAllHabitsByUser((User) authentication.getPrincipal()));
+                "habitsPageModel",
+                this.habitService.getAllHabitsByUser((User) authentication.getPrincipal(), pageable),
+                "page", pageable.getPageNumber());
     }
 
 

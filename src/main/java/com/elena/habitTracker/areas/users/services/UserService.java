@@ -5,16 +5,17 @@ import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
 import com.elena.habitTracker.areas.users.models.view.UserViewModel;
 import com.elena.habitTracker.areas.users.models.binding.UserEditBindingModel;
+import com.elena.habitTracker.areas.users.models.view.UsersPageViewModel;
+import com.elena.habitTracker.util.ApplicationConstants;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.List;
 
 public interface UserService extends UserDetailsService {
     User getByUsername(String username);
 
     void saveUser(UserRegisterBindingModel userDTO);
 
-    List<UserViewModel> getAllUsers();
+    UsersPageViewModel getAllUsers(Pageable pageable);
 
     UserEditBindingModel getUserEditDtoById(Long id);
 
@@ -25,5 +26,11 @@ public interface UserService extends UserDetailsService {
     void deleteUser(Long id);
 
     String getUsernameById(Long id);
+
+    default long getTotalPages() {
+        return getTotalPages(ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE);
+    }
+
+    long getTotalPages(int size);
 
 }
