@@ -1,6 +1,5 @@
 package com.elena.habitTracker.areas.activities.models.view;
 
-import com.elena.habitTracker.areas.logs.entities.ApplicationLog;
 import org.springframework.data.domain.Page;
 
 public class ActivitiesPageViewModel {

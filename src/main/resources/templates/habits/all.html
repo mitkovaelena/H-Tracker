@@ -28,7 +28,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:object="${habitViewModel}" th:each="habitViewModel, iter: ${habitsPageModel.getHabits()}">
+                            <tr th:object="${habitViewModel}"
+                                th:each="habitViewModel, iter: ${habitsPageModel.getHabits()}">
                                 <th th:text="${(page * T(com.elena.habitTracker.util.ApplicationConstants).DEFAULT_VIEWS_COUNT_PER_PAGE) + iter.index + 1}"></th>
                                 <td th:text="*{getTitle()}"></td>
                                 <td th:text="*{getStreak()}"></td>

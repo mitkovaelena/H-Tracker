@@ -1,8 +1,8 @@
 package com.elena.habitTracker.areas.logs.controllers;
 
 import com.elena.habitTracker.areas.logs.services.LogService;
-import com.elena.habitTracker.util.ApplicationConstants;
 import com.elena.habitTracker.controllers.BaseController;
+import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,7 +24,7 @@ public class LogController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView showLogs(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE)Pageable pageable) {
+    public ModelAndView showLogs(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable) {
         return super.view("logs/all",
                 "logsPageModel", this.logService.getAllByPage(pageable),
                 "page", pageable.getPageNumber());

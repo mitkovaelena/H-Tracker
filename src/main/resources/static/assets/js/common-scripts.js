@@ -149,13 +149,13 @@ $(function () {
 });
 
 function habitCompleted(habitCompleted) {
-    if(habitCompleted == true){
+    if (habitCompleted == true) {
         $("#habitCompletedModal").modal()
     }
 }
 
 function noActivities(noActivities) {
-    if(noActivities.length == 0) {
+    if (noActivities.length == 0) {
         $("#noActivitiesModal").modal()
     }
 }
@@ -173,11 +173,11 @@ function deleteById(element, url) {
         data: {
             id: id
         },
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             xhr.setRequestHeader(header, token);
         },
 
-        success: function(redirect) {
+        success: function (redirect) {
             window.location.replace(redirect)
         }
     });

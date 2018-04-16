@@ -1,8 +1,8 @@
 package com.elena.habitTracker.areas.users.entities;
 
-import com.elena.habitTracker.areas.roles.entities.Role;
 import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.habits.entities.Habit;
+import com.elena.habitTracker.areas.roles.entities.Role;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;

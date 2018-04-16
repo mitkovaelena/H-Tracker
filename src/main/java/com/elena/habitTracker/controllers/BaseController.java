@@ -8,10 +8,10 @@ public abstract class BaseController {
         return modelAndView;
     }
 
-    protected ModelAndView view(String view, Object...args) {
+    protected ModelAndView view(String view, Object... args) {
         ModelAndView modelAndView = new ModelAndView(view);
-        for (int i = 0; i < args.length; i+=2) {
-            modelAndView.addObject(String.valueOf(args[i]), args[i+1]);
+        for (int i = 0; i < args.length; i += 2) {
+            modelAndView.addObject(String.valueOf(args[i]), args[i + 1]);
         }
         return modelAndView;
     }

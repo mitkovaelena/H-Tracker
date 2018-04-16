@@ -1,7 +1,7 @@
 package com.elena.habitTracker.areas.activities.entities;
 
-import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.habits.entities.Habit;
+import com.elena.habitTracker.areas.users.entities.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;

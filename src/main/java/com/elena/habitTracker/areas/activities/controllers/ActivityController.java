@@ -4,9 +4,9 @@ import com.elena.habitTracker.areas.activities.models.binding.ActivityAddBinding
 import com.elena.habitTracker.areas.activities.services.ActivityService;
 import com.elena.habitTracker.areas.habits.services.HabitService;
 import com.elena.habitTracker.areas.logs.annotations.Log;
-import com.elena.habitTracker.util.ApplicationConstants;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.controllers.BaseController;
+import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

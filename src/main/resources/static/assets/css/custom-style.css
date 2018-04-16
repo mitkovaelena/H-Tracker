@@ -122,9 +122,11 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     margin-bottom: 40px; /* Margin bottom by footer height */
 }
+
 .site-footer {
     position: absolute;
     bottom: 0;
@@ -133,7 +135,6 @@ body {
     line-height: 40px; /* Vertically center the text there */
     z-index: -1;
 }
-
 
 /* Custom page CSS
 -------------------------------------------------- */

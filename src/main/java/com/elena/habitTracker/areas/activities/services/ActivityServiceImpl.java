@@ -5,10 +5,10 @@ import com.elena.habitTracker.areas.activities.models.binding.ActivityAddBinding
 import com.elena.habitTracker.areas.activities.models.view.ActivitiesPageViewModel;
 import com.elena.habitTracker.areas.activities.models.view.ActivityViewModel;
 import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
-import com.elena.habitTracker.areas.users.entities.User;
-import org.modelmapper.ModelMapper;
 import com.elena.habitTracker.areas.habits.entities.Habit;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
+import com.elena.habitTracker.areas.users.entities.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,7 +37,7 @@ public class ActivityServiceImpl implements ActivityService {
         Page<Activity> activitiesPage = this.activityRepository.findAllByUserOrderByDateDesc(user, pageable);
         int totalElements = (int) activitiesPage.getTotalElements();
 
-        Page<ActivityViewModel> applicationLogViewModelPage= new PageImpl<>(
+        Page<ActivityViewModel> applicationLogViewModelPage = new PageImpl<>(
                 activitiesPage.stream()
                         .map(log -> this.modelMapper.map(log, ActivityViewModel.class))
                         .collect(Collectors.toList()), pageable, totalElements);
@@ -57,7 +57,7 @@ public class ActivityServiceImpl implements ActivityService {
         habit.setNextDueDate(habit.getStartDate());
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
-        if(habit.getNextDueDate().equals(activity.getDate())) {
+        if (habit.getNextDueDate().equals(activity.getDate())) {
             habit.setStreak(habit.getStreak() + 1);
         }
 

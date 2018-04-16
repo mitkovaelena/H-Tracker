@@ -20,7 +20,7 @@ public class LineChartJsonObject {
 
     public void setLabels(List<LocalDate> labels) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        this.labels = labels.stream().map(x->x.format(formatter)).collect(Collectors.toList());
+        this.labels = labels.stream().map(x -> x.format(formatter)).collect(Collectors.toList());
     }
 
     public DataSetJsonObject[] getDatasets() {

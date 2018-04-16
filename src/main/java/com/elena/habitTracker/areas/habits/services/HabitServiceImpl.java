@@ -1,22 +1,22 @@
 package com.elena.habitTracker.areas.habits.services;
 
-import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
-import com.google.gson.Gson;
-import com.elena.habitTracker.areas.habits.models.binding.HabitAddBindingModel;
-import com.elena.habitTracker.areas.habits.models.binding.HabitEditBindingModel;
-import com.elena.habitTracker.areas.users.entities.User;
-import org.modelmapper.ModelMapper;
 import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.activities.models.view.ActivityStaticticsViewModel;
 import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
 import com.elena.habitTracker.areas.habits.entities.Habit;
 import com.elena.habitTracker.areas.habits.enums.FrequencyEnum;
 import com.elena.habitTracker.areas.habits.enums.PriorityEnum;
+import com.elena.habitTracker.areas.habits.models.binding.HabitAddBindingModel;
+import com.elena.habitTracker.areas.habits.models.binding.HabitEditBindingModel;
 import com.elena.habitTracker.areas.habits.models.json.DataSetJsonObject;
 import com.elena.habitTracker.areas.habits.models.json.LineChartJsonObject;
 import com.elena.habitTracker.areas.habits.models.view.HabitViewModel;
+import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
+import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.users.repositories.UserRepository;
+import com.google.gson.Gson;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -187,7 +187,7 @@ public class HabitServiceImpl implements HabitService {
         Page<Habit> habitsPage = this.habitRepository.findAllByUser(user, pageable);
         int totalElements = (int) habitsPage.getTotalElements();
 
-        Page<HabitViewModel> habitViewModelsPage= new PageImpl<>(
+        Page<HabitViewModel> habitViewModelsPage = new PageImpl<>(
                 habitsPage.stream()
                         .map(log -> this.modelMapper.map(log, HabitViewModel.class))
                         .collect(Collectors.toList()), pageable, totalElements);

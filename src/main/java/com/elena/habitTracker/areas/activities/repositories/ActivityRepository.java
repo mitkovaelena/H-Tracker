@@ -1,9 +1,9 @@
 package com.elena.habitTracker.areas.activities.repositories;
 
 import com.elena.habitTracker.areas.activities.entities.Activity;
-import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.activities.models.view.ActivityStaticticsViewModel;
 import com.elena.habitTracker.areas.habits.entities.Habit;
+import com.elena.habitTracker.areas.users.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

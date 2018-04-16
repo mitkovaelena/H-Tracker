@@ -1,14 +1,14 @@
 package com.elena.habitTracker.areas.users.controllers;
 
-import com.elena.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
-import com.elena.habitTracker.controllers.BaseController;
 import com.elena.habitTracker.areas.habits.services.HabitService;
 import com.elena.habitTracker.areas.logs.annotations.Log;
 import com.elena.habitTracker.areas.roles.enums.RoleEnum;
 import com.elena.habitTracker.areas.users.models.binding.UserEditBindingModel;
 import com.elena.habitTracker.areas.users.models.binding.UserLoginBindingModel;
+import com.elena.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
 import com.elena.habitTracker.areas.users.services.UserService;
 import com.elena.habitTracker.areas.users.util.Constants;
+import com.elena.habitTracker.controllers.BaseController;
 import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -98,7 +98,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE)Pageable pageable) {
+    public ModelAndView all(@PageableDefault(size = ApplicationConstants.DEFAULT_VIEWS_COUNT_PER_PAGE) Pageable pageable) {
         return super.view("users/all", "usersPageModel", this.userService.getAllUsers(pageable),
                 "page", pageable.getPageNumber());
     }

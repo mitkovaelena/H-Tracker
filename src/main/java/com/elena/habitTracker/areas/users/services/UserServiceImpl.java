@@ -2,19 +2,19 @@ package com.elena.habitTracker.areas.users.services;
 
 import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
+import com.elena.habitTracker.areas.habits.entities.Habit;
+import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.roles.entities.Role;
+import com.elena.habitTracker.areas.roles.enums.RoleEnum;
 import com.elena.habitTracker.areas.roles.repositories.RoleRepository;
 import com.elena.habitTracker.areas.users.entities.User;
+import com.elena.habitTracker.areas.users.models.binding.UserEditBindingModel;
 import com.elena.habitTracker.areas.users.models.binding.UserRegisterBindingModel;
 import com.elena.habitTracker.areas.users.models.view.UserViewModel;
 import com.elena.habitTracker.areas.users.models.view.UsersPageViewModel;
 import com.elena.habitTracker.areas.users.repositories.UserRepository;
-import org.modelmapper.ModelMapper;
-import com.elena.habitTracker.areas.habits.entities.Habit;
-import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
-import com.elena.habitTracker.areas.roles.enums.RoleEnum;
-import com.elena.habitTracker.areas.users.models.binding.UserEditBindingModel;
 import com.elena.habitTracker.areas.users.util.Constants;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,7 +26,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -71,7 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Page<User> usersPage = this.userRepository.findAll(pageable);
         int totalElements = (int) usersPage.getTotalElements();
 
-        Page<UserViewModel> usersViewModelPage= new PageImpl<>(
+        Page<UserViewModel> usersViewModelPage = new PageImpl<>(
                 usersPage.stream()
                         .map(log -> this.modelMapper.map(log, UserViewModel.class))
                         .collect(Collectors.toList()), pageable, totalElements);
