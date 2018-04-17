@@ -14,6 +14,7 @@ import com.elena.habitTracker.areas.users.models.view.UserViewModel;
 import com.elena.habitTracker.areas.users.models.view.UsersPageViewModel;
 import com.elena.habitTracker.areas.users.repositories.UserRepository;
 import com.elena.habitTracker.areas.users.util.Constants;
+import com.elena.habitTracker.errors.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -107,31 +108,40 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User getUserById(Long id) {
-        return this.userRepository.findById(id).get();
+        Optional<User> userOptional = this.userRepository.findById(id);
+        if (!userOptional.isPresent()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return userOptional.get();
     }
 
     @Override
     public void editUser(Long id, UserEditBindingModel userEditBindingModel) {
-        User user = this.userRepository.findById(id).get();
+        User user = this.getUserById(id);
         user.setEmail(userEditBindingModel.getEmail());
         user.setFirstName(userEditBindingModel.getFirstName());
         user.setLastName(userEditBindingModel.getLastName());
         Set<Role> roles = new HashSet<>();
+
         for (String role : userEditBindingModel.getAuthorities()) {
             roles.add(this.roleRepository.findByRole(RoleEnum.valueOf(role.toUpperCase()).getRoleName()));
         }
         user.setAuthorities(roles);
+
         this.userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Long id) {
-        User user = this.userRepository.findById(id).get();
+        User user = this.getUserById(id);
+
         for (Activity activity : user.getActivities()) {
-            this.activityRepository.deleteById(activity.getId());
+            this.activityRepository.deleteById(activity.getId());  //Todo ?
         }
+
         for (Habit habit : user.getHabits()) {
-            this.habitRepository.deleteById(habit.getId());
+            this.habitRepository.deleteById(habit.getId()); //Todo ?
         }
 
         this.userRepository.deleteById(id);
@@ -139,6 +149,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public String getUsernameById(Long id) {
-        return this.userRepository.findById(id).get().getUsername();
+        return this.getUserById(id).getUsername();
     }
 }

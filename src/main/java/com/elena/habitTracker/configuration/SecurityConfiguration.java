@@ -25,7 +25,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .failureUrl("/users/login?error=true")
                 .and().logout().logoutUrl("/users/logout").logoutSuccessUrl("/")
-                .and().exceptionHandling().accessDeniedPage("/unauthorized")
                 .and().csrf().csrfTokenRepository(csrfTokenRepository());
     }
 

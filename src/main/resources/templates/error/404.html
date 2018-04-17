@@ -1,0 +1,33 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<div th:replace="~{fragments/head}"></div>
+<link href="/assets/css/error-page.css" rel="stylesheet" type="text/css" media="all"/>
+
+<body>
+<div th:replace="~{fragments/header}"></div>
+<!-- main -->
+<div class="container">
+    <div class="wrapper">
+
+        <div class="w3layouts-errortext">
+            <h2>4<span>0</span>4</h2>
+
+            <h1 th:text="${T(com.elena.habitTracker.util.ApplicationConstants).NOT_FOUND_ERROR_MESSAGE}"></h1>
+            <p class="w3lstext"> Please check the url or go to the <a th:href="@{/}">home page</a> and see if you can locate what you are looking for </p>
+
+        </div>
+    </div>
+</div>
+<!-- //main -->
+<div th:replace="~{fragments/footer}"></div>
+<div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

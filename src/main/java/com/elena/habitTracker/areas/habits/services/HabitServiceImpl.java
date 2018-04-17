@@ -15,7 +15,7 @@ import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.areas.users.repositories.UserRepository;
-import com.elena.habitTracker.util.ApplicationConstants;
+import com.elena.habitTracker.errors.ResourceNotFoundException;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,12 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public Habit getHabitById(Long id) {
-        return this.habitRepository.findById(id).get();
+        Optional<Habit> habitOptional = this.habitRepository.findById(id);
+        if (!habitOptional.isPresent()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return habitOptional.get();
     }
 
     @Override
@@ -61,73 +66,70 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public HabitViewModel getHabitViewDTOById(Long id) {
-        Optional<Habit> habitOptional = this.habitRepository.findById(id);
-        HabitViewModel habitViewModel = null;
-        if (habitOptional.isPresent()) {
-            habitViewModel = modelMapper.map(habitOptional.get(), HabitViewModel.class);
-            habitViewModel.setUserId(habitOptional.get().getUser().getId());
-        }
+        Habit habit = this.getHabitById(id);
+        HabitViewModel habitViewModel = modelMapper.map(habit, HabitViewModel.class);
+        habitViewModel.setUserId(habit.getUser().getId());
 
         return habitViewModel;
     }
 
     @Override
     public HabitEditBindingModel getHabitEditDTOById(Long id) {
-        Optional<Habit> habitOptional = this.habitRepository.findById(id);
-        HabitEditBindingModel habitEditBindingModel = null;
-        if (habitOptional.isPresent()) {
-            habitEditBindingModel = modelMapper.map(habitOptional.get(), HabitEditBindingModel.class);
-        }
-        return habitEditBindingModel;
+        return modelMapper.map(this.getHabitById(id), HabitEditBindingModel.class);
     }
 
     @Override
     public void editHabit(Long id, HabitEditBindingModel habitEditBindingModel) {
-        Habit habit = this.habitRepository.findById(id).get();
+        Habit habit = this.getHabitById(id);
         habit.setTitle(habitEditBindingModel.getTitle());
         habit.setEndDate(habitEditBindingModel.getEndDate());
         habit.setFrequency(FrequencyEnum.valueOf(habitEditBindingModel.getFrequency().toUpperCase().replace(' ', '_')));
         habit.setPriority(PriorityEnum.valueOf(habitEditBindingModel.getPriority().toUpperCase().replace(' ', '_')));
         habit.setNextDueDate(habit.getStartDate());
         habit.setNextDueDate(habit.calculateNextDueDate());
+
         this.habitRepository.save(habit);
     }
 
     @Override
     public LocalDate getStartDateById(Long id) {
-        return this.habitRepository.findById(id).get().getStartDate();
+        return this.getHabitById(id).getStartDate();
     }
 
     @Override
     public void resetStreak(Long id) {
-        Habit habit = this.habitRepository.findById(id).get();
+        Habit habit = this.getHabitById(id);
         habit.setStreak(0);
+
         this.habitRepository.save(habit);
     }
 
     @Override
     public void calculateNextDueDate(Long id) {
-        Habit habit = this.habitRepository.findById(id).get();
+        Habit habit = this.getHabitById(id);
         habit.setNextDueDate(habit.calculateNextDueDate());
+
         this.habitRepository.save(habit);
     }
 
     @Override
     public String extractLineChartData(Long id) {
-        Habit habit = this.habitRepository.findById(id).get();
+        Habit habit = this.getHabitById(id);
+
         List<ActivityStaticticsViewModel> activities = this.getLastActivities(habit, 10);
-        DataSetJsonObject dataset = new DataSetJsonObject(activities.stream().map(ActivityStaticticsViewModel::getCount).collect(Collectors.toList()));
+        DataSetJsonObject dataset = new DataSetJsonObject(activities.stream()
+                .map(ActivityStaticticsViewModel::getCount).collect(Collectors.toList()));
 
         LineChartJsonObject lcjo = new LineChartJsonObject(
-                activities.stream().map(x -> x.getDate()).collect(Collectors.toList()), new DataSetJsonObject[]{dataset});
+                activities.stream().map(ActivityStaticticsViewModel::getDate)
+                        .collect(Collectors.toList()), new DataSetJsonObject[]{dataset});
 
         return new Gson().toJson(lcjo);
     }
 
     @Override
     public String extractHeatmapData(Long id) {
-        Habit habit = this.habitRepository.findById(id).get();
-
+        Habit habit = this.getHabitById(id);
         List<ActivityStaticticsViewModel> activities = this.activityRepository.findActivitiesStatistics(habit.getUser(), habit);
         ZoneId zoneId = ZoneId.systemDefault();
 
@@ -139,10 +141,11 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public void renewHabit(Long id) {
-        Habit habit = this.habitRepository.findById(id).get();
+        Habit habit = this.getHabitById(id);
         habit.setNextDueDate(LocalDate.now());
         habit.setEndDate(null);
         habit.setStreak(0);
+
         this.habitRepository.save(habit);
     }
 
@@ -161,13 +164,13 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public void deleteHabit(Long id) {
-        Habit habit = this.habitRepository.findById(id).get();
+        Habit habit = this.getHabitById(id);
         for (Activity activity : habit.getActivities()) {
             this.activityRepository.deleteById(activity.getId());
         }
         User user = habit.getUser();
         user.getHabits().remove(habit);
-        this.userRepository.save(user);
+        this.userRepository.save(user); //ToDO test if needed
 
         this.habitRepository.deleteById(id);
     }
