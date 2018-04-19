@@ -6,7 +6,7 @@ import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.data.domain.Pageable;
 
 public interface LogService {
-    void saveLog(ApplicationLog log);
+    ApplicationLog saveLog(ApplicationLog log);
 
     LogsPageViewModel getAllByPage(Pageable pageable);
 }

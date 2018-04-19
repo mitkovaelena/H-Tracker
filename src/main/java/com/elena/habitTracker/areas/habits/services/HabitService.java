@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface HabitService {
-    void saveHabit(HabitAddBindingModel habitAddBindingModel);
+    Habit saveHabit(HabitAddBindingModel habitAddBindingModel);
 
     HabitEditBindingModel getHabitEditDTOById(Long id);
 

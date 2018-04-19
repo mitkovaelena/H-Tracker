@@ -50,7 +50,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public void saveActivity(ActivityAddBindingModel activityAddBindingModel) {
+    public Activity saveActivity(ActivityAddBindingModel activityAddBindingModel) {
         Activity activity = modelMapper.map(activityAddBindingModel, Activity.class);
         Habit habit = activityAddBindingModel.getHabit();
 
@@ -69,7 +69,7 @@ public class ActivityServiceImpl implements ActivityService {
         }
 
         this.habitRepository.save(habit);
-        this.activityRepository.save(activity);
+        return this.activityRepository.save(activity);
     }
 
 }

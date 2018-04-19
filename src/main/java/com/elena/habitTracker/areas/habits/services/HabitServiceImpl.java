@@ -56,12 +56,12 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public void saveHabit(HabitAddBindingModel habitAddBindingModel) {
+    public Habit saveHabit(HabitAddBindingModel habitAddBindingModel) {
         Habit habit = modelMapper.map(habitAddBindingModel, Habit.class);
         habit.setFrequency(FrequencyEnum.valueOf(habitAddBindingModel.getFrequency().toUpperCase().replace(' ', '_')));
         habit.setPriority(PriorityEnum.valueOf(habitAddBindingModel.getPriority().toUpperCase().replace(' ', '_')));
         habit.setNextDueDate(habit.getStartDate());
-        this.habitRepository.save(habit);
+        return this.habitRepository.save(habit);
     }
 
     @Override

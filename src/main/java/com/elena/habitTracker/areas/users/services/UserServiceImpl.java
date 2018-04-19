@@ -62,11 +62,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void saveUser(final UserRegisterBindingModel userDTO) {
+    public User saveUser(final UserRegisterBindingModel userDTO) {
         User user = modelMapper.map(userDTO, User.class);
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setAuthorities(Stream.of(roleRepository.findByRole(RoleEnum.USER.getRoleName())).collect(Collectors.toSet()));
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     @Override

@@ -26,8 +26,8 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public void saveLog(ApplicationLog log) {
-        this.logRepository.save(log);
+    public ApplicationLog saveLog(ApplicationLog log) {
+        return this.logRepository.save(log);
     }
 
     @Override
