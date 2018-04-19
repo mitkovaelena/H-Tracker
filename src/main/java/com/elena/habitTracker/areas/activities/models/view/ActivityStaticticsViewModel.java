@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class ActivityStaticticsViewModel {
     private LocalDate date;
-    private long count;
+    private Long count;
 
     public ActivityStaticticsViewModel(LocalDate date, long count) {
         this.date = date;
@@ -19,11 +19,11 @@ public class ActivityStaticticsViewModel {
         this.date = date;
     }
 
-    public long getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(long count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 }
