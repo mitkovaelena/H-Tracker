@@ -17,6 +17,7 @@ public class HabitViewModel {
     private String priority;
     private int streak;
     private Long userId;
+    private String username;
 
     public HabitViewModel() {
     }
@@ -91,5 +92,13 @@ public class HabitViewModel {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

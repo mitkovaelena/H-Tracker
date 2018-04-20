@@ -2,7 +2,7 @@ package com.elena.habitTracker.areas.logs.services;
 
 import com.elena.habitTracker.areas.logs.entities.ApplicationLog;
 import com.elena.habitTracker.areas.logs.models.view.ApplicationLogViewModel;
-import com.elena.habitTracker.areas.logs.models.view.LogsPageViewModel;
+import com.elena.habitTracker.areas.logs.models.view.ApplicationLogsPageViewModel;
 import com.elena.habitTracker.areas.logs.repositories.LogRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public LogsPageViewModel getAllByPage(Pageable pageable) {
+    public ApplicationLogsPageViewModel getAllByPage(Pageable pageable) {
         Page<ApplicationLog> applicationLogsPage = this.logRepository.findAllByOrderByTimeDesc(pageable);
         int totalElements = (int) applicationLogsPage.getTotalElements();
 
@@ -40,10 +40,10 @@ public class LogServiceImpl implements LogService {
                         .map(log -> this.modelMapper.map(log, ApplicationLogViewModel.class))
                         .collect(Collectors.toList()), pageable, totalElements);
 
-        LogsPageViewModel logsPageViewModel = new LogsPageViewModel();
-        logsPageViewModel.setLogs(applicationLogViewModelPage);
-        logsPageViewModel.setTotalPagesCount(applicationLogViewModelPage.getTotalPages());
+        ApplicationLogsPageViewModel applicationLogsPageViewModel = new ApplicationLogsPageViewModel();
+        applicationLogsPageViewModel.setLogs(applicationLogViewModelPage);
+        applicationLogsPageViewModel.setTotalPagesCount(applicationLogViewModelPage.getTotalPages());
 
-        return logsPageViewModel;
+        return applicationLogsPageViewModel;
     }
 }

@@ -2,7 +2,7 @@ package com.elena.habitTracker.areas.logs.models.view;
 
 import org.springframework.data.domain.Page;
 
-public class LogsPageViewModel {
+public class ApplicationLogsPageViewModel {
     private Page<ApplicationLogViewModel> logs;
 
     private long totalPagesCount;

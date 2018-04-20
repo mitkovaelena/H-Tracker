@@ -44,4 +44,5 @@ public class ActivityAddBindingModel {
     public void setHabit(Habit habit) {
         this.habit = habit;
     }
+
 }

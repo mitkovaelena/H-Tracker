@@ -2,6 +2,7 @@ package com.elena.habitTracker.areas.users.entities;
 
 import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.habits.entities.Habit;
+import com.elena.habitTracker.areas.logs.entities.ApplicationLog;
 import com.elena.habitTracker.areas.roles.entities.Role;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,11 +35,14 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> authorities;
 
-    @OneToMany(mappedBy = "user", targetEntity = Habit.class)
+    @OneToMany(mappedBy = "user", targetEntity = Habit.class, cascade = CascadeType.REMOVE)
     private Set<Habit> habits;
 
-    @OneToMany(mappedBy = "user", targetEntity = Activity.class)
+    @OneToMany(mappedBy = "user", targetEntity = Activity.class, cascade = CascadeType.REMOVE)
     private Set<Activity> activities;
+
+    @OneToMany(mappedBy = "user", targetEntity = ApplicationLog.class, cascade = CascadeType.REMOVE)
+    private Set<ApplicationLog> logs;
 
     public Long getId() {
         return id;
@@ -131,6 +135,14 @@ public class User implements UserDetails {
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    public Set<ApplicationLog> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<ApplicationLog> logs) {
+        this.logs = logs;
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -39,7 +40,7 @@ public class ActivityServiceImpl implements ActivityService {
 
         Page<ActivityViewModel> applicationLogViewModelPage = new PageImpl<>(
                 activitiesPage.stream()
-                        .map(log -> this.modelMapper.map(log, ActivityViewModel.class))
+                        .map(a -> this.modelMapper.map(a, ActivityViewModel.class))
                         .collect(Collectors.toList()), pageable, totalElements);
 
         ActivitiesPageViewModel activitiesPageViewModel = new ActivitiesPageViewModel();
@@ -54,19 +55,11 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = modelMapper.map(activityAddBindingModel, Activity.class);
         Habit habit = activityAddBindingModel.getHabit();
 
-        habit.setNextDueDate(habit.getStartDate());
-        LocalDate nextDueDate = habit.calculateNextDueDate();
-
-        if (habit.getNextDueDate().equals(activity.getDate())) {
+        if (habit.getNextDueDate() != null && habit.getNextDueDate().equals(activity.getDate())) {
             habit.setStreak(habit.getStreak() + 1);
         }
-
-        if (habit.getEndDate() == null || !nextDueDate.isAfter(habit.getEndDate())) {
-            habit.setNextDueDate(nextDueDate);
-        } else {
-            habit.setNextDueDate(null);
-            activityAddBindingModel.setHabit(habit);
-        }
+        habit.setNextDueDate(habit.calculateNextDueDate());
+        activityAddBindingModel.setHabit(habit);
 
         this.habitRepository.save(habit);
         return this.activityRepository.save(activity);

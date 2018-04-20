@@ -23,4 +23,10 @@ public class AccessService {
         return authentication.getAuthorities().stream().anyMatch(ga -> ga.getAuthority().equals("ROLE_ADMIN"))
          || this.habitService.getHabitById(id).getUser().getId().equals(user.getId());
     }
+
+    public boolean isOwner(Authentication authentication, Long id) {
+        User user = (User) authentication.getPrincipal();
+
+        return this.habitService.getHabitById(id).getUser().getId().equals(user.getId());
+    }
 }

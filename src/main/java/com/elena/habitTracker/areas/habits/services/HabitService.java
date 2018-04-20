@@ -22,7 +22,7 @@ public interface HabitService {
 
     Habit getHabitById(Long id);
 
-    void editHabit(Long id, HabitEditBindingModel habitEditBindingModel);
+    Habit editHabit(Long id, HabitEditBindingModel habitEditBindingModel);
 
     LocalDate getStartDateById(Long id);
 
@@ -30,7 +30,9 @@ public interface HabitService {
 
     HabitsPageViewModel getHabitsPageByUser(User user, Pageable pageable);
 
-    List<HabitViewModel> getAllHabitsByUser(User user);
+  //  List<HabitViewModel> getAllHabitsByUser(User user);
+
+    List<Habit> getAllHabits();
 
     List<HabitViewModel> getAllHabitsByUserDueToday(User user) throws ParseException;
 

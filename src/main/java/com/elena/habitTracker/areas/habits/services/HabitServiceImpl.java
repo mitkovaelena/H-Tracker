@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -33,14 +34,12 @@ import java.util.stream.Collectors;
 @Service
 public class HabitServiceImpl implements HabitService {
     private final HabitRepository habitRepository;
-    private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HabitServiceImpl(HabitRepository habitRepository, UserRepository userRepository, ActivityRepository activityRepository, ModelMapper modelMapper) {
+    public HabitServiceImpl(HabitRepository habitRepository, ActivityRepository activityRepository, ModelMapper modelMapper) {
         this.habitRepository = habitRepository;
-        this.userRepository = userRepository;
         this.activityRepository = activityRepository;
         this.modelMapper = modelMapper;
     }
@@ -53,6 +52,11 @@ public class HabitServiceImpl implements HabitService {
         }
 
         return habitOptional.get();
+    }
+
+    @Override
+    public List<Habit> getAllHabits() {
+        return this.habitRepository.findAll();
     }
 
     @Override
@@ -69,6 +73,7 @@ public class HabitServiceImpl implements HabitService {
         Habit habit = this.getHabitById(id);
         HabitViewModel habitViewModel = modelMapper.map(habit, HabitViewModel.class);
         habitViewModel.setUserId(habit.getUser().getId());
+        habitViewModel.setUsername(habit.getUser().getUsername());
 
         return habitViewModel;
     }
@@ -79,7 +84,7 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public void editHabit(Long id, HabitEditBindingModel habitEditBindingModel) {
+    public Habit editHabit(Long id, HabitEditBindingModel habitEditBindingModel) {
         Habit habit = this.getHabitById(id);
         habit.setTitle(habitEditBindingModel.getTitle());
         habit.setEndDate(habitEditBindingModel.getEndDate());
@@ -88,7 +93,7 @@ public class HabitServiceImpl implements HabitService {
         habit.setNextDueDate(habit.getStartDate());
         habit.setNextDueDate(habit.calculateNextDueDate());
 
-        this.habitRepository.save(habit);
+        return this.habitRepository.save(habit);
     }
 
     @Override
@@ -105,6 +110,7 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
+    @Async
     public void calculateNextDueDate(Long id) {
         Habit habit = this.getHabitById(id);
         habit.setNextDueDate(habit.calculateNextDueDate());
@@ -140,6 +146,7 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
+    @Async
     public void renewHabit(Long id) {
         Habit habit = this.getHabitById(id);
         habit.setNextDueDate(LocalDate.now());
@@ -163,28 +170,14 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
+    @Async
     public void deleteHabit(Long id) {
         Habit habit = this.getHabitById(id);
         for (Activity activity : habit.getActivities()) {
             this.activityRepository.deleteById(activity.getId());
         }
-        User user = habit.getUser();
-        user.getHabits().remove(habit);
-        this.userRepository.save(user); //ToDO test if needed
 
-        this.habitRepository.deleteById(id);
-    }
-
-    @Override
-    public List<HabitViewModel> getAllHabitsByUser(User user) {
-        List<Habit> habits = this.habitRepository.findAllByUser(user);
-        List<HabitViewModel> habitViewModels = new ArrayList<>();
-
-        for (Habit habit : habits) {
-            habitViewModels.add(modelMapper.map(habit, HabitViewModel.class));
-        }
-
-        return habitViewModels;
+       this.habitRepository.deleteById(id);
     }
 
     public HabitsPageViewModel getHabitsPageByUser(User user, Pageable pageable) {

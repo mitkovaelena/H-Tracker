@@ -8,6 +8,7 @@ import com.elena.habitTracker.areas.users.entities.User;
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Set;
 
 @Entity
@@ -34,7 +35,7 @@ public class Habit implements Comparable<Habit> {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "habit", targetEntity = Activity.class)
+    @OneToMany(mappedBy = "habit", targetEntity = Activity.class, fetch = FetchType.EAGER)
     private Set<Activity> activities;
 
     @Column(nullable = false)
@@ -51,6 +52,11 @@ public class Habit implements Comparable<Habit> {
 
     public LocalDate calculateNextDueDate() {
         LocalDate nextDueDate = this.getNextDueDate();
+
+        if(nextDueDate == null || nextDueDate.isAfter(LocalDate.now())){
+            return nextDueDate;
+        }
+
         do {
             switch (this.getFrequency()) {
                 case YEARLY:
@@ -60,13 +66,7 @@ public class Habit implements Comparable<Habit> {
                     nextDueDate = nextDueDate.plusMonths(this.getFrequency().getInterval());
                     break;
                 case MONDAY_TO_FRIDAY:
-                    if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
-                        nextDueDate = LocalDate.now().plusDays(3);
-                    } else if (LocalDate.now().getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
-                        nextDueDate = LocalDate.now().plusDays(2);
-                    } else {
-                        nextDueDate = LocalDate.now().plusDays(1);
-                    }
+                    nextDueDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
                     break;
                 default:
                     nextDueDate = nextDueDate.plusDays(this.getFrequency().getInterval());

@@ -66,26 +66,28 @@
                             </ul>
                         </div>
                         <p>
+                        <div th:if="${habitViewModel.getUsername() == #authentication.name}">
                             <th:block th:if="${habitCompleted == null}">
                                 <form method="post" th:action="@{/habits/renew/{id}(id = *{getId()})}">
                                     <div th:replace="~{fragments/modals/habit-completed}"></div>
                                 </form>
                             </th:block>
-                        <div th:if="${habitViewModel.getNextDueDate() == null}">
-                            <form method="post" th:action="@{/habits/renew/{id}(id = *{getId()})}">
-                                <div data-toggle="modal" th:href="'#renewHabitModal' + *{getId()}"
-                                     class="btn btn btn-theme btn-lg btn-block">Renew Activity
-                                </div>
-                                <div th:replace="~{fragments/modals/renew-habit}"></div>
-                            </form>
-                        </div>
-                        <div th:if="${habitViewModel.getNextDueDate() != null}">
-                            <form method="post" th:action="@{/activities/add/{id}(id = *{getId()})}">
-                                <div data-toggle="modal" th:href="'#addActivityModal' + *{getId()}"
-                                     class="btn btn btn-theme btn-lg btn-block">Add Activity
-                                </div>
-                                <div th:replace="~{fragments/modals/add-activity}"></div>
-                            </form>
+                            <div th:if="${habitViewModel.getNextDueDate() == null}">
+                                <form method="post" th:action="@{/habits/renew/{id}(id = *{getId()})}">
+                                    <div data-toggle="modal" th:href="'#renewHabitModal' + *{getId()}"
+                                         class="btn btn btn-theme btn-lg btn-block">Renew Activity
+                                    </div>
+                                    <div th:replace="~{fragments/modals/renew-habit}"></div>
+                                </form>
+                            </div>
+                            <div th:if="${habitViewModel.getNextDueDate() != null}">
+                                <form method="post" th:action="@{/activities/add/{id}(id = *{getId()})}">
+                                    <div data-toggle="modal" th:href="'#addActivityModal' + *{getId()}"
+                                         class="btn btn btn-theme btn-lg btn-block">Add Activity
+                                    </div>
+                                    <div th:replace="~{fragments/modals/add-activity}"></div>
+                                </form>
+                            </div>
                         </div>
                         </p>
                         <p>

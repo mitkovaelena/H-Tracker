@@ -144,6 +144,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ADMIN')")
     public String delete(@RequestParam("id") Long id) {
         this.userService.deleteUser(id);
-        return "/users/all";
+        return "/";
     }
 }

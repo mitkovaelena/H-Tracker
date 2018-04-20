@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -133,16 +134,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Async
     public void deleteUser(Long id) {
-        User user = this.getUserById(id);
+ //       User user = this.getUserById(id);
 
-        for (Activity activity : user.getActivities()) {
-            this.activityRepository.deleteById(activity.getId());  //Todo ?
-        }
-
-        for (Habit habit : user.getHabits()) {
-            this.habitRepository.deleteById(habit.getId()); //Todo ?
-        }
+//        for (Activity activity : user.getActivities()) {
+//            this.activityRepository.deleteById(activity.getId());  //Todo ?
+//        }
+//
+//        for (Habit habit : user.getHabits()) {
+//            this.habitRepository.deleteById(habit.getId()); //Todo ?
+//        }
 
         this.userRepository.deleteById(id);
     }

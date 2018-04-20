@@ -122,11 +122,11 @@ public class HabitController extends BaseController {
         }
 
         this.habitService.editHabit(id, habitEditBindingModel);
-        return super.redirect("/habits/all");
+        return super.redirect("/habits/view/" + id);
     }
 
     @Log
-    @PreAuthorize("@accessService.hasAccess(authentication, #id)")
+    @PreAuthorize("@accessService.isOwner(authentication, #id)")
     @PostMapping(path = "/renew/{id}")
     public ModelAndView renew(@PathVariable("id") Long id) {
         this.habitService.renewHabit(id);
@@ -140,6 +140,6 @@ public class HabitController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     public String delete(@RequestParam Long id) {
         this.habitService.deleteHabit(id);
-        return "/habits/all";
+        return "/";
     }
 }
