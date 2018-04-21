@@ -17,7 +17,7 @@ public class ScheduledTasks {
     }
 
     @Scheduled(cron = " 50 59 23 * * *")
-    public void calculateStreak(){
+    public void calculateStreak() {
         List<Habit> habits = this.habitService.getAllHabits();
 
         for (Habit habit : habits) {

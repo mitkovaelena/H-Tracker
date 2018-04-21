@@ -17,8 +17,8 @@
                         <div class="white-panel pn">
                             <div class="white-header"
                                  th:classappend="${#strings.toLowerCase(habitViewModel.getPriority()) + '-priority'}">
-                                    <h4><i class="fas fa-trophy"></i><span th:text="' ' + *{getStreak()} + '  •'"></span>
-                                        <span th:text="'  ' +  *{getTitle()}"></span> </h4>
+                                <h4><i class="fas fa-trophy"></i><span th:text="' ' + *{getStreak()} + '  •'"></span>
+                                    <span th:text="'  ' +  *{getTitle()}"></span></h4>
                             </div>
                             <img src="/assets/img/tack.jpg" id="tack-img">
                             <div data-toggle="modal" th:href="'#addActivityModal' + *{getId()}"

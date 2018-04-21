@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserEditBindingModel getUserEditDtoById(Long id) {
-        return  modelMapper.map(this.getUserById(id), UserEditBindingModel.class);
+        return modelMapper.map(this.getUserById(id), UserEditBindingModel.class);
     }
 
     @Override

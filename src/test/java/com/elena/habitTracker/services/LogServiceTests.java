@@ -6,7 +6,6 @@ import com.elena.habitTracker.areas.logs.repositories.LogRepository;
 import com.elena.habitTracker.areas.logs.services.LogService;
 import com.elena.habitTracker.areas.logs.services.LogServiceImpl;
 import com.elena.habitTracker.areas.users.entities.User;
-import com.elena.habitTracker.util.TestsUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,7 +43,7 @@ public class LogServiceTests {
     public void setUp() {
         logService = new LogServiceImpl(logRepository, new ModelMapper());
 
-        this.eli = new User("eli123","123456","eli123@gmail.com","Elena","Nikolova");
+        this.eli = new User("eli123", "123456", "eli123@gmail.com", "Elena", "Nikolova");
 
         pageable = PageRequest.of(1, 2);
     }

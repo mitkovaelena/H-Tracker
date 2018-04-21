@@ -53,6 +53,7 @@ public class HabitController extends BaseController {
                 "habitsPageModel",
                 this.habitService.getHabitsPageByUser(this.userService.getUserById(id), pageable),
                 "userId", id,
+                "userId", id,
                 "page", pageable.getPageNumber());
     }
 
@@ -141,6 +142,6 @@ public class HabitController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     public String delete(@RequestParam Long id) {
         this.habitService.deleteHabit(id);
-        return "/";
+        return "/activities/all";
     }
 }

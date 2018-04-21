@@ -1,6 +1,6 @@
 function seedHeatmapData(selector, id) {
     let url = "/users/statistics/" + id;
-    selector = "#" + selector;
+    selector = "#" + selector.replace(" ", '');
 
     $.getJSON(url).done(function (heatmapData) {
 

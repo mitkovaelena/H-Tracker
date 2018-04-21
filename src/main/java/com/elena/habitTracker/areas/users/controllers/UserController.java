@@ -24,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -86,7 +85,7 @@ public class UserController extends BaseController {
     public ModelAndView viewStatistics(@PathVariable Long id,
                                        @PageableDefault(size = ApplicationConstants.DEFAULT_STATISTICS_COUNT_PER_PAGE) Pageable pageable) {
         return super.view("users/statistics", "habitsPageModel",
-                this.habitService.getHabitsPageByUser( this.userService.getUserById(id), pageable),
+                this.habitService.getHabitsPageByUser(this.userService.getUserById(id), pageable),
                 "userId", id,
                 "userViewModel", this.userService.getUserById(id),
                 "page", pageable.getPageNumber());
@@ -145,6 +144,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ADMIN')")
     public String delete(@RequestParam("id") Long id) {
         this.userService.deleteUser(id);
-        return "/";
+        return "/logs/all";
     }
 }

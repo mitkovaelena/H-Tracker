@@ -2,12 +2,11 @@ package com.elena.habitTracker.areas.habits.models.view;
 
 import com.elena.habitTracker.areas.habits.util.Constants;
 import com.elena.habitTracker.areas.habits.validators.EndDateAfterStartDate;
-import com.elena.habitTracker.areas.users.entities.User;
 
 import java.time.LocalDate;
 
 @EndDateAfterStartDate(message = Constants.INVALID_DATE)
-public class HabitViewModel {
+public class HabitViewModel implements Comparable<HabitViewModel>{
     private Long id;
     private String title;
     private String frequency;
@@ -100,5 +99,11 @@ public class HabitViewModel {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public int compareTo(HabitViewModel other) {
+        return ((int)this.getPriority().charAt(0) + (int)this.getPriority().charAt(1))
+                - ((int)other.getPriority().charAt(0) + (int)other.getPriority().charAt(1));
     }
 }

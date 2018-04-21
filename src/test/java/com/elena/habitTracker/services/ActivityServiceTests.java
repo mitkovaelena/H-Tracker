@@ -3,7 +3,6 @@ package com.elena.habitTracker.services;
 import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.activities.models.binding.ActivityAddBindingModel;
 import com.elena.habitTracker.areas.activities.models.view.ActivitiesPageViewModel;
-import com.elena.habitTracker.areas.activities.models.view.ActivityViewModel;
 import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
 import com.elena.habitTracker.areas.activities.services.ActivityService;
 import com.elena.habitTracker.areas.activities.services.ActivityServiceImpl;
@@ -12,7 +11,6 @@ import com.elena.habitTracker.areas.habits.enums.FrequencyEnum;
 import com.elena.habitTracker.areas.habits.enums.PriorityEnum;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.users.entities.User;
-import com.elena.habitTracker.util.TestsUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +21,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
@@ -58,8 +55,8 @@ public class ActivityServiceTests {
     public void setUp() {
         activityService = new ActivityServiceImpl(activityRepository, habitRepository, new ModelMapper());
 
-        this.eli = new User("eli123","123456","eli123@gmail.com","Elena","Nikolova");
-        this.fitness =  new Habit("fitness", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(),eli);
+        this.eli = new User("eli123", "123456", "eli123@gmail.com", "Elena", "Nikolova");
+        this.fitness = new Habit("fitness", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(), eli);
 
         pagable = PageRequest.of(1, 2);
 
@@ -117,7 +114,8 @@ public class ActivityServiceTests {
 
         for (int i = 0; i < 5; i++) {
             Activity activity = new Activity(LocalDate.now(), eli, fitness);
-            ActivityAddBindingModel activityAddBindingModel = new ActivityAddBindingModel(LocalDate.now(), eli, fitness);;
+            ActivityAddBindingModel activityAddBindingModel = new ActivityAddBindingModel(LocalDate.now(), eli, fitness);
+            ;
             activities.add(activity);
             this.activityService.saveActivity(activityAddBindingModel);
         }

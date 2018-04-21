@@ -180,7 +180,7 @@ public class HabitServiceImpl implements HabitService {
 
         Page<HabitViewModel> habitViewModelsPage = new PageImpl<>(
                 habitsPage.stream()
-                        .map(log -> this.modelMapper.map(log, HabitViewModel.class))
+                        .map(log -> this.modelMapper.map(log, HabitViewModel.class)).sorted()
                         .collect(Collectors.toList()), pageable, totalElements);
 
         HabitsPageViewModel habitsPageViewModel = new HabitsPageViewModel();
@@ -199,6 +199,7 @@ public class HabitServiceImpl implements HabitService {
             habitViewModels.add(modelMapper.map(habit, HabitViewModel.class));
         }
 
+        habitViewModels = habitViewModels.stream().sorted().collect(Collectors.toList());
         return habitViewModels;
     }
 

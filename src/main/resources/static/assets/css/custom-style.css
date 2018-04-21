@@ -43,11 +43,11 @@ th, td {
     padding-right: 35px;
 }
 
-.btn.btn-md.col-md-15{
+.btn.btn-md.col-md-15 {
     width: 100px;
 }
 
-.btn-group-justified{
+.btn-group-justified {
     padding-left: 25%;
     padding-right: 25%
 }
@@ -158,11 +158,12 @@ body {
     padding: 0 15px;
 }
 
-.cal-heatmap-container, #line-chart-panel{
+.cal-heatmap-container, #line-chart-panel {
     display: inline-block;
     position: relative;
     vertical-align: top;
     overflow: hidden;
+    width: 100%;
 }
 
 .graph {
@@ -172,14 +173,14 @@ body {
     left: 0;
 }
 
-.btn-col{
+.btn-col {
     margin: 9% 2% 8% 2%;
 }
 
-#tack-img{
+#tack-img {
     max-height: 50px;
 }
 
-.img-responsive{
+.img-responsive {
     display: inline;
 }

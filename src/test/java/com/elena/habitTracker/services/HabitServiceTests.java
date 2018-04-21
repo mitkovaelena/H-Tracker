@@ -12,7 +12,6 @@ import com.elena.habitTracker.areas.habits.services.HabitService;
 import com.elena.habitTracker.areas.habits.services.HabitServiceImpl;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.errors.ResourceNotFoundException;
-import com.elena.habitTracker.util.TestsUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

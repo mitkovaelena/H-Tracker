@@ -6,7 +6,6 @@ import com.elena.habitTracker.areas.habits.models.binding.HabitEditBindingModel;
 import com.elena.habitTracker.areas.habits.models.view.HabitViewModel;
 import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
 import com.elena.habitTracker.areas.users.entities.User;
-import com.elena.habitTracker.util.ApplicationConstants;
 import org.springframework.data.domain.Pageable;
 
 import java.text.ParseException;

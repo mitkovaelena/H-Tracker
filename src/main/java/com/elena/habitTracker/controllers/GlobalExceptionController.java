@@ -3,10 +3,10 @@ package com.elena.habitTracker.controllers;
 import com.elena.habitTracker.errors.ResourceNotFoundException;
 import com.elena.habitTracker.errors.UnauthorizedException;
 import com.elena.habitTracker.util.ApplicationConstants;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -24,12 +24,12 @@ public class GlobalExceptionController extends BaseController {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ModelAndView unauthorized(){
-      return this.getException(new UnauthorizedException());
+    public ModelAndView unauthorized() {
+        return this.getException(new UnauthorizedException());
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ModelAndView notFound(){
+    public ModelAndView notFound() {
         return this.view("error/404");
     }
 

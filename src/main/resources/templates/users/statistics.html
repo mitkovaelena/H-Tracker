@@ -2,7 +2,7 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 
 <!-- HeatMap -->
 <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
@@ -62,7 +62,7 @@
                                     <span th:text="${habitViewModel.getTitle()}"></span>
                                 </a>
                             </h2>
-                            <div class="panel-body text-center" th:id="${habitViewModel.getTitle()}">
+                            <div class="panel-body text-center" th:id="${#strings.replace(habitViewModel.getTitle(),' ','')}">
                                 <script th:inline="javascript">
                                     seedHeatmapData([[${habitViewModel.getTitle()}]], [[${habitViewModel.getId()}]]);
                                 </script>
@@ -76,7 +76,8 @@
                             Next <i class="fas fa-angle-right"></i></a>
                     </div>
                 </div>
-                <div class="row" th:if="${#authentication.name != userViewModel.getUsername() and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <div class="row"
+                     th:if="${#authentication.name != userViewModel.getUsername() and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                     <div class="col-lg-1 btn-col"></div>
                     <div class="col-lg-9 statistics-col">
                         <div class="showback centered">

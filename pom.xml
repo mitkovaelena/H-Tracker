@@ -91,7 +91,7 @@
     <repositories>
         <repository>
             <id>spring-milestones</id>
-            <roleName>Spring Milestones</roleName>
+            <!--<roleName>Spring Milestones</roleName>-->
             <url>https://repo.spring.io/libs-milestone</url>
             <snapshots>
                 <enabled>false</enabled>

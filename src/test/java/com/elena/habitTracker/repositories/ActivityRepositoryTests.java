@@ -7,7 +7,6 @@ import com.elena.habitTracker.areas.habits.entities.Habit;
 import com.elena.habitTracker.areas.habits.enums.FrequencyEnum;
 import com.elena.habitTracker.areas.habits.enums.PriorityEnum;
 import com.elena.habitTracker.areas.users.entities.User;
-import com.elena.habitTracker.util.TestsUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,7 +49,7 @@ public class ActivityRepositoryTests {
         this.eli = new User("eli123", "123456", "eli123@gmail.com", "Elena", "Nikolova");
         this.testEntityManager.persistAndFlush(eli);
 
-        this.fitness = new Habit("fitness", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(),eli);
+        this.fitness = new Habit("fitness", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(), eli);
         this.testEntityManager.persistAndFlush(fitness);
 
         activitiesTodayCount = 0L;
@@ -81,7 +80,7 @@ public class ActivityRepositoryTests {
         //act
         Long result = this.activityRepository.findActivitiesCountForDate(eli, fitness, LocalDate.now());
 
-        if(result == null) result = 0L;
+        if (result == null) result = 0L;
 
         //assert
         assertEquals("Wrong count for activities done today", result, activitiesTodayCount);
@@ -93,11 +92,11 @@ public class ActivityRepositoryTests {
         ;
         this.testEntityManager.persistAndFlush(vili);
 
-        this.cleanEating =  new Habit("clean eating", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(), vili);
+        this.cleanEating = new Habit("clean eating", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(), vili);
         this.testEntityManager.persistAndFlush(cleanEating);
 
         for (int i = 0; i < rnd.nextInt(100); i++) {
-            Activity activity =new Activity(LocalDate.now().plusDays(i), vili, cleanEating);
+            Activity activity = new Activity(LocalDate.now().plusDays(i), vili, cleanEating);
             this.testEntityManager.persistAndFlush(activity);
 
         }
