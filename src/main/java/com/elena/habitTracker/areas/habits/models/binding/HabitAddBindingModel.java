@@ -35,6 +35,14 @@ public class HabitAddBindingModel {
     public HabitAddBindingModel() {
     }
 
+    public HabitAddBindingModel(String title, String frequency, String priority, LocalDate startDate, User user) {
+        this.title = title;
+        this.frequency = frequency;
+        this.startDate = startDate;
+        this.priority = priority;
+        this.user = user;
+    }
+
     public String getTitle() {
         return title;
     }

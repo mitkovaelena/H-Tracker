@@ -22,6 +22,12 @@ public class UserEditBindingModel {
     public UserEditBindingModel() {
     }
 
+    public UserEditBindingModel(String email, String firstName, String lastName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public Long getId() {
         return id;
     }

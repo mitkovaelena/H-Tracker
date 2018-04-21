@@ -45,7 +45,7 @@ public class LogServiceTests {
     public void setUp() {
         logService = new LogServiceImpl(logRepository, new ModelMapper());
 
-        this.eli = TestsUtils.createUserEli();
+        this.eli = new User("eli123","123456","eli123@gmail.com","Elena","Nikolova");
 
         pageable = PageRequest.of(1, 2);
     }
@@ -58,7 +58,7 @@ public class LogServiceTests {
         List<ApplicationLog> applicationLogs = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            ApplicationLog applicationLog = TestsUtils.createApplicationLog(eli, now);
+            ApplicationLog applicationLog = new ApplicationLog(now, "Test Message", eli);
             applicationLogs.add(applicationLog);
         }
 

@@ -25,6 +25,12 @@ public class ApplicationLog {
     public ApplicationLog() {
     }
 
+    public ApplicationLog(LocalDateTime time, String message, User user) {
+        this.time = time;
+        this.message = message;
+        this.user = user;
+    }
+
     public ApplicationLog(LocalDateTime time, String message) {
         this.time = time;
         this.message = message;

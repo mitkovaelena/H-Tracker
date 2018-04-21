@@ -21,6 +21,12 @@ public class ActivityAddBindingModel {
     public ActivityAddBindingModel() {
     }
 
+    public ActivityAddBindingModel(@NotNull @PastOrPresent LocalDate date, User user, Habit habit) {
+        this.date = date;
+        this.user = user;
+        this.habit = habit;
+    }
+
     public LocalDate getDate() {
         return date;
     }

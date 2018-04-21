@@ -50,6 +50,14 @@ public class Habit implements Comparable<Habit> {
     public Habit() {
     }
 
+    public Habit(String title, FrequencyEnum frequency,  PriorityEnum priority, LocalDate startDate, User user) {
+        this.title = title;
+        this.frequency = frequency;
+        this.startDate = startDate;
+        this.user = user;
+        this.priority = priority;
+    }
+
     public LocalDate calculateNextDueDate() {
         LocalDate nextDueDate = this.getNextDueDate();
 

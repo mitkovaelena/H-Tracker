@@ -2,8 +2,9 @@ package com.elena.habitTracker.entities;
 
 import com.elena.habitTracker.areas.habits.entities.Habit;
 import com.elena.habitTracker.areas.habits.enums.FrequencyEnum;
+import com.elena.habitTracker.areas.habits.enums.PriorityEnum;
 import com.elena.habitTracker.areas.users.entities.User;
-import com.elena.habitTracker.util.TestsUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,17 +12,13 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 
-import static junit.framework.Assert.assertNull;
-import static junit.framework.TestCase.assertEquals;
-
-
 public class HabitTests {
     private Habit habit;
 
     @Before
     public void setUp() {
-        User eli = TestsUtils.createUserEli();
-        this.habit = TestsUtils.createHabitFitness(eli);
+        User eli = new User("eli123", "123456", "eli123@gmail.com", "Elena", "Nikolova");
+        this.habit = new Habit("fitness", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(), eli);
     }
 
     @Test
@@ -34,7 +31,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has daily frequency",
+        Assert.assertEquals("Next due date is not correct when habit has daily frequency",
                 LocalDate.now().plusDays(1), nextDueDate);
 
     }
@@ -49,7 +46,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has daily frequency",
+        Assert.assertEquals("Next due date is not correct when habit has daily frequency",
                 LocalDate.now().plusDays(1), nextDueDate);
 
     }
@@ -64,7 +61,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has daily frequency",
+        Assert.assertEquals("Next due date is not correct when habit has daily frequency",
                 LocalDate.now().plusDays(7), nextDueDate);
 
     }
@@ -79,7 +76,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has every other day frequency",
+        Assert.assertEquals("Next due date is not correct when habit has every other day frequency",
                 LocalDate.now().plusDays(2), nextDueDate);
 
     }
@@ -94,7 +91,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has every other day frequency",
+        Assert.assertEquals("Next due date is not correct when habit has every other day frequency",
                 LocalDate.now().plusDays(2), nextDueDate);
 
     }
@@ -109,7 +106,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has every other day frequency",
+        Assert.assertEquals("Next due date is not correct when habit has every other day frequency",
                 LocalDate.now().plusDays(7), nextDueDate);
 
     }
@@ -124,7 +121,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has monday to friday frequency",
+        Assert.assertEquals("Next due date is not correct when habit has monday to friday frequency",
                 LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)), nextDueDate);
 
     }
@@ -139,7 +136,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has monday to friday frequency",
+        Assert.assertEquals("Next due date is not correct when habit has monday to friday frequency",
                 LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)), nextDueDate);
     }
 
@@ -153,7 +150,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has monday to friday frequency",
+        Assert.assertEquals("Next due date is not correct when habit has monday to friday frequency",
                 LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)), nextDueDate);
     }
 
@@ -167,7 +164,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has monday to friday frequency",
+        Assert.assertEquals("Next due date is not correct when habit has monday to friday frequency",
                 LocalDate.now().plusDays(7), nextDueDate);
     }
 
@@ -181,7 +178,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has weekly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has weekly frequency",
                 LocalDate.now().plusDays(7), nextDueDate);
 
     }
@@ -196,7 +193,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has weekly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has weekly frequency",
                 LocalDate.now().plusDays(5), nextDueDate);
 
     }
@@ -211,7 +208,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has weekly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has weekly frequency",
                 LocalDate.now().plusDays(7), nextDueDate);
 
     }
@@ -226,7 +223,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has monthly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has monthly frequency",
                 LocalDate.now().plusMonths(1), nextDueDate);
 
     }
@@ -241,7 +238,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has monthly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has monthly frequency",
                 LocalDate.now().minusDays(7).plusMonths(1), nextDueDate);
 
     }
@@ -256,7 +253,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has daily frequency",
+        Assert.assertEquals("Next due date is not correct when habit has daily frequency",
                 LocalDate.now().plusDays(7), nextDueDate);
 
     }
@@ -271,7 +268,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has yearly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has yearly frequency",
                 LocalDate.now().plusYears(1), nextDueDate);
 
     }
@@ -286,7 +283,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has yearly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has yearly frequency",
                 LocalDate.now().minusDays(7).plusYears(1), nextDueDate);
 
     }
@@ -301,7 +298,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertEquals("Next due date is not correct when habit has yearly frequency",
+        Assert.assertEquals("Next due date is not correct when habit has yearly frequency",
                 LocalDate.now().plusDays(7), nextDueDate);
     }
 
@@ -316,7 +313,7 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertNull("Next due date is not null after habit is completed", nextDueDate);
+        Assert.assertNull("Next due date is not null after habit is completed", nextDueDate);
     }
 
     @Test
@@ -330,6 +327,6 @@ public class HabitTests {
         LocalDate nextDueDate = habit.calculateNextDueDate();
 
         //assert
-        assertNull("Next due date is not null when habit is completed", nextDueDate);
+        Assert.assertNull("Next due date is not null when habit is completed", nextDueDate);
     }
 }

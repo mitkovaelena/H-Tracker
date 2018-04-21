@@ -12,7 +12,6 @@ import com.elena.habitTracker.areas.users.repositories.UserRepository;
 import com.elena.habitTracker.areas.users.services.UserService;
 import com.elena.habitTracker.areas.users.services.UserServiceImpl;
 import com.elena.habitTracker.errors.ResourceNotFoundException;
-import com.elena.habitTracker.util.TestsUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,9 +63,10 @@ public class UserServiceTests {
     public void setUp() {
         userService = new UserServiceImpl(userRepository, roleRepository, this.bCryptPasswordEncoder, new ModelMapper());
 
-        this.userModelEli = TestsUtils.createUserRegisterBindingModelEli();
+        this.userModelEli = new UserRegisterBindingModel("eli123", "123456", "eli123@gmail.com", "Elena", "Nikolova");
 
-        this.eli = TestsUtils.createUserEli();
+
+        this.eli = new User("eli123", "123456", "eli123@gmail.com", "Elena", "Nikolova");
 
         pageable = PageRequest.of(1, 2);
 
@@ -134,7 +134,7 @@ public class UserServiceTests {
         //arrange
         List<User> users = new ArrayList<>();
         users.add(eli);
-        users.add(TestsUtils.createUserVili());
+        users.add(new User("vili321", "654321", "vili123@gmail.com", "Violeta", "Nikolova"));
 
         when(this.userRepository.findAll(pageable))
                 .thenAnswer(a -> new PageImpl<User>(users, pageable, users.size()));
@@ -147,7 +147,7 @@ public class UserServiceTests {
         Assert.assertNotNull("Users in page are null after creation", pageViewModel.getUsers());
 
         for (int i = 0; i < pageViewModel.getUsers().getContent().size(); i++) {
-          Assert.assertEquals("Users in page differ", users.get(i).toString(), pageViewModel.getUsers().getContent().get(i).toString());
+            Assert.assertEquals("Users in page differ", users.get(i).toString(), pageViewModel.getUsers().getContent().get(i).toString());
         }
     }
 
@@ -206,8 +206,9 @@ public class UserServiceTests {
 
     @Test
     public void testEditUser_givenValidUser_shouldMapFieldsRight() {
-       //arrange
-        UserEditBindingModel userEditBindingModel = TestsUtils.createUserEditBindingModelEli();
+        //arrange
+        UserEditBindingModel userEditBindingModel = new UserEditBindingModel("eli123@gmail.com", "Elena", "Nikolova");
+
         userEditBindingModel.setAuthorities(Stream.of(RoleEnum.USER.toString(), RoleEnum.ADMIN.toString()).collect(Collectors.toSet()));
 
         //act
@@ -239,7 +240,7 @@ public class UserServiceTests {
         String foundUsername = this.userService.getUsernameById(1L);
 
         //assert
-        Assert.assertNotNull("Username is null",  foundUsername);
+        Assert.assertNotNull("Username is null", foundUsername);
         Assert.assertEquals("Wrong username", eli.getUsername(), foundUsername);
     }
 

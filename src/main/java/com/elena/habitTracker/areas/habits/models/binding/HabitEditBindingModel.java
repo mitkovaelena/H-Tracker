@@ -26,6 +26,12 @@ public class HabitEditBindingModel {
     public HabitEditBindingModel() {
     }
 
+    public HabitEditBindingModel(String title, String frequency, String priority) {
+        this.title = title;
+        this.frequency = frequency;
+        this.priority = priority;
+    }
+
     public Long getId() {
         return id;
     }

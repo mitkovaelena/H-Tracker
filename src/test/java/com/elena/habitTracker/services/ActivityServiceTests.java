@@ -8,6 +8,8 @@ import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
 import com.elena.habitTracker.areas.activities.services.ActivityService;
 import com.elena.habitTracker.areas.activities.services.ActivityServiceImpl;
 import com.elena.habitTracker.areas.habits.entities.Habit;
+import com.elena.habitTracker.areas.habits.enums.FrequencyEnum;
+import com.elena.habitTracker.areas.habits.enums.PriorityEnum;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.users.entities.User;
 import com.elena.habitTracker.util.TestsUtils;
@@ -56,12 +58,12 @@ public class ActivityServiceTests {
     public void setUp() {
         activityService = new ActivityServiceImpl(activityRepository, habitRepository, new ModelMapper());
 
-        this.eli = TestsUtils.createUserEli();
-        this.fitness = TestsUtils.createHabitFitness(eli);
+        this.eli = new User("eli123","123456","eli123@gmail.com","Elena","Nikolova");
+        this.fitness =  new Habit("fitness", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(),eli);
 
         pagable = PageRequest.of(1, 2);
 
-        this.activityModel = TestsUtils.createActivityAddBindingModel(eli, fitness, LocalDate.now());
+        this.activityModel = new ActivityAddBindingModel(LocalDate.now(), eli, fitness);
 
         when(this.activityRepository.save(any()))
                 .thenAnswer(a -> a.getArgument(0));
@@ -114,8 +116,8 @@ public class ActivityServiceTests {
         List<Activity> activities = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            Activity activity = TestsUtils.createActivity(eli, fitness, LocalDate.now());
-            ActivityAddBindingModel activityAddBindingModel = TestsUtils.createActivityAddBindingModel(eli, fitness, LocalDate.now());
+            Activity activity = new Activity(LocalDate.now(), eli, fitness);
+            ActivityAddBindingModel activityAddBindingModel = new ActivityAddBindingModel(LocalDate.now(), eli, fitness);;
             activities.add(activity);
             this.activityService.saveActivity(activityAddBindingModel);
         }

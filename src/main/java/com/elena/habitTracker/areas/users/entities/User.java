@@ -44,6 +44,17 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", targetEntity = ApplicationLog.class, cascade = CascadeType.REMOVE)
     private Set<ApplicationLog> logs;
 
+    public User() {
+    }
+
+    public User(String username, String password, String email, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public Long getId() {
         return id;
     }

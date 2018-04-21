@@ -27,6 +27,12 @@ public class Activity {
     public Activity() {
     }
 
+    public Activity(LocalDate date, User user, Habit habit) {
+        this.date = date;
+        this.user = user;
+        this.habit = habit;
+    }
+
     public Long getId() {
         return id;
     }

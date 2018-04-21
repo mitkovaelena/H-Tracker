@@ -44,19 +44,18 @@ public class ActivityRepositoryTests {
     private Long activitiesTodayCount;
 
 
-
     @Before
     public void setUp() {
         //arange
-        this.eli = TestsUtils.createUserEli();
+        this.eli = new User("eli123", "123456", "eli123@gmail.com", "Elena", "Nikolova");
         this.testEntityManager.persistAndFlush(eli);
 
-        this.fitness = TestsUtils.createHabitFitness(eli);
+        this.fitness = new Habit("fitness", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(),eli);
         this.testEntityManager.persistAndFlush(fitness);
 
         activitiesTodayCount = 0L;
         for (int i = 0; i < rnd.nextInt(100); i++) {
-            Activity activity = TestsUtils.createActivity(eli, fitness, LocalDate.now());
+            Activity activity = new Activity(LocalDate.now(), eli, fitness);
             this.testEntityManager.persistAndFlush(activity);
             activitiesTodayCount++;
         }
@@ -75,12 +74,14 @@ public class ActivityRepositoryTests {
     public void testFindActivitiesCountForDate_givenActivitiesForDifferentDays_shouldFindCorrectCount() {
         //arrange
         for (int i = 1; i < rnd.nextInt(100); i++) {
-            Activity activity = TestsUtils.createActivity(eli, fitness, LocalDate.now().plusDays(i));
+            Activity activity = new Activity(LocalDate.now().plusDays(i), eli, fitness);
             this.testEntityManager.persistAndFlush(activity);
         }
 
         //act
         Long result = this.activityRepository.findActivitiesCountForDate(eli, fitness, LocalDate.now());
+
+        if(result == null) result = 0L;
 
         //assert
         assertEquals("Wrong count for activities done today", result, activitiesTodayCount);
@@ -88,14 +89,15 @@ public class ActivityRepositoryTests {
 
     @Test
     public void testFindActivitiesCountForDate_givenMoreUsersAndHabitsForDifferentDays_shouldFindCorrectCount() {
-        this.vili = TestsUtils.createUserVili();
+        this.vili = new User("vili321", "654321", "vili123@gmail.com", "Violeta", "Nikolova");
+        ;
         this.testEntityManager.persistAndFlush(vili);
 
-        this.cleanEating = TestsUtils.createHabitCleanEating(vili);
+        this.cleanEating =  new Habit("clean eating", FrequencyEnum.DAILY, PriorityEnum.LOW, LocalDate.now(), vili);
         this.testEntityManager.persistAndFlush(cleanEating);
 
         for (int i = 0; i < rnd.nextInt(100); i++) {
-            Activity activity = TestsUtils.createActivity(vili, cleanEating, LocalDate.now().plusDays(i));
+            Activity activity =new Activity(LocalDate.now().plusDays(i), vili, cleanEating);
             this.testEntityManager.persistAndFlush(activity);
 
         }
