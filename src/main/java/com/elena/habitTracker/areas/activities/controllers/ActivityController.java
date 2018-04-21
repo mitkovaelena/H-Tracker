@@ -52,6 +52,7 @@ public class ActivityController extends BaseController {
         return super.view("activities/all",
                 "activityPageModel",
                 this.activityService.getAllActivitiesOrderedByDateDesc(this.userService.getUserById(id), pageable),
+                "userId", id,
                 "page", pageable.getPageNumber());
     }
 

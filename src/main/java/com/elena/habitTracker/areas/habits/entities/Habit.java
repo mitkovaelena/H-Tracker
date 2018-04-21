@@ -35,7 +35,7 @@ public class Habit implements Comparable<Habit> {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "habit", targetEntity = Activity.class, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "habit", targetEntity = Activity.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Activity> activities;
 
     @Column(nullable = false)

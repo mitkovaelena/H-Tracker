@@ -52,6 +52,7 @@ public class HabitController extends BaseController {
         return super.view("habits/all",
                 "habitsPageModel",
                 this.habitService.getHabitsPageByUser(this.userService.getUserById(id), pageable),
+                "userId", id,
                 "page", pageable.getPageNumber());
     }
 

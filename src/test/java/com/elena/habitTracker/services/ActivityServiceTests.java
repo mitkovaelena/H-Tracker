@@ -132,7 +132,7 @@ public class ActivityServiceTests {
 
         for (int i = 0; i < pageViewModel.getActivities().getContent().size(); i++) {
             Assert.assertEquals("Dates in page differ", activities.get(i).getDate(), pageViewModel.getActivities().getContent().get(i).getDate());
-            Assert.assertEquals("Users in page differ", activities.get(i).getHabit().getId(), pageViewModel.getActivities().getContent().get(i).getHabit().getId());
+            Assert.assertEquals("Users in page differ", activities.get(i).getHabit().getTitle(), pageViewModel.getActivities().getContent().get(i).getHabit().getTitle());
         }
 
     }

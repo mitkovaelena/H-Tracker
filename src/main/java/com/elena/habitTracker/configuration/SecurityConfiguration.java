@@ -24,6 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .failureUrl("/users/login?error=true")
+                .defaultSuccessUrl("/activities/add")
                 .and().logout().logoutUrl("/users/logout").logoutSuccessUrl("/")
                 .and().csrf().csrfTokenRepository(csrfTokenRepository());
     }

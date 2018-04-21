@@ -1,9 +1,5 @@
 package com.elena.habitTracker.areas.users.services;
 
-import com.elena.habitTracker.areas.activities.entities.Activity;
-import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
-import com.elena.habitTracker.areas.habits.entities.Habit;
-import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.roles.entities.Role;
 import com.elena.habitTracker.areas.roles.enums.RoleEnum;
 import com.elena.habitTracker.areas.roles.repositories.RoleRepository;
@@ -39,20 +35,15 @@ import java.util.stream.Stream;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final ActivityRepository activityRepository;
-    private final HabitRepository habitRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ModelMapper modelMapper;
 
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                           ActivityRepository activityRepository, HabitRepository habitRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.activityRepository = activityRepository;
-        this.habitRepository = habitRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.modelMapper = modelMapper;
     }
@@ -99,12 +90,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserEditBindingModel getUserEditDtoById(Long id) {
-        Optional<User> userOptional = this.userRepository.findById(id);
-        UserEditBindingModel userEditBindingModel = null;
-        if (userOptional.isPresent()) {
-            userEditBindingModel = modelMapper.map(userOptional.get(), UserEditBindingModel.class);
-        }
-        return userEditBindingModel;
+        return  modelMapper.map(this.getUserById(id), UserEditBindingModel.class);
     }
 
     @Override
@@ -118,7 +104,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void editUser(Long id, UserEditBindingModel userEditBindingModel) {
+    public User editUser(Long id, UserEditBindingModel userEditBindingModel) {
         User user = this.getUserById(id);
         user.setEmail(userEditBindingModel.getEmail());
         user.setFirstName(userEditBindingModel.getFirstName());
@@ -130,22 +116,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         user.setAuthorities(roles);
 
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     @Override
     @Async
     public void deleteUser(Long id) {
- //       User user = this.getUserById(id);
-
-//        for (Activity activity : user.getActivities()) {
-//            this.activityRepository.deleteById(activity.getId());  //Todo ?
-//        }
-//
-//        for (Habit habit : user.getHabits()) {
-//            this.habitRepository.deleteById(habit.getId()); //Todo ?
-//        }
-
         this.userRepository.deleteById(id);
     }
 

@@ -30,8 +30,6 @@ public interface HabitService {
 
     HabitsPageViewModel getHabitsPageByUser(User user, Pageable pageable);
 
-  //  List<HabitViewModel> getAllHabitsByUser(User user);
-
     List<Habit> getAllHabits();
 
     List<HabitViewModel> getAllHabitsByUserDueToday(User user) throws ParseException;

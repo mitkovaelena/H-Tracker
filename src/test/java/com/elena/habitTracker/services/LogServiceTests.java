@@ -1,7 +1,6 @@
 package com.elena.habitTracker.services;
 
 import com.elena.habitTracker.areas.logs.entities.ApplicationLog;
-import com.elena.habitTracker.areas.logs.models.view.ApplicationLogViewModel;
 import com.elena.habitTracker.areas.logs.models.view.ApplicationLogsPageViewModel;
 import com.elena.habitTracker.areas.logs.repositories.LogRepository;
 import com.elena.habitTracker.areas.logs.services.LogService;
@@ -40,7 +39,7 @@ public class LogServiceTests {
 
     private User eli;
 
-    private PageRequest pagable;
+    private PageRequest pageable;
 
     @Before
     public void setUp() {
@@ -48,10 +47,7 @@ public class LogServiceTests {
 
         this.eli = TestsUtils.createUserEli();
 
-        pagable = PageRequest.of(1, 2);
-
-        when(this.logRepository.save(any()))
-                .thenAnswer(a -> a.getArgument(0));
+        pageable = PageRequest.of(1, 2);
     }
 
     @Test
@@ -64,14 +60,13 @@ public class LogServiceTests {
         for (int i = 0; i < 5; i++) {
             ApplicationLog applicationLog = TestsUtils.createApplicationLog(eli, now);
             applicationLogs.add(applicationLog);
-            this.logRepository.save(applicationLog);
         }
 
-        when(this.logRepository.findAllByOrderByTimeDesc(pagable))
-                .thenAnswer(a -> new PageImpl<ApplicationLog>(applicationLogs, pagable, applicationLogs.size()));
+        when(this.logRepository.findAllByOrderByTimeDesc(pageable))
+                .thenAnswer(a -> new PageImpl<ApplicationLog>(applicationLogs, pageable, applicationLogs.size()));
 
         //act
-        ApplicationLogsPageViewModel pageViewModel = this.logService.getAllByPage(pagable);
+        ApplicationLogsPageViewModel pageViewModel = this.logService.getAllByPage(pageable);
 
         //assert
         Assert.assertNotNull("Page is null after creation", pageViewModel);

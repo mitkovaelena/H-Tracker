@@ -61,5 +61,4 @@ public class UserEditBindingModel {
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
     }
-
 }

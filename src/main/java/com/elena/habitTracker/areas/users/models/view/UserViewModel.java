@@ -84,4 +84,12 @@ public class UserViewModel {
     public void setActivities(Set<Activity> activities) {
         this.activities = activities;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s (%s)",
+                this.getFirstName(),
+                this.getLastName(),
+                this.getUsername());
+    }
 }

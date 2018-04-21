@@ -3,11 +3,21 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <div th:replace="~{fragments/head}"></div>
 <body>
-<section id="container">
-    <div th:replace="~{fragments/header}"></div>
-
-    <div th:replace="~{fragments/sidebar}"></div>
-</section>
+<div th:replace="~{fragments/header}"></div>
+<div th:replace="~{fragments/sidebar}"></div>
+<div id="container">
+    <div class="wrapper">
+        <h1 class="centered">Welcome to the</h1>
+        <div class="row mt">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 statistics-col">
+                <div class="showback centered">
+                    <a href="/users/login"><img class="img-responsive" src="/assets/img/heatmap.png"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div th:replace="~{fragments/footer}"></div>
 <div th:replace="~{fragments/scripts}"></div>
 </body>

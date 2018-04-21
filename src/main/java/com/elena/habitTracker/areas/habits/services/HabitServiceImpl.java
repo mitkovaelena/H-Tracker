@@ -1,6 +1,5 @@
 package com.elena.habitTracker.areas.habits.services;
 
-import com.elena.habitTracker.areas.activities.entities.Activity;
 import com.elena.habitTracker.areas.activities.models.view.ActivityStaticticsViewModel;
 import com.elena.habitTracker.areas.activities.repositories.ActivityRepository;
 import com.elena.habitTracker.areas.habits.entities.Habit;
@@ -14,7 +13,6 @@ import com.elena.habitTracker.areas.habits.models.view.HabitViewModel;
 import com.elena.habitTracker.areas.habits.models.view.HabitsPageViewModel;
 import com.elena.habitTracker.areas.habits.repositories.HabitRepository;
 import com.elena.habitTracker.areas.users.entities.User;
-import com.elena.habitTracker.areas.users.repositories.UserRepository;
 import com.elena.habitTracker.errors.ResourceNotFoundException;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
@@ -102,6 +100,7 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
+    @Async
     public void resetStreak(Long id) {
         Habit habit = this.getHabitById(id);
         habit.setStreak(0);
@@ -172,12 +171,7 @@ public class HabitServiceImpl implements HabitService {
     @Override
     @Async
     public void deleteHabit(Long id) {
-        Habit habit = this.getHabitById(id);
-        for (Activity activity : habit.getActivities()) {
-            this.activityRepository.deleteById(activity.getId());
-        }
-
-       this.habitRepository.deleteById(id);
+        this.habitRepository.deleteById(id);
     }
 
     public HabitsPageViewModel getHabitsPageByUser(User user, Pageable pageable) {

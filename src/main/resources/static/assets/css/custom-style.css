@@ -179,3 +179,7 @@ body {
 #tack-img{
     max-height: 50px;
 }
+
+.img-responsive{
+    display: inline;
+}
