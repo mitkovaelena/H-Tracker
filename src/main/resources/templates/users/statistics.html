@@ -62,9 +62,9 @@
                                     <span th:text="${habitViewModel.getTitle()}"></span>
                                 </a>
                             </h2>
-                            <div class="panel-body text-center" th:id="${#strings.replace(habitViewModel.getTitle(),' ','')}">
+                            <div class="panel-body text-center" th:id="${'statisticsBox' + habitViewModel.getId()}">
                                 <script th:inline="javascript">
-                                    seedHeatmapData([[${habitViewModel.getTitle()}]], [[${habitViewModel.getId()}]]);
+                                    seedHeatmapData([[${habitViewModel.getId()}]]);
                                 </script>
                             </div>
                         </div>

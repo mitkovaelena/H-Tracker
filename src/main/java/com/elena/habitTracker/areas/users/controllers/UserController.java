@@ -117,6 +117,7 @@ public class UserController extends BaseController {
     @GetMapping(path = "/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView edit(@PathVariable("id") Long id) {
+
         return super.view("users/edit",
                 "userEditModel", this.userService.getUserEditDtoById(id),
                 "username", this.userService.getUsernameById(id),
@@ -127,14 +128,16 @@ public class UserController extends BaseController {
     @Log
     @PostMapping(path = "/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView edit(ModelAndView modelAndView, @Valid @ModelAttribute("userEditModel") UserEditBindingModel userEditBindingModel,
+    public ModelAndView edit(@Valid @ModelAttribute("userEditModel") UserEditBindingModel userEditBindingModel,
                              BindingResult bindingResult, Authentication authentication, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return this.edit(id);
         }
 
+        User user = (User) authentication.getPrincipal();
         this.userService.editUser(id, userEditBindingModel);
-        return super.redirect("/users/all");
+
+        return id.equals(user.getId()) ? super.redirect("/users/logout") : super.redirect("/users/all");
     }
 
     @Log
